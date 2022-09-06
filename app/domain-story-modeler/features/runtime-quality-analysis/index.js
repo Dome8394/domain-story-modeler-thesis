@@ -1,5 +1,6 @@
 // 'use-strict';
 import { ResilienceFaultTypeEnum, ResilienceInjectionTypesEnum, ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
+import { MockMapping } from './mapping/MockMapping';
 /**
  * Get Elements
  */
@@ -25,26 +26,55 @@ const clearRemovedRuntimeAnalysisViews = () => {
 const createServiceFailureTemplate = () => {
     let modal_resilience_content = document.getElementById('modal_resilience_content');
     let resilienceTemplateContentInputTopLevelContainer = document.getElementById('input__top__container');
-    
+
     let resilienceServiceFailureTemplateContentInputContainer = document.createElement('div');
     resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceDelayTemplateContentInputContainer';
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
-    
-    let resilienceServiceFailureName = document.createElement('input');
-    let resilienceServiceFailureName__label = document.createElement('label');
-    
-    resilienceServiceFailureName.id = 'resilienceServiceFailureName';
-    resilienceServiceFailureName.placeholder = 'Test...';
-    
-    resilienceServiceFailureName__label.setAttribute("for", 'resilienceServiceFailureName');
-    resilienceServiceFailureName__label.innerText = 'Test...';
-    
+
+    let resilienceServiceUnderTest = document.createElement('select');
+    let resilienceServiceUnderTest__label = document.createElement('label');
+
+    resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
+    resilienceServiceUnderTest.placeholder = 'Wählen Sie einen Service aus...';
+
+    resilienceServiceUnderTest__label.setAttribute("for", 'resilienceServiceFailureName');
+    resilienceServiceUnderTest__label.innerText = 'Betroffene Services';
+
+    /**
+     * Hard-coded service names. In the end, the available services will be retrieved from 
+     * the mapping specification
+     */
+    // for (const [key, value] of Object.entries(ResilienceFaultTypeEnum)) {
+    //     let optionItem = document.createElement('option');
+    //     optionItem.value = key;
+    //     optionItem.text = value;
+    //     resilienceScenarioFaultTypeSelect.appendChild(optionItem);
+    // }
+
+    for (const [key, value] of Object.entries(MockMapping)) {
+        console.log("Mock Mapping holds: ");
+        // console.log(`${key}: ${value}`);
+        console.log(typeof key);
+        if (key === 'AVAILABLE_SERVICES') {
+            value.forEach((val, idx) => {
+                console.log("Available services: ");
+                console.log(`${val}: ${idx}`);
+                let optionItem = document.createElement('option');
+                optionItem.value = val;
+                optionItem.text = val;
+                resilienceServiceUnderTest.appendChild(optionItem);
+            })
+        }
+    }
+
+    resilienceServiceUnderTest__label.style.margin = '2% 0 0 0';
+
     modal_resilience_content.appendChild(resilienceServiceFailureTemplateContentInputContainer);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceFailureName__label);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceFailureName);
-    
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest__label);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest);
+
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
-    
+
 }
 
 /**
@@ -52,18 +82,18 @@ const createServiceFailureTemplate = () => {
  */
 const createServiceDelayTemplate = () => {
     // todo...
-    
+
 }
 
 const createButtonContainer = () => {
-    
+
     let modal_resilience_content = document.getElementById('modal_resilience_content');
     let resilienceTemplateModal = document.getElementById('modal_resilience');
-    
+
     let resilienceTemplateBtnContainer = document.createElement('div');
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
-    
+
     resilienceTemplateView__btn__close.innerText = 'Schließen';
     resilienceTemplateView__btn__save.innerText = 'Speichern';
 
@@ -80,14 +110,14 @@ const createButtonContainer = () => {
     resilienceTemplateView__btn__close.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'none';
     })
-    
+
     /**
      * In here, we create a new resilience template object
      */
     resilienceTemplateView__btn__save.addEventListener('click', () => {
         console.log("Save content...");
     })
-    
+
     /**
      * Append children to container
      */
@@ -104,16 +134,16 @@ const createButtonContainer = () => {
 export function createResilienceTemplateView(element) {
 
     clearRemovedRuntimeAnalysisViews();
-    
+
     /**
      * Create html elements
      */
     let resilienceTemplateModal = document.createElement('div');
     let resilienceTemplateContent = document.createElement('div');
     let resilienceTemplateContentInputContainer = document.createElement('div');
-    
+
     let resilienceTemplateContentInputTopLevelContainer = document.createElement('div');
-    
+
     let resilienceTemplateView__btn__open = document.createElement('button');
 
     let resilienceScenarioName = document.createElement('input');
@@ -142,7 +172,7 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioFaultTypeSelect.addEventListener('change', () => {
         let selectedFaultType = resilienceScenarioFaultTypeSelect.options[resilienceScenarioFaultTypeSelect.selectedIndex];
         console.log("Select fault type is: ", selectedFaultType.value);
-        
+
         if (selectedFaultType.value === 'SERVICE_FAILURE') {
             createServiceFailureTemplate();
         } else if (selectedFaultType.value === 'SERVICE_DELAY') {
@@ -179,14 +209,14 @@ export function createResilienceTemplateView(element) {
      * we will use the shape_id of a newly created element on the canvas
      */
     let templateId = element.id;
-    
+
     resilienceTemplateModal.id = 'modal_resilience';
     // resilienceTemplateModal.classList.add('templateId');
     resilienceTemplateContent.id = 'modal_resilience_content';
     // resilienceTemplateContent.classList.add('templateId');
     resilienceTemplateContentInputContainer.id = 'input__container';
     resilienceTemplateContentInputContainer.classList.add('input__container');
-    
+
     resilienceTemplateContentInputTopLevelContainer.id = 'input__top__container';
 
     resilienceTemplateView__btn__open.id = templateId;
@@ -231,29 +261,29 @@ export function createResilienceTemplateView(element) {
     /**
      * Appending all child nodes to parent container, i.e., template view
      */
-    
+
     modal__container.appendChild(resilienceTemplateModal);
     resilienceTemplateModal.appendChild(resilienceTemplateContent);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
-    
-    
+
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
-    
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjection__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjectionTypeSelect);
-    
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultType__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultTypeSelect);
-    
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
-    
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
-    
+
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
-    
+
     createButtonContainer();
 
 }
