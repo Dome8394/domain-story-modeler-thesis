@@ -14,12 +14,17 @@ input {
 
 /* THESIS-Start */
 
-#input__container {
+.input__container {
   display: flex;
   flex-direction: column;
   width: 50%;
   margin: 5% 0 5% 2%;
   /* justify-content: center; */
+}
+
+#input__top__container {
+  display: flex;
+  flex-direction: row;
 }
 
 #infoContextContainer {
@@ -42,6 +47,8 @@ input {
 }
 
 #modal_resilience_content {
+  display: flex;
+  flex-direction: column;
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
