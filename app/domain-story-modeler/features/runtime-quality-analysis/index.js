@@ -27,16 +27,33 @@ const createServiceFailureTemplate = () => {
     let modal_resilience_content = document.getElementById('modal_resilience_content');
     let resilienceTemplateContentInputTopLevelContainer = document.getElementById('input__top__container');
 
+    /**
+     * Create HTML elements
+     */
     let resilienceServiceFailureTemplateContentInputContainer = document.createElement('div');
-    resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceDelayTemplateContentInputContainer';
-    resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
-
+    let remove__btn__container = document.createElement('div');
+    let remove__btn = document.createElement('button');
     let resilienceServiceUnderTest = document.createElement('select');
     let resilienceServiceUnderTest__label = document.createElement('label');
+    let resilienceServiceAmount = document.createElement('input');
+    let resilienceServiceAmount__label = document.createElement('label');
+    
+    resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceDelayTemplateContentInputContainer';
+    resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
+    
+    remove__btn.classList.add('btn');
+    remove__btn.classList.add('btn-danger');
+    
+    remove__btn.innerText = 'Entfernen';
 
+    resilienceServiceAmount.id = 'resilienceServiceAmount';
     resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
-    resilienceServiceUnderTest.placeholder = 'Wählen Sie einen Service aus...';
+    
+    resilienceServiceAmount.placeholder = 'Geben Sie an, wie viele Instanzen betroffen sind (mind. 1)...';
 
+    resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
+    resilienceServiceAmount__label.innerText = 'Anzahl der betroffenen Service Instanzen';
+    
     resilienceServiceUnderTest__label.setAttribute("for", 'resilienceServiceFailureName');
     resilienceServiceUnderTest__label.innerText = 'Betroffene Services';
 
@@ -44,21 +61,9 @@ const createServiceFailureTemplate = () => {
      * Hard-coded service names. In the end, the available services will be retrieved from 
      * the mapping specification
      */
-    // for (const [key, value] of Object.entries(ResilienceFaultTypeEnum)) {
-    //     let optionItem = document.createElement('option');
-    //     optionItem.value = key;
-    //     optionItem.text = value;
-    //     resilienceScenarioFaultTypeSelect.appendChild(optionItem);
-    // }
-
     for (const [key, value] of Object.entries(MockMapping)) {
-        console.log("Mock Mapping holds: ");
-        // console.log(`${key}: ${value}`);
-        console.log(typeof key);
         if (key === 'AVAILABLE_SERVICES') {
             value.forEach((val, idx) => {
-                console.log("Available services: ");
-                console.log(`${val}: ${idx}`);
                 let optionItem = document.createElement('option');
                 optionItem.value = val;
                 optionItem.text = val;
@@ -66,12 +71,28 @@ const createServiceFailureTemplate = () => {
             })
         }
     }
+    
+    /**
+     * Removes the current service failure template
+     */
+    remove__btn.addEventListener('click', () => {
+        resilienceServiceFailureTemplateContentInputContainer.remove();
+    })
 
+    /**
+     * Margins
+     */
     resilienceServiceUnderTest__label.style.margin = '2% 0 0 0';
+    resilienceServiceAmount__label.style.margin = '2% 0 0 0';
 
     modal_resilience_content.appendChild(resilienceServiceFailureTemplateContentInputContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
+    
+    remove__btn__container.appendChild(remove__btn);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(remove__btn__container);
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
 
