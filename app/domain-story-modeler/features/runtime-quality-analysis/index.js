@@ -23,6 +23,20 @@ const clearRemovedRuntimeAnalysisViews = () => {
 }
 
 /**
+ * Creates the template view for service failures
+ */
+const createServiceFailureTemplate = () => {
+    // TODO
+}
+
+/**
+ * Creates the template view for service delays
+ */
+const createServiceDelayTemplate = () => {
+    // TODO
+}
+
+/**
  * Creates new template view for resilience tests with a unique ID
  * For every new resilience scenario a new template is created
  * @param {} element 
@@ -68,6 +82,17 @@ export function createResilienceTemplateView(element) {
 
     resilienceTemplateView__btn__close.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'none';
+    })
+    
+    resilienceScenarioFaultTypeSelect.addEventListener('change', () => {
+        let selectedFaultType = resilienceScenarioFaultTypeSelect.options[resilienceScenarioFaultTypeSelect.selectedIndex];
+        console.log("Select fault type is: ", selectedFaultType.value);
+        
+        if (selectedFaultType.value === 'SERVICE_FAILURE') {
+            createServiceFailureTemplate();
+        } else if (selectedFaultType.value === 'SERVICE_DELAY') {
+            createServiceDelayTemplate();
+        }
     })
 
     /**
