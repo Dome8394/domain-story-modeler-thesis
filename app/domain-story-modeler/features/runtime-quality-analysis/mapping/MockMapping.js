@@ -1,4 +1,9 @@
 export const MockMapping = {
+    BOUNDED_CONTEXTS: [
+        'arthouse-cinema/reservation',
+        'arthouse-cinema/payment',
+        'arthouse-cinema/movies'
+    ],
     AVAILABLE_SERVICES: [
         'movies',
         'rooms',
