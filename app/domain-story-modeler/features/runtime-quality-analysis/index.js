@@ -59,14 +59,16 @@ const createServiceFailureTemplate = () => {
     resilienceRandomSelection.id = 'resilienceRandomSelection';
     resilienceRandomSelection__label.id = 'resilienceRandomSelection__label';
     
+    resilienceServiceAmount.type = 'number';
+    
     resilienceServiceAmount.placeholder = 'Geben Sie an, wie viele Instanzen betroffen sind (mind. 1)...';
 
     resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
     resilienceRandomSelection__label.setAttribute('for', 'resilienceRandomSelection');
     resilienceServiceUnderTest__label.setAttribute("for", 'resilienceServiceFailureName');
     
-    resilienceServiceAmount__label.innerText = 'Anzahl der betroffenen Service Instanzen';
-    resilienceServiceUnderTest__label.innerText = 'Betroffene Services';
+    resilienceServiceAmount__label.innerText = 'Anzahl der betroffenen Service Instanzen (*)';
+    resilienceServiceUnderTest__label.innerText = 'Betroffene Services (*)';
     resilienceRandomSelection__label.innerText = 'Randomisierte Auswahl von mehreren Services'
 
     /**
