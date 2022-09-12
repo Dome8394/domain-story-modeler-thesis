@@ -94,9 +94,6 @@ const createServiceFailureTemplate = () => {
      * Create HTML elements
      */
     let resilienceServiceFailureTemplateContentInputContainer = document.createElement('div');
-    let remove__btn__container = document.createElement('div');
-    let remove__btn = document.createElement('button');
-    let save__btn = document.createElement('button');
     let resilienceServiceUnderTest = document.createElement('select');
     let resilienceServiceUnderTest__label = document.createElement('label');
     let resilienceServiceAmount = document.createElement('input');
@@ -142,12 +139,6 @@ const createServiceFailureTemplate = () => {
     resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceFailureTemplateContentInputContainer';
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
     
-    remove__btn.classList.add('btn');
-    remove__btn.classList.add('btn-danger');
-    
-    save__btn.classList.add('btn');
-    save__btn.classList.add('btn-primary');
-    
     resilienceServiceUnderTest__invalid.innerText = SERVICE_FAILURE_NAME_INFO;
     resilienceServiceAmount__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
     
@@ -160,9 +151,6 @@ const createServiceFailureTemplate = () => {
     resilienceServiceUnderTest__invalid.style.display = 'none';
     resilienceServiceAmount__invalid.style.display = 'none';
     
-    remove__btn.innerText = 'Entfernen';
-    save__btn.innerText = 'Speichern';
-
     resilienceServiceAmount.id = 'resilienceServiceAmount';
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
     resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
@@ -194,20 +182,6 @@ const createServiceFailureTemplate = () => {
     }
     
     /**
-     * Removes the current service failure template
-     */
-    remove__btn.addEventListener('click', () => {
-        resilienceServiceFailureTemplateContentInputContainer.remove();
-    })
-    
-    save__btn.addEventListener('click', () => {
-        if (validateResilienceServiceFailureTemplateInput()) {
-            console.log('Resilience Service Failure Template is valid!');
-            saveServiceFailureTemplate();
-        }
-    });
-
-    /**
      * Margins
      */
     resilienceServiceUnderTest__label.style.margin = '2% 0 0 0';
@@ -231,10 +205,6 @@ const createServiceFailureTemplate = () => {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer);
      
-    // remove__btn__container.appendChild(remove__btn);
-    // remove__btn__container.appendChild(save__btn);
-    // resilienceServiceFailureTemplateContentInputContainer.appendChild(remove__btn__container);
-
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
 
 }
@@ -285,11 +255,13 @@ const createButtonContainer = () => {
         resilienceTemplateModal.style.display = 'none';
     })
 
-    /**
-     * In here, we create a new resilience template object
-     */
+    resilienceTemplateView__btn__generate.addEventListener('click', () => {
+        console.log("Create object from template and push to queue...");
+    });
+    
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        if (validateResilienceScenarioTemplateInput()) {
+        if (validateResilienceScenarioTemplateInput() && validateResilienceServiceFailureTemplateInput()) {
+            resilienceTemplateView__btn__generate.disabled = false;
             saveServiceFailureTemplate();
         } else {
             console.log('Resilience Scenario is incomplete!');
