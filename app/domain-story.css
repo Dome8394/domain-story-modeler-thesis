@@ -18,6 +18,10 @@ input {
   color: red;
 }
 
+.template-header {
+  text-align: center;
+}
+
 .label-padding {
   margin: 2% 0 0 0;
 }
@@ -75,7 +79,7 @@ input {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-  max-width: 800px;
+  max-width: 950px;
 }
 
 #modal_loadtest {

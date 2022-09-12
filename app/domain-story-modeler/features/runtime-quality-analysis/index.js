@@ -260,8 +260,8 @@ const createButtonContainer = () => {
     });
     
     resilienceTemplateView__btn__save.addEventListener('click', () => {
+        resilienceTemplateView__btn__generate.disabled = false;
         if (validateResilienceScenarioTemplateInput() && validateResilienceServiceFailureTemplateInput()) {
-            resilienceTemplateView__btn__generate.disabled = false;
             saveServiceFailureTemplate();
         } else {
             console.log('Resilience Scenario is incomplete!');
@@ -293,6 +293,10 @@ export function createResilienceTemplateView(element) {
     /**
      * Create html elements
      */
+    let header = document.createElement('h3');
+    header.innerText = 'Resilienz Szenario';
+    header.classList.add('template-header');
+    
     let resilienceTemplateModal = document.createElement('div');
     let resilienceTemplateContent = document.createElement('div');
     let resilienceTemplateContentInputContainer = document.createElement('div');
@@ -457,6 +461,7 @@ export function createResilienceTemplateView(element) {
 
     modal__container.appendChild(resilienceTemplateModal);
     resilienceTemplateModal.appendChild(resilienceTemplateContent);
+    resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
     
     injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox__label);
