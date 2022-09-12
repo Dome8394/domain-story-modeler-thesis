@@ -18,6 +18,16 @@ input {
   color: red;
 }
 
+.label-padding {
+  margin: 2% 0 0 0;
+}
+
+.checkbox-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .input__container {
   display: flex;
   flex-direction: column;
