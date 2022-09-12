@@ -102,6 +102,17 @@ const createServiceFailureTemplate = () => {
     let resilienceServiceAmount = document.createElement('input');
     let resilienceServiceAmount__label = document.createElement('label');
     
+    let timeOfServiceFailure = document.createElement('input');
+    let timeOfServiceFailure__label = document.createElement('label');
+    
+    timeOfServiceFailure.id = 'timeOfServiceFailure';
+    timeOfServiceFailure.type = 'text';
+    
+    timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
+    timeOfServiceFailure__label.setAttribute('for', 'timeOfServiceFailure');
+    timeOfServiceFailure__label.innerText = 'Zeitpunkt des Ausfalls';
+    timeOfServiceFailure__label.classList.add('label-padding');
+    
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerServiceFailure';
     checkBoxContainer.classList.add('checkbox-child');
@@ -123,13 +134,12 @@ const createServiceFailureTemplate = () => {
     randomServiceSelectionCheckBox__label.innerText = 'Ja';
     
     // This could be a check box which might be easier
-    let resilienceRandomSelection = document.createElement('select');
     let resilienceRandomSelection__label = document.createElement('label');
     
     let resilienceServiceUnderTest__invalid = document.createElement('p');
     let resilienceServiceAmount__invalid = document.createElement('p');
     
-    resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceDelayTemplateContentInputContainer';
+    resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceFailureTemplateContentInputContainer';
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
     
     remove__btn.classList.add('btn');
@@ -157,20 +167,16 @@ const createServiceFailureTemplate = () => {
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
     resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
     resilienceServiceUnderTest__label.id = 'resilienceServiceFailureName__label';
-    resilienceRandomSelection.id = 'resilienceRandomSelection';
-    resilienceRandomSelection__label.id = 'resilienceRandomSelection__label';
     
     resilienceServiceAmount.type = 'number';
     
     resilienceServiceAmount.placeholder = 'Geben Sie an, wie viele Instanzen betroffen sind (mind. 1)...';
 
     resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
-    resilienceRandomSelection__label.setAttribute('for', 'resilienceRandomSelection');
     resilienceServiceUnderTest__label.setAttribute("for", 'resilienceServiceFailureName');
     
     resilienceServiceAmount__label.innerText = 'Anzahl der betroffenen Service Instanzen (*)';
     resilienceServiceUnderTest__label.innerText = 'Betroffene Services (*)';
-    resilienceRandomSelection__label.innerText = 'Randomisierte Auswahl von mehreren Services'
 
     /**
      * Hard-coded service names. In the end, the available services will be retrieved from 
@@ -186,17 +192,6 @@ const createServiceFailureTemplate = () => {
             })
         }
     }
-    
-    let optionItemTrue = document.createElement('option');
-    let optionItemFalse = document.createElement('option');
-    
-    optionItemTrue.value = 'true';
-    optionItemTrue.text = 'true';
-    optionItemFalse.value = 'false';
-    optionItemFalse.text = 'false';
-    
-    resilienceRandomSelection.appendChild(optionItemTrue);
-    resilienceRandomSelection.appendChild(optionItemFalse);
     
     /**
      * Removes the current service failure template
@@ -227,15 +222,18 @@ const createServiceFailureTemplate = () => {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
     
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__label);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure);
+    
     checkBoxContainer.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainer.appendChild(randomServiceSelectionCheckBox);
     
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer);
      
-    remove__btn__container.appendChild(remove__btn);
-    remove__btn__container.appendChild(save__btn);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(remove__btn__container);
+    // remove__btn__container.appendChild(remove__btn);
+    // remove__btn__container.appendChild(save__btn);
+    // resilienceServiceFailureTemplateContentInputContainer.appendChild(remove__btn__container);
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
 
@@ -255,17 +253,29 @@ const createButtonContainer = () => {
     let resilienceTemplateModal = document.getElementById('modal_resilience');
 
     let resilienceTemplateBtnContainer = document.createElement('div');
+    let resilienceTemplateBtnContainerParent = document.createElement('div');
+    let resilienceTemplateBtnContainerChild = document.createElement('div');
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
+    let resilienceTemplateView__btn__generate = document.createElement('button');
+    
+    resilienceTemplateBtnContainerParent.id = 'resilienceTemplateBtnContainerParent';
 
     resilienceTemplateView__btn__close.innerText = 'Schließen';
     resilienceTemplateView__btn__save.innerText = 'Speichern';
-
+    resilienceTemplateView__btn__generate.innerText = 'Generieren';
+    
     resilienceTemplateView__btn__close.classList.add('btn');
     resilienceTemplateView__btn__close.classList.add('btn-secondary');
 
     resilienceTemplateView__btn__save.classList.add('btn');
     resilienceTemplateView__btn__save.classList.add('btn-primary');
+    
+    resilienceTemplateView__btn__generate.classList.add('btn');
+    resilienceTemplateView__btn__generate.classList.add('btn-primary');
+    resilienceTemplateView__btn__generate.disabled = true;
+    
+    resilienceTemplateBtnContainerParent.classList.add('btn-container-parent');
 
 
     /**
@@ -289,9 +299,14 @@ const createButtonContainer = () => {
     /**
      * Append children to container
      */
-    modal_resilience_content.appendChild(resilienceTemplateBtnContainer);
+    resilienceTemplateBtnContainerChild.appendChild(resilienceTemplateView__btn__generate);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__save);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__close);
+    
+    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainer);
+    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainerChild);
+    
+    modal_resilience_content.appendChild(resilienceTemplateBtnContainerParent);
 }
 
 /**
@@ -302,7 +317,7 @@ const createButtonContainer = () => {
 export function createResilienceTemplateView(element) {
 
     clearRemovedRuntimeAnalysisViews();
-        
+    
     /**
      * Create html elements
      */
@@ -394,6 +409,11 @@ export function createResilienceTemplateView(element) {
     faultTypeCheckBox.addEventListener('click', () => {
         if (faultTypeCheckBox.checked) {
             createServiceFailureTemplate();
+        }
+        
+        if(!faultTypeCheckBox.checked) {
+            let resilienceServiceFailureTemplateContentInputContainerElement = document.getElementById('resilienceServiceFailureTemplateContentInputContainer');
+            resilienceServiceFailureTemplateContentInputContainerElement.remove();
         }
     })
 
