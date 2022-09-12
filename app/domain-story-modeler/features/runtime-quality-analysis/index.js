@@ -1,5 +1,6 @@
 // 'use-strict';
 import { ResilienceFaultTypeEnum, ResilienceInjectionTypesEnum, ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
+import { SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO } from './RuntimeAnalysisConstants';
 import { MockMapping } from './mapping/MockMapping';
 /**
  * Get Elements
@@ -18,6 +19,73 @@ const clearRemovedRuntimeAnalysisViews = () => {
         let SVGItemParent = canvasItemsList[i];
         console.log("Shape id:", SVGItemParent.firstChild.getAttribute('data-element-id'));
     }
+}
+
+const validateResilienceScenarioTemplateInput = () => {
+    let resilienceScenarioNameElement = document.getElementById('resilienceScenarioName');
+    let resilienceScenarioFaultTypeSelectElement = document.getElementById('resilienceScenarioFaultTypeSelect');
+    let resilienceScenarioInjectionTypeSelectElement = document.getElementById('resilienceScenarioInjectionTypeSelect');
+    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentSelect');
+    
+    resilienceScenarioNameElementValue = resilienceScenarioNameElement.value;
+    resilienceScenarioFaultTypeSelectElementValue = resilienceScenarioFaultTypeSelectElement.value;
+    resilienceScenarioInjectionTypeSelectElementValue = resilienceScenarioInjectionTypeSelectElement.value;
+    resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value; 
+    
+    if (resilienceScenarioNameElement) {
+        if (resilienceScenarioNameElementValue !== '') {
+            return true;
+        }
+    }
+    
+    
+    
+}
+
+
+const validateResilienceServiceFailureTemplateInput = () => {
+    let resilienceServiceNameElement = document.getElementById('resilienceServiceFailureName');
+    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
+    let resilienceServiceUnderTest__invalidElement = document.getElementById('resilienceServiceUnderTest__invalid');
+    let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
+    
+    let resilienceServiceElementValue = resilienceServiceNameElement.value;
+    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
+    
+    
+    if (!resilienceServiceElementValue) {
+        console.log("resilienceServiceElementValue is valid");
+        resilienceServiceUnderTest__invalidElement.style.display = 'block';
+        return false;
+    }
+    
+    if (!resilienceServiceAmountElementValue) {
+        console.log("resilienceServiceAmountElementValue is valid");
+        resilienceServiceAmount__invalidElement.style.display = 'block';
+        return false;
+    }
+    
+    // if (resilienceServiceElementValue && resilienceServiceAmountElementValue) {
+    //     console.log("Mandatory fields are not empty...");
+    //     if (resilienceServiceElementValue !== '' && resilienceServiceAmountElementValue !== '') {
+    //         return true;
+    //     }
+    // }
+    
+    return true;
+}
+
+const showInvalidInputErrorMessage = () => {
+    let resilienceServiceUnderTest__invalidElement = document.getElementById('resilienceServiceUnderTest__invalid');
+    let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
+    
+    resilienceServiceUnderTest__invalidElement.style.display = 'block';
+    resilienceServiceAmount__invalidElement.style.display = 'block';
+
+}
+
+const saveServiceFailureTemplate = () => {
+    console.log('Save Resilience Service Failure Template ...');
 }
 
 /**
@@ -42,6 +110,9 @@ const createServiceFailureTemplate = () => {
     let resilienceRandomSelection = document.createElement('select');
     let resilienceRandomSelection__label = document.createElement('label');
     
+    let resilienceServiceUnderTest__invalid = document.createElement('p');
+    let resilienceServiceAmount__invalid = document.createElement('p');
+    
     resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceDelayTemplateContentInputContainer';
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
     
@@ -51,11 +122,25 @@ const createServiceFailureTemplate = () => {
     save__btn.classList.add('btn');
     save__btn.classList.add('btn-primary');
     
+    resilienceServiceUnderTest__invalid.innerText = SERVICE_FAILURE_NAME_INFO;
+    resilienceServiceAmount__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
+    
+    resilienceServiceUnderTest__invalid.classList.add('error-info');
+    resilienceServiceAmount__invalid.classList.add('error-info');
+    
+    resilienceServiceUnderTest__invalid.id = 'resilienceServiceUnderTest__invalid';
+    resilienceServiceAmount__invalid.id = 'resilienceServiceAmount__invalid';
+    
+    resilienceServiceUnderTest__invalid.style.display = 'none';
+    resilienceServiceAmount__invalid.style.display = 'none';
+    
     remove__btn.innerText = 'Entfernen';
     save__btn.innerText = 'Speichern';
 
     resilienceServiceAmount.id = 'resilienceServiceAmount';
+    resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
     resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
+    resilienceServiceUnderTest__label.id = 'resilienceServiceFailureName__label';
     resilienceRandomSelection.id = 'resilienceRandomSelection';
     resilienceRandomSelection__label.id = 'resilienceRandomSelection__label';
     
@@ -103,6 +188,13 @@ const createServiceFailureTemplate = () => {
     remove__btn.addEventListener('click', () => {
         resilienceServiceFailureTemplateContentInputContainer.remove();
     })
+    
+    save__btn.addEventListener('click', () => {
+        if (validateResilienceServiceFailureTemplateInput()) {
+            console.log('Resilience Service Failure Template is valid!');
+            saveServiceFailureTemplate();
+        }
+    });
 
     /**
      * Margins
@@ -114,8 +206,10 @@ const createServiceFailureTemplate = () => {
     modal_resilience_content.appendChild(resilienceServiceFailureTemplateContentInputContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceUnderTest__invalid);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceRandomSelection__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceRandomSelection);
     
@@ -165,7 +259,11 @@ const createButtonContainer = () => {
      * In here, we create a new resilience template object
      */
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        console.log("Save content...");
+        if(resilienceTemplateInputIsValid()) {
+            saveServiceFailureTemplate();
+        } else {
+            showInvalidInputErrorMessage();
+        }
     })
 
     /**
@@ -202,6 +300,12 @@ export function createResilienceTemplateView(element) {
     let resilienceScenarioFaultTypeSelect = document.createElement('select');
     let resilienceScenarioInjectionTypeSelect = document.createElement('select');
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
+    
+    let resilienceScenarioName__invalid = document.createElement('p');
+    let resilienceScenarioFaultType__invalid = document.createElement('p');
+    let resilienceScenarioInjectionType__invalid = document.createElement('p');
+    let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
+    
     /**
      * Create html labels for input fields
      */
@@ -261,9 +365,7 @@ export function createResilienceTemplateView(element) {
     let templateId = element.id;
 
     resilienceTemplateModal.id = 'modal_resilience';
-    // resilienceTemplateModal.classList.add('templateId');
     resilienceTemplateContent.id = 'modal_resilience_content';
-    // resilienceTemplateContent.classList.add('templateId');
     resilienceTemplateContentInputContainer.id = 'input__container';
     resilienceTemplateContentInputContainer.classList.add('input__container');
 
@@ -279,6 +381,11 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioFaultTypeSelect.id = 'resilienceScenarioFaultTypeSelect';
     resilienceScenarioInjectionTypeSelect.id = 'resilienceScenarioInjectionTypeSelect';
     resilienceScenarioEnvironmentSelect.id = 'resilienceScenarioEnvironmentTypeSelect';
+    
+    resilienceScenarioName__invalid.id = 'resilienceScenarioName__invalid';
+    resilienceScenarioFaultType__invalid.id = 'resilienceScenarioFaultType__invalid';
+    resilienceScenarioInjectionType__invalid.id = 'resilienceScenarioInjectionType__invalid';
+    resilienceScenarioEnvironmentType__invalid.id = 'resilienceScenarioEnvironmentType__invalid';
 
     resilienceScenarioName.id = 'resilienceScenarioName';
     resilienceScenarioStart.id = 'resilienceScenarioStart';
@@ -294,19 +401,33 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioEnvironment__label.innerText = 'Umgebung des Szenarios';
     resilienceScenarioInjection__label.innerText = 'Injection Typ des Szenarios';
     resilienceScenarioFaultType__label.innerText = 'Typ des Fault Loads';
+    
+    resilienceScenarioName__invalid.innerText = 'Bitte geben Sie einen gültigen Namen an!';
+    resilienceScenarioFaultType__invalid.innerText = 'Bitte geben Sie einen gültigen Fehler Typ an!';
+    resilienceScenarioInjectionType__invalid.innerText = 'Bitte geben Sie einen Injektions-Typ an!';
+    resilienceScenarioEnvironmentType__invalid.innerText = 'Bitte geben Sie eine gültige Umgebung für das Szenario an!';
 
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
     resilienceScenarioStart__label.setAttribute("for", 'resilienceScenarioStart');
     resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
     resilienceScenarioInjection__label.setAttribute("for", 'resilienceScenarioInjectionTypeSelect');
     resilienceScenarioFaultType__label.setAttribute("for", 'resilienceScenarioFaultTypeSelect');
+    
+    resilienceScenarioName__invalid.classList.add('error-info');
+    resilienceScenarioFaultType__invalid.classList.add('error-info');
+    resilienceScenarioInjectionType__invalid.classList.add('error-info');
+    resilienceScenarioEnvironmentType__invalid.classList.add('error-info');
+    
+    resilienceScenarioName__invalid.style.display = 'none';
+    resilienceScenarioFaultType__invalid.style.display = 'none';
+    resilienceScenarioInjectionType__invalid.style.display = 'none';
+    resilienceScenarioEnvironmentType__invalid.style.display = 'none';
 
     resilienceScenarioName__label.style.margin = '2% 0 0 0';
     resilienceScenarioStart__label.style.margin = '2% 0 0 0';
     resilienceScenarioEnvironment__label.style.margin = '2% 0 0 0';
     resilienceScenarioInjection__label.style.margin = '2% 0 0 0';
     resilienceScenarioFaultType__label.style.margin = '2% 0 0 0';
-
 
     /**
      * Appending all child nodes to parent container, i.e., template view
@@ -319,25 +440,25 @@ export function createResilienceTemplateView(element) {
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjection__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjectionTypeSelect);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioInjectionType__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultType__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultTypeSelect);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioFaultType__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
+    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
 
     createButtonContainer();
 
-}
-
-export function test() {
-    console.log("Das ist ein Test!!!!!!!!");
 }

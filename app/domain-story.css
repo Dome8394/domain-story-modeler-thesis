@@ -14,6 +14,10 @@ input {
 
 /* THESIS-Start */
 
+.error-info {
+  color: red;
+}
+
 .input__container {
   display: flex;
   flex-direction: column;
