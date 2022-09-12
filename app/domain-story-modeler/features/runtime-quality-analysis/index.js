@@ -101,6 +101,27 @@ const createServiceFailureTemplate = () => {
     let resilienceServiceUnderTest__label = document.createElement('label');
     let resilienceServiceAmount = document.createElement('input');
     let resilienceServiceAmount__label = document.createElement('label');
+    
+    let checkBoxContainer = document.createElement('div');
+    checkBoxContainer.id = 'checkBoxContainerServiceFailure';
+    checkBoxContainer.classList.add('checkbox-child');
+    
+    let checkBoxContainer__label = document.createElement('label');
+    checkBoxContainer__label.classList.add('form-check-label');
+    checkBoxContainer__label.classList.add('label-padding');
+    checkBoxContainer__label.setAttribute('for', 'checkBoxContainerServiceFailure');
+    checkBoxContainer__label.innerText = 'Randomisierte Service Auswahl';
+
+    let randomServiceSelectionCheckBox = document.createElement('input');
+    randomServiceSelectionCheckBox.id = 'randomServiceSelectionCheckBox';
+    randomServiceSelectionCheckBox.type = 'checkbox';
+    randomServiceSelectionCheckBox.classList.add('form-check-input');
+    
+    let randomServiceSelectionCheckBox__label = document.createElement('label');
+    randomServiceSelectionCheckBox__label.classList.add('form-check-label');
+    randomServiceSelectionCheckBox__label.setAttribute('for', 'randomServiceSelectionCheckBox');
+    randomServiceSelectionCheckBox__label.innerText = 'Ja';
+    
     // This could be a check box which might be easier
     let resilienceRandomSelection = document.createElement('select');
     let resilienceRandomSelection__label = document.createElement('label');
@@ -205,9 +226,13 @@ const createServiceFailureTemplate = () => {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceRandomSelection__label);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceRandomSelection);
     
+    checkBoxContainer.appendChild(randomServiceSelectionCheckBox__label);
+    checkBoxContainer.appendChild(randomServiceSelectionCheckBox);
+    
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer);
+     
     remove__btn__container.appendChild(remove__btn);
     remove__btn__container.appendChild(save__btn);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(remove__btn__container);
