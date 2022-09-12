@@ -346,18 +346,15 @@ export function createResilienceTemplateView(element) {
     injectionTypeInfrastructureCheckBox__label.setAttribute('for', 'injectionTypeInfrastructureCheckBox');
     injectionTypeInfrastructureCheckBox__label.innerText = 'Infrastruktur';
 
-    let resilienceScenarioInjectionTypeSelect = document.createElement('select');
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
     
     let resilienceScenarioName__invalid = document.createElement('p');
-    let resilienceScenarioInjectionType__invalid = document.createElement('p');
     let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
     
     /**
      * Create html labels for input fields
      */
     let resilienceScenarioName__label = document.createElement('label');
-    let resilienceScenarioInjection__label = document.createElement('label');
     let resilienceScenarioStart__label = document.createElement('label');
     let resilienceScenarioEnvironment__label = document.createElement('label');
 
@@ -374,13 +371,6 @@ export function createResilienceTemplateView(element) {
             createServiceFailureTemplate();
         }
     })
-
-    for (const [key, value] of Object.entries(ResilienceInjectionTypesEnum)) {
-        let optionItem = document.createElement('option');
-        optionItem.value = key;
-        optionItem.text = value;
-        resilienceScenarioInjectionTypeSelect.appendChild(optionItem);
-    }
 
     for (const [key, value] of Object.entries(ResilienceEnvironmentEnum)) {
         let optionItem = document.createElement('option');
@@ -409,11 +399,9 @@ export function createResilienceTemplateView(element) {
     resilienceTemplateView__btn__open.classList.add('btn');
     resilienceTemplateView__btn__open.classList.add('btn-primary');
 
-    resilienceScenarioInjectionTypeSelect.id = 'resilienceScenarioInjectionTypeSelect';
     resilienceScenarioEnvironmentSelect.id = 'resilienceScenarioEnvironmentTypeSelect';
     
     resilienceScenarioName__invalid.id = 'resilienceScenarioName__invalid';
-    resilienceScenarioInjectionType__invalid.id = 'resilienceScenarioInjectionType__invalid';
     resilienceScenarioEnvironmentType__invalid.id = 'resilienceScenarioEnvironmentType__invalid';
 
     resilienceScenarioName.id = 'resilienceScenarioName';
@@ -428,29 +416,23 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioName__label.innerText = 'Name des Szenarios';
     resilienceScenarioStart__label.innerText = 'Startzeitpunkt des Szenarios';
     resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext';
-    resilienceScenarioInjection__label.innerText = 'Anwendungsebene';
     
     resilienceScenarioName__invalid.innerText = 'Bitte geben Sie einen gültigen Namen an!';
-    resilienceScenarioInjectionType__invalid.innerText = 'Bitte geben Sie einen Injektions-Typ an!';
     resilienceScenarioEnvironmentType__invalid.innerText = 'Bitte geben Sie eine gültige Umgebung für das Szenario an!';
 
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
     resilienceScenarioStart__label.setAttribute("for", 'resilienceScenarioStart');
     resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
-    resilienceScenarioInjection__label.setAttribute("for", 'resilienceScenarioInjectionTypeSelect');
     
     resilienceScenarioName__invalid.classList.add('error-info');
-    resilienceScenarioInjectionType__invalid.classList.add('error-info');
     resilienceScenarioEnvironmentType__invalid.classList.add('error-info');
     
     resilienceScenarioName__invalid.style.display = 'none';
-    resilienceScenarioInjectionType__invalid.style.display = 'none';
     resilienceScenarioEnvironmentType__invalid.style.display = 'none';
 
     resilienceScenarioName__label.style.margin = '2% 0 0 0';
     resilienceScenarioStart__label.style.margin = '2% 0 0 0';
     resilienceScenarioEnvironment__label.style.margin = '2% 0 0 0';
-    resilienceScenarioInjection__label.style.margin = '2% 0 0 0';
 
     /**
      * Appending all child nodes to parent container, i.e., template view
