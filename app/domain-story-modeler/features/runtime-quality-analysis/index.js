@@ -25,20 +25,39 @@ const validateResilienceScenarioTemplateInput = () => {
     let resilienceScenarioNameElement = document.getElementById('resilienceScenarioName');
     let resilienceScenarioFaultTypeSelectElement = document.getElementById('resilienceScenarioFaultTypeSelect');
     let resilienceScenarioInjectionTypeSelectElement = document.getElementById('resilienceScenarioInjectionTypeSelect');
-    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentSelect');
+    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
     
-    resilienceScenarioNameElementValue = resilienceScenarioNameElement.value;
-    resilienceScenarioFaultTypeSelectElementValue = resilienceScenarioFaultTypeSelectElement.value;
-    resilienceScenarioInjectionTypeSelectElementValue = resilienceScenarioInjectionTypeSelectElement.value;
-    resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value; 
+    let resilienceScenarioName__invalidElement = document.getElementById('resilienceScenarioName__invalid');
+    let resilienceScenarioFaultType__invalidElement = document.getElementById('resilienceScenarioFaultType__invalid');
+    let resilienceScenarioInjectionType__invalidElement = document.getElementById('resilienceScenarioInjectionType__invalid');
+    let resilienceScenarioEnvironmentType__invalidElement = document.getElementById('resilienceScenarioEnvironmentType__invalid');
     
-    if (resilienceScenarioNameElement) {
-        if (resilienceScenarioNameElementValue !== '') {
-            return true;
-        }
+    let resilienceScenarioNameElementValue = resilienceScenarioNameElement.value;
+    let resilienceScenarioFaultTypeSelectElementValue = resilienceScenarioFaultTypeSelectElement.value;
+    let resilienceScenarioInjectionTypeSelectElementValue = resilienceScenarioInjectionTypeSelectElement.value;
+    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value; 
+    
+    if (!resilienceScenarioNameElementValue) {
+        resilienceScenarioName__invalidElement.style.display = 'block';
+        return false;
     }
     
+    if(!resilienceScenarioFaultTypeSelectElementValue) {
+        resilienceScenarioFaultType__invalidElement.style.display = 'block';
+        return false;
+    }
     
+    if (!resilienceScenarioInjectionTypeSelectElementValue) {
+        resilienceScenarioInjectionType__invalidElement.style.display = 'block';
+        return false;
+    }
+    
+    if (!resilienceScenarioEnvironmentSelectElementValue) {
+        resilienceScenarioEnvironmentType__invalidElement.style.display = 'block';
+        return false;
+    }
+    
+    return true;
     
 }
 
@@ -65,23 +84,7 @@ const validateResilienceServiceFailureTemplateInput = () => {
         return false;
     }
     
-    // if (resilienceServiceElementValue && resilienceServiceAmountElementValue) {
-    //     console.log("Mandatory fields are not empty...");
-    //     if (resilienceServiceElementValue !== '' && resilienceServiceAmountElementValue !== '') {
-    //         return true;
-    //     }
-    // }
-    
     return true;
-}
-
-const showInvalidInputErrorMessage = () => {
-    let resilienceServiceUnderTest__invalidElement = document.getElementById('resilienceServiceUnderTest__invalid');
-    let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
-    
-    resilienceServiceUnderTest__invalidElement.style.display = 'block';
-    resilienceServiceAmount__invalidElement.style.display = 'block';
-
 }
 
 const saveServiceFailureTemplate = () => {
@@ -259,10 +262,8 @@ const createButtonContainer = () => {
      * In here, we create a new resilience template object
      */
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        if(resilienceTemplateInputIsValid()) {
+        if (validateResilienceScenarioTemplateInput()) {
             saveServiceFailureTemplate();
-        } else {
-            showInvalidInputErrorMessage();
         }
     })
 
@@ -455,7 +456,6 @@ export function createResilienceTemplateView(element) {
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
-    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
 
