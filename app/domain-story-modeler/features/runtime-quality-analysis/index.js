@@ -1,6 +1,6 @@
 // 'use-strict';
-import { ResilienceInjectionTypesEnum, ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
-import { SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO } from './RuntimeAnalysisConstants';
+import { ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
+import { RESILIENCE_INJECTION_TYPE_INFO, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from './RuntimeAnalysisConstants';
 import { MockMapping } from './mapping/MockMapping';
 /**
  * Get Elements
@@ -21,123 +21,91 @@ const clearRemovedRuntimeAnalysisViews = () => {
     }
 }
 
-const validateResilienceScenarioTemplateInput = () => {
-    let resilienceScenarioNameElement = document.getElementById('resilienceScenarioName');
-    let resilienceScenarioInjectionTypeSelectElement = document.getElementById('resilienceScenarioInjectionTypeSelect');
-    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
-    
-    let resilienceScenarioName__invalidElement = document.getElementById('resilienceScenarioName__invalid');
-    let resilienceScenarioInjectionType__invalidElement = document.getElementById('resilienceScenarioInjectionType__invalid');
-    let resilienceScenarioEnvironmentType__invalidElement = document.getElementById('resilienceScenarioEnvironmentType__invalid');
-    
-    let resilienceScenarioNameElementValue = resilienceScenarioNameElement.value;
-    let resilienceScenarioInjectionTypeSelectElementValue = resilienceScenarioInjectionTypeSelectElement.value;
-    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value; 
-    
-    if (!resilienceScenarioNameElementValue) {
-        resilienceScenarioName__invalidElement.style.display = 'block';
-        return false;
-    }
-    
-    if (!resilienceScenarioInjectionTypeSelectElementValue) {
-        resilienceScenarioInjectionType__invalidElement.style.display = 'block';
-        return false;
-    }
-    
-    if (!resilienceScenarioEnvironmentSelectElementValue) {
-        resilienceScenarioEnvironmentType__invalidElement.style.display = 'block';
-        return false;
-    }
-    
-    return true;
-    
-}
-
-
+/**
+ * Validates the resilience scenario template inputs if they have been entered by the user.
+ * It does not validate the <it>correctness</it> of input data.
+ */
 const validateResilienceTemplateInput = () => {
     /**
      * Get HTML elements and their values
      */
     let resilienceServiceUnderTestElement = document.getElementById('resilienceServiceUnderTest');
     let resilienceServiceUnderTestElementValue = resilienceServiceUnderTestElement.value;
-    
+
     let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
     let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
-    
+
     let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
     let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value;
-    
+
     let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
     let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
-    
-    let randomServiceSelectionCheckBoxElement = document.getElementById('randomServiceSelectionCheckBox');
-    let randomServiceSelectionCheckBoxElementValue = randomServiceSelectionCheckBoxElement.checked;
-    
+
     let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
     let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.value;
-    
+
     let injectionTypeApplicationCheckBox = document.getElementById('injectionTypeApplicationCheckBox');
     let injectionTypeApplicationCheckBoxValue = injectionTypeApplicationCheckBox.checked;
-    
+
     let injectionTypeInfrastructureCheckBox = document.getElementById('injectionTypeInfrastructureCheckBox');
     let injectionTypeInfrastructureCheckBoxValue = injectionTypeInfrastructureCheckBox.checked;
-    
-    
+
     /**
      * Get error msg elements
      */
     let resilienceServiceUnderTest__invalidElement = document.getElementById('resilienceServiceUnderTest__invalid');
     let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
-    
-    /**
-     * Validate general resilience template information
-     */
-    if (!resilienceScenarioEnvironmentSelectElementValue) {
-        console.log("resilienceScenarioEnvironmentSelectElementValue is invalid!");
-        // todo show errors msg...
-        return false;
-    }
-    
+    let timeOfServiceFailure__invalidElement = document.getElementById('timeOfServiceFailure__invalid');
+    let faultTypeCheckBox__invalid = document.getElementById('faultTypeCheckBox__invalid');
+    let injectionTypeCheckBoxContainer__invalid = document.getElementById('injectionTypeCheckBoxContainer__invalid');
+    let resilienceScenarioEnvironmentType__invalid = document.getElementById('resilienceScenarioEnvironmentType__invalid');
+
+
     if (!faultTypeCheckBoxElementValue) {
         console.log("faultTypeCheckBoxElementValue is invalid!");
-        // todo show errors msg...
+        faultTypeCheckBox__invalid.style.display = 'block';
         return false;
     }
-    
+
     if (!injectionTypeApplicationCheckBoxValue && !injectionTypeInfrastructureCheckBoxValue) {
         console.log("You must select an injection level!");
-        // todo show errors msg...
+        injectionTypeCheckBoxContainer__invalid.style.display = 'block';
         return false;
     }
-    
-    /**
-     * Validate service failure template
-     */
-    if (!resilienceServiceUnderTestElementValue) {
-        console.log("resilienceServiceElementValue is invalid");
-        resilienceServiceUnderTest__invalidElement.style.display = 'block';
-        return false;
-    } else {
-        console.log('element exists')
-    }
-    
+
     if (!resilienceServiceAmountElementValue) {
         console.log("resilienceServiceAmountElementValue is invalid");
         resilienceServiceAmount__invalidElement.style.display = 'block';
         return false;
     }
-    
+
     if (!timeOfServiceFailureElementValue) {
         console.log("timeOfServiceFailureElementValue is invalid!");
-        // todo show errors msg...
+        timeOfServiceFailure__invalidElement.style.display = 'block';
         return false;
     }
-    
+
+    if (!resilienceServiceUnderTestElementValue) {
+        console.log("resilienceServiceElementValue is invalid");
+        resilienceServiceUnderTest__invalidElement.style.display = 'block';
+        return false;
+    }
+
+    if (!resilienceScenarioEnvironmentSelectElementValue) {
+        console.log("resilienceScenarioEnvironmentSelectElementValue is invalid!");
+        resilienceScenarioEnvironmentType__invalid.style.display = 'block';
+        return false;
+    }
+
     return true;
 }
 
-const saveServiceFailureTemplate = () => {
+const saveResilienceScenarioTemplate = () => {
     console.log('Save Resilience Service Failure Template ...');
+}
+
+const generateResilienceScenarioTemplate = () => {
+    console.log("Generate object from template...");
 }
 
 /**
@@ -155,22 +123,22 @@ const createServiceFailureTemplate = () => {
     let resilienceServiceUnderTest__label = document.createElement('label');
     let resilienceServiceAmount = document.createElement('input');
     let resilienceServiceAmount__label = document.createElement('label');
-    
+
     let timeOfServiceFailure = document.createElement('input');
     let timeOfServiceFailure__label = document.createElement('label');
-    
+
     timeOfServiceFailure.id = 'timeOfServiceFailure';
     timeOfServiceFailure.type = 'text';
-    
+
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
     timeOfServiceFailure__label.setAttribute('for', 'timeOfServiceFailure');
     timeOfServiceFailure__label.innerText = 'Zeitpunkt des Ausfalls';
     timeOfServiceFailure__label.classList.add('label-padding');
-    
+
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerServiceFailure';
     checkBoxContainer.classList.add('checkbox-child');
-    
+
     let checkBoxContainer__label = document.createElement('label');
     checkBoxContainer__label.classList.add('form-check-label');
     checkBoxContainer__label.classList.add('label-padding');
@@ -181,45 +149,51 @@ const createServiceFailureTemplate = () => {
     randomServiceSelectionCheckBox.id = 'randomServiceSelectionCheckBox';
     randomServiceSelectionCheckBox.type = 'checkbox';
     randomServiceSelectionCheckBox.classList.add('form-check-input');
-    
+
     let randomServiceSelectionCheckBox__label = document.createElement('label');
     randomServiceSelectionCheckBox__label.classList.add('form-check-label');
     randomServiceSelectionCheckBox__label.setAttribute('for', 'randomServiceSelectionCheckBox');
     randomServiceSelectionCheckBox__label.innerText = 'Ja';
-    
+
     // This could be a check box which might be easier
     let resilienceRandomSelection__label = document.createElement('label');
-    
+
     let resilienceServiceUnderTest__invalid = document.createElement('p');
     let resilienceServiceAmount__invalid = document.createElement('p');
-    
+    let timeOfServiceFailure__invalid = document.createElement('p');
+
+
     resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceFailureTemplateContentInputContainer';
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
-    
+
     resilienceServiceUnderTest__invalid.innerText = SERVICE_FAILURE_NAME_INFO;
     resilienceServiceAmount__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
-    
+    timeOfServiceFailure__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
+
     resilienceServiceUnderTest__invalid.classList.add('error-info');
     resilienceServiceAmount__invalid.classList.add('error-info');
-    
+    timeOfServiceFailure__invalid.classList.add('error-info');
+
     resilienceServiceUnderTest__invalid.id = 'resilienceServiceUnderTest__invalid';
     resilienceServiceAmount__invalid.id = 'resilienceServiceAmount__invalid';
-    
+    timeOfServiceFailure__invalid.id = 'timeOfServiceFailure__invalid';
+
     resilienceServiceUnderTest__invalid.style.display = 'none';
     resilienceServiceAmount__invalid.style.display = 'none';
-    
+    timeOfServiceFailure__invalid.style.display = 'none';
+
     resilienceServiceAmount.id = 'resilienceServiceAmount';
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
     resilienceServiceUnderTest.id = 'resilienceServiceUnderTest';
     resilienceServiceUnderTest__label.id = 'resilienceServiceFailureName__label';
-    
+
     resilienceServiceAmount.type = 'number';
-    
+
     resilienceServiceAmount.placeholder = 'Geben Sie an, wie viele Instanzen betroffen sind (mind. 1)...';
 
     resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
     resilienceServiceUnderTest__label.setAttribute("for", 'resilienceServiceFailureName');
-    
+
     resilienceServiceAmount__label.innerText = 'Anzahl der betroffenen Service Instanzen (*)';
     resilienceServiceUnderTest__label.innerText = 'Betroffene Services (*)';
 
@@ -237,7 +211,7 @@ const createServiceFailureTemplate = () => {
             })
         }
     }
-    
+
     /**
      * Margins
      */
@@ -252,25 +226,18 @@ const createServiceFailureTemplate = () => {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
-    
+
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure);
-    
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__invalid);
+
     checkBoxContainer.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainer.appendChild(randomServiceSelectionCheckBox);
-    
+
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer);
-     
+
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
-
-}
-
-/**
- * Creates the template view for service delays
- */
-const createServiceDelayTemplate = () => {
-    // todo...
 
 }
 
@@ -285,23 +252,23 @@ const createButtonContainer = () => {
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
     let resilienceTemplateView__btn__generate = document.createElement('button');
-    
+
     resilienceTemplateBtnContainerParent.id = 'resilienceTemplateBtnContainerParent';
 
     resilienceTemplateView__btn__close.innerText = 'Schließen';
     resilienceTemplateView__btn__save.innerText = 'Speichern';
     resilienceTemplateView__btn__generate.innerText = 'Generieren';
-    
+
     resilienceTemplateView__btn__close.classList.add('btn');
     resilienceTemplateView__btn__close.classList.add('btn-secondary');
 
     resilienceTemplateView__btn__save.classList.add('btn');
     resilienceTemplateView__btn__save.classList.add('btn-primary');
-    
+
     resilienceTemplateView__btn__generate.classList.add('btn');
     resilienceTemplateView__btn__generate.classList.add('btn-primary');
     resilienceTemplateView__btn__generate.disabled = true;
-    
+
     resilienceTemplateBtnContainerParent.classList.add('btn-container-parent');
 
 
@@ -315,20 +282,15 @@ const createButtonContainer = () => {
     resilienceTemplateView__btn__generate.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
     });
-    
+
     resilienceTemplateView__btn__save.addEventListener('click', () => {
         if (validateResilienceTemplateInput()) {
             resilienceTemplateView__btn__generate.disabled = false;
             console.log("Validated!");
+            saveResilienceScenarioTemplate();
         } else {
             console.log("Resilience failure scenario is incomplete!");
         }
-        
-        // if (validateResilienceScenarioTemplateInput() && validateResilienceServiceFailureTemplateInput()) {
-        //     saveServiceFailureTemplate();
-        // } else {
-        //     console.log('Resilience Scenario is incomplete!');
-        // }
     })
 
     /**
@@ -337,10 +299,10 @@ const createButtonContainer = () => {
     resilienceTemplateBtnContainerChild.appendChild(resilienceTemplateView__btn__generate);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__save);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__close);
-    
+
     resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainer);
     resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainerChild);
-    
+
     modal_resilience_content.appendChild(resilienceTemplateBtnContainerParent);
 }
 
@@ -352,14 +314,14 @@ const createButtonContainer = () => {
 export function createResilienceTemplateView(element) {
 
     clearRemovedRuntimeAnalysisViews();
-    
+
     /**
      * Create html elements
      */
     let header = document.createElement('h3');
     header.innerText = 'Resilienz Szenario';
     header.classList.add('template-header');
-    
+
     let resilienceTemplateModal = document.createElement('div');
     let resilienceTemplateContent = document.createElement('div');
     let resilienceTemplateContentInputContainer = document.createElement('div');
@@ -370,66 +332,68 @@ export function createResilienceTemplateView(element) {
 
     let resilienceScenarioName = document.createElement('input');
     let resilienceScenarioStart = document.createElement('input');
-    
+
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
     checkBoxContainer.classList.add('checkbox-child');
-    
+
     let faultTypeCheckBox = document.createElement('input');
     faultTypeCheckBox.id = 'faultTypeCheckBox';
     faultTypeCheckBox.type = 'checkbox';
     faultTypeCheckBox.classList.add('form-check-input');
-    
+
     let faultTypeCheckBox__label = document.createElement('label');
     faultTypeCheckBox__label.classList.add('form-check-label');
     faultTypeCheckBox__label.setAttribute('for', 'faultTypeCheckBox');
     faultTypeCheckBox__label.innerText = 'Service Ausfall';
-    
+
     let faultTypeCheckBoxContainer__label = document.createElement('label');
     faultTypeCheckBoxContainer__label.classList.add('form-check-label');
     faultTypeCheckBoxContainer__label.classList.add('label-padding');
     faultTypeCheckBoxContainer__label.setAttribute('for', 'checkBoxContainerFaultType');
     faultTypeCheckBoxContainer__label.innerText = 'Art des Fehlers';
-    
+
     let injectionTypeCheckBoxContainer__label = document.createElement('label');
     injectionTypeCheckBoxContainer__label.classList.add('form-check-label');
     injectionTypeCheckBoxContainer__label.classList.add('label-padding');
     injectionTypeCheckBoxContainer__label.setAttribute('for', 'injectionTypeCheckBoxContainerParent');
     injectionTypeCheckBoxContainer__label.innerText = 'Anwendungsebene';
-    
+
     let injectionTypeCheckBoxContainerParent = document.createElement('div');
     injectionTypeCheckBoxContainerParent.id = 'injectionTypeCheckBoxContainerParent';
-    
+
     let injectionTypeApplicationCheckBoxContainerChild = document.createElement('div');
     let injectionTypeInfrastructureCheckBoxContainerChild = document.createElement('div');
     injectionTypeApplicationCheckBoxContainerChild.classList.add('checkbox-child');
     injectionTypeInfrastructureCheckBoxContainerChild.classList.add('checkbox-child');
-    
+
     let injectionTypeApplicationCheckBox = document.createElement('input');
     injectionTypeApplicationCheckBox.id = 'injectionTypeApplicationCheckBox';
     injectionTypeApplicationCheckBox.type = 'checkbox';
     injectionTypeApplicationCheckBox.classList.add('form-check-input');
-    
+
     let injectionTypeApplicationCheckBox__label = document.createElement('label');
     injectionTypeApplicationCheckBox__label.classList.add('form-check-label');
     injectionTypeApplicationCheckBox__label.setAttribute('for', 'injectionTypeApplicationCheckBox');
     injectionTypeApplicationCheckBox__label.innerText = 'Applikation';
-    
+
     let injectionTypeInfrastructureCheckBox = document.createElement('input');
     injectionTypeInfrastructureCheckBox.id = 'injectionTypeInfrastructureCheckBox';
     injectionTypeInfrastructureCheckBox.type = 'checkbox';
     injectionTypeInfrastructureCheckBox.classList.add('form-check-input');
-    
+
     let injectionTypeInfrastructureCheckBox__label = document.createElement('label');
     injectionTypeInfrastructureCheckBox__label.classList.add('form-check-label');
     injectionTypeInfrastructureCheckBox__label.setAttribute('for', 'injectionTypeInfrastructureCheckBox');
     injectionTypeInfrastructureCheckBox__label.innerText = 'Infrastruktur';
 
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
-    
+
     let resilienceScenarioName__invalid = document.createElement('p');
     let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
-    
+    let injectionTypeCheckBoxContainer__invalid = document.createElement('p');
+    let faultTypeCheckBox__invalid = document.createElement('p');
+
     /**
      * Create html labels for input fields
      */
@@ -444,13 +408,13 @@ export function createResilienceTemplateView(element) {
     resilienceTemplateView__btn__open.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'block';
     });
-    
+
     faultTypeCheckBox.addEventListener('click', () => {
         if (faultTypeCheckBox.checked) {
             createServiceFailureTemplate();
         }
-        
-        if(!faultTypeCheckBox.checked) {
+
+        if (!faultTypeCheckBox.checked) {
             let resilienceServiceFailureTemplateContentInputContainerElement = document.getElementById('resilienceServiceFailureTemplateContentInputContainer');
             resilienceServiceFailureTemplateContentInputContainerElement.remove();
         }
@@ -484,9 +448,11 @@ export function createResilienceTemplateView(element) {
     resilienceTemplateView__btn__open.classList.add('btn-primary');
 
     resilienceScenarioEnvironmentSelect.id = 'resilienceScenarioEnvironmentTypeSelect';
-    
+
     resilienceScenarioName__invalid.id = 'resilienceScenarioName__invalid';
     resilienceScenarioEnvironmentType__invalid.id = 'resilienceScenarioEnvironmentType__invalid';
+    injectionTypeCheckBoxContainer__invalid.id = 'injectionTypeCheckBoxContainer__invalid';
+    faultTypeCheckBox__invalid.id = 'faultTypeCheckBox__invalid';
 
     resilienceScenarioName.id = 'resilienceScenarioName';
     resilienceScenarioStart.id = 'resilienceScenarioStart';
@@ -500,19 +466,26 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioName__label.innerText = 'Name des Szenarios';
     resilienceScenarioStart__label.innerText = 'Startzeitpunkt des Szenarios';
     resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext';
-    
-    resilienceScenarioName__invalid.innerText = 'Bitte geben Sie einen gültigen Namen an!';
-    resilienceScenarioEnvironmentType__invalid.innerText = 'Bitte geben Sie eine gültige Umgebung für das Szenario an!';
+
+    resilienceScenarioName__invalid.innerText = RESILIENCE_SCENARIO_NAME_INFO;
+    resilienceScenarioEnvironmentType__invalid.innerText = RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO;
+    faultTypeCheckBox__invalid.innerText = RESILIENCE_FAULT_TYPE_INFO;
+    injectionTypeCheckBoxContainer__invalid.innerText = RESILIENCE_INJECTION_TYPE_INFO;
+
 
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
     resilienceScenarioStart__label.setAttribute("for", 'resilienceScenarioStart');
     resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
-    
+
     resilienceScenarioName__invalid.classList.add('error-info');
     resilienceScenarioEnvironmentType__invalid.classList.add('error-info');
-    
+    faultTypeCheckBox__invalid.classList.add('error-info');
+    injectionTypeCheckBoxContainer__invalid.classList.add('error-info');
+
     resilienceScenarioName__invalid.style.display = 'none';
     resilienceScenarioEnvironmentType__invalid.style.display = 'none';
+    faultTypeCheckBox__invalid.style.display = 'none';
+    injectionTypeCheckBoxContainer__invalid.style.display = 'none';
 
     resilienceScenarioName__label.style.margin = '2% 0 0 0';
     resilienceScenarioStart__label.style.margin = '2% 0 0 0';
@@ -526,29 +499,28 @@ export function createResilienceTemplateView(element) {
     resilienceTemplateModal.appendChild(resilienceTemplateContent);
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
-    
+
     injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox__label);
     injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox);
     injectionTypeCheckBoxContainerParent.appendChild(injectionTypeApplicationCheckBoxContainerChild);
-    
+
     injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox__label);
     injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox);
     injectionTypeCheckBoxContainerParent.appendChild(injectionTypeInfrastructureCheckBoxContainerChild);
-    
+
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
-    
+
     resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__label);
     resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainerParent);
+    resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBoxContainer__label);
     checkBoxContainer.appendChild(faultTypeCheckBox__label);
     checkBoxContainer.appendChild(faultTypeCheckBox);
     resilienceTemplateContentInputContainer.appendChild(checkBoxContainer);
-
-    // resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
-    // resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
+    resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBox__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
