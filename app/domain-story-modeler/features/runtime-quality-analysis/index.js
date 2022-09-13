@@ -331,7 +331,6 @@ export function createResilienceTemplateView(element) {
     let resilienceTemplateView__btn__open = document.createElement('button');
 
     let resilienceScenarioName = document.createElement('input');
-    let resilienceScenarioStart = document.createElement('input');
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
@@ -351,13 +350,13 @@ export function createResilienceTemplateView(element) {
     faultTypeCheckBoxContainer__label.classList.add('form-check-label');
     faultTypeCheckBoxContainer__label.classList.add('label-padding');
     faultTypeCheckBoxContainer__label.setAttribute('for', 'checkBoxContainerFaultType');
-    faultTypeCheckBoxContainer__label.innerText = 'Art des Fehlers';
+    faultTypeCheckBoxContainer__label.innerText = 'Art des Fehlers (*)';
 
     let injectionTypeCheckBoxContainer__label = document.createElement('label');
     injectionTypeCheckBoxContainer__label.classList.add('form-check-label');
     injectionTypeCheckBoxContainer__label.classList.add('label-padding');
     injectionTypeCheckBoxContainer__label.setAttribute('for', 'injectionTypeCheckBoxContainerParent');
-    injectionTypeCheckBoxContainer__label.innerText = 'Anwendungsebene';
+    injectionTypeCheckBoxContainer__label.innerText = 'Anwendungsebene (*)';
 
     let injectionTypeCheckBoxContainerParent = document.createElement('div');
     injectionTypeCheckBoxContainerParent.id = 'injectionTypeCheckBoxContainerParent';
@@ -398,7 +397,6 @@ export function createResilienceTemplateView(element) {
      * Create html labels for input fields
      */
     let resilienceScenarioName__label = document.createElement('label');
-    let resilienceScenarioStart__label = document.createElement('label');
     let resilienceScenarioEnvironment__label = document.createElement('label');
 
 
@@ -463,9 +461,8 @@ export function createResilienceTemplateView(element) {
     resilienceScenarioName.placeholder = 'Geben Sie dem Szenario einen Namen...';
     resilienceScenarioStart.placeholder = 'Geben Sie wann das Szenario beginnen soll...';
 
-    resilienceScenarioName__label.innerText = 'Name des Szenarios';
-    resilienceScenarioStart__label.innerText = 'Startzeitpunkt des Szenarios';
-    resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext';
+    resilienceScenarioName__label.innerText = 'Name des Szenarios (*)';
+    resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext (*)';
 
     resilienceScenarioName__invalid.innerText = RESILIENCE_SCENARIO_NAME_INFO;
     resilienceScenarioEnvironmentType__invalid.innerText = RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO;
@@ -474,7 +471,6 @@ export function createResilienceTemplateView(element) {
 
 
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
-    resilienceScenarioStart__label.setAttribute("for", 'resilienceScenarioStart');
     resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
 
     resilienceScenarioName__invalid.classList.add('error-info');
@@ -488,7 +484,6 @@ export function createResilienceTemplateView(element) {
     injectionTypeCheckBoxContainer__invalid.style.display = 'none';
 
     resilienceScenarioName__label.style.margin = '2% 0 0 0';
-    resilienceScenarioStart__label.style.margin = '2% 0 0 0';
     resilienceScenarioEnvironment__label.style.margin = '2% 0 0 0';
 
     /**
