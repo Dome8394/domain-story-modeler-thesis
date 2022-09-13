@@ -54,25 +54,82 @@ const validateResilienceScenarioTemplateInput = () => {
 }
 
 
-const validateResilienceServiceFailureTemplateInput = () => {
-    let resilienceServiceNameElement = document.getElementById('resilienceServiceFailureName');
+const validateResilienceTemplateInput = () => {
+    /**
+     * Get HTML elements and their values
+     */
+    let resilienceServiceUnderTestElement = document.getElementById('resilienceServiceUnderTest');
+    let resilienceServiceUnderTestElementValue = resilienceServiceUnderTestElement.value;
+    
     let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
+    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
+    
+    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
+    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value;
+    
+    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
+    let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
+    
+    let randomServiceSelectionCheckBoxElement = document.getElementById('randomServiceSelectionCheckBox');
+    let randomServiceSelectionCheckBoxElementValue = randomServiceSelectionCheckBoxElement.checked;
+    
+    let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
+    let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.value;
+    
+    let injectionTypeApplicationCheckBox = document.getElementById('injectionTypeApplicationCheckBox');
+    let injectionTypeApplicationCheckBoxValue = injectionTypeApplicationCheckBox.checked;
+    
+    let injectionTypeInfrastructureCheckBox = document.getElementById('injectionTypeInfrastructureCheckBox');
+    let injectionTypeInfrastructureCheckBoxValue = injectionTypeInfrastructureCheckBox.checked;
+    
+    
+    /**
+     * Get error msg elements
+     */
     let resilienceServiceUnderTest__invalidElement = document.getElementById('resilienceServiceUnderTest__invalid');
     let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
     
-    let resilienceServiceElementValue = resilienceServiceNameElement.value;
-    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
-    
-    
-    if (!resilienceServiceElementValue) {
-        console.log("resilienceServiceElementValue is valid");
-        resilienceServiceUnderTest__invalidElement.style.display = 'block';
+    /**
+     * Validate general resilience template information
+     */
+    if (!resilienceScenarioEnvironmentSelectElementValue) {
+        console.log("resilienceScenarioEnvironmentSelectElementValue is invalid!");
+        // todo show errors msg...
         return false;
     }
     
+    if (!faultTypeCheckBoxElementValue) {
+        console.log("faultTypeCheckBoxElementValue is invalid!");
+        // todo show errors msg...
+        return false;
+    }
+    
+    if (!injectionTypeApplicationCheckBoxValue && !injectionTypeInfrastructureCheckBoxValue) {
+        console.log("You must select an injection level!");
+        // todo show errors msg...
+        return false;
+    }
+    
+    /**
+     * Validate service failure template
+     */
+    if (!resilienceServiceUnderTestElementValue) {
+        console.log("resilienceServiceElementValue is invalid");
+        resilienceServiceUnderTest__invalidElement.style.display = 'block';
+        return false;
+    } else {
+        console.log('element exists')
+    }
+    
     if (!resilienceServiceAmountElementValue) {
-        console.log("resilienceServiceAmountElementValue is valid");
+        console.log("resilienceServiceAmountElementValue is invalid");
         resilienceServiceAmount__invalidElement.style.display = 'block';
+        return false;
+    }
+    
+    if (!timeOfServiceFailureElementValue) {
+        console.log("timeOfServiceFailureElementValue is invalid!");
+        // todo show errors msg...
         return false;
     }
     
@@ -153,7 +210,7 @@ const createServiceFailureTemplate = () => {
     
     resilienceServiceAmount.id = 'resilienceServiceAmount';
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
-    resilienceServiceUnderTest.id = 'resilienceServiceFailureName';
+    resilienceServiceUnderTest.id = 'resilienceServiceUnderTest';
     resilienceServiceUnderTest__label.id = 'resilienceServiceFailureName__label';
     
     resilienceServiceAmount.type = 'number';
@@ -260,12 +317,18 @@ const createButtonContainer = () => {
     });
     
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        resilienceTemplateView__btn__generate.disabled = false;
-        if (validateResilienceScenarioTemplateInput() && validateResilienceServiceFailureTemplateInput()) {
-            saveServiceFailureTemplate();
+        if (validateResilienceTemplateInput()) {
+            resilienceTemplateView__btn__generate.disabled = false;
+            console.log("Validated!");
         } else {
-            console.log('Resilience Scenario is incomplete!');
+            console.log("Resilience failure scenario is incomplete!");
         }
+        
+        // if (validateResilienceScenarioTemplateInput() && validateResilienceServiceFailureTemplateInput()) {
+        //     saveServiceFailureTemplate();
+        // } else {
+        //     console.log('Resilience Scenario is incomplete!');
+        // }
     })
 
     /**
@@ -484,8 +547,8 @@ export function createResilienceTemplateView(element) {
     checkBoxContainer.appendChild(faultTypeCheckBox);
     resilienceTemplateContentInputContainer.appendChild(checkBoxContainer);
 
-    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
-    resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
+    // resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart__label);
+    // resilienceTemplateContentInputContainer.appendChild(resilienceScenarioStart);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
