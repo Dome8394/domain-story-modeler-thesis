@@ -101,7 +101,11 @@ const validateResilienceTemplateInput = () => {
 }
 
 const saveResilienceScenarioTemplate = () => {
-    console.log('Save Resilience Service Failure Template ...');
+    let resilienceTemplateView__btn__generate = document.getElementById('resilienceTemplateView__btn__generate');
+    setTimeout(() => {
+        console.log('Save Resilience Service Failure Template ...');
+        resilienceTemplateView__btn__generate.disabled = false;
+    }, 7000);
 }
 
 const generateResilienceScenarioTemplate = () => {
@@ -268,6 +272,7 @@ const createButtonContainer = () => {
     resilienceTemplateView__btn__generate.classList.add('btn');
     resilienceTemplateView__btn__generate.classList.add('btn-primary');
     resilienceTemplateView__btn__generate.disabled = true;
+    resilienceTemplateView__btn__generate.id = 'resilienceTemplateView__btn__generate';
 
     resilienceTemplateBtnContainerParent.classList.add('btn-container-parent');
 
@@ -285,7 +290,7 @@ const createButtonContainer = () => {
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
         if (validateResilienceTemplateInput()) {
-            resilienceTemplateView__btn__generate.disabled = false;
+            // resilienceTemplateView__btn__generate.disabled = false;
             console.log("Validated!");
             saveResilienceScenarioTemplate();
         } else {
@@ -453,13 +458,10 @@ export function createResilienceTemplateView(element) {
     faultTypeCheckBox__invalid.id = 'faultTypeCheckBox__invalid';
 
     resilienceScenarioName.id = 'resilienceScenarioName';
-    resilienceScenarioStart.id = 'resilienceScenarioStart';
 
     resilienceScenarioName.type = 'text';
-    resilienceScenarioStart.type = 'text';
 
     resilienceScenarioName.placeholder = 'Geben Sie dem Szenario einen Namen...';
-    resilienceScenarioStart.placeholder = 'Geben Sie wann das Szenario beginnen soll...';
 
     resilienceScenarioName__label.innerText = 'Name des Szenarios (*)';
     resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext (*)';
