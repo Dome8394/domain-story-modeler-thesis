@@ -1,5 +1,5 @@
 // 'use-strict';
-import { ResilienceEnvironmentEnum } from './classes/ResilienceTemplate';
+import { ResilienceEnvironmentEnum, ResilienceTemplate } from './classes/ResilienceTemplate';
 import { RESILIENCE_INJECTION_TYPE_INFO, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from './RuntimeAnalysisConstants';
 import { MockMapping } from './mapping/MockMapping';
 /**
@@ -104,6 +104,13 @@ const saveResilienceScenarioTemplate = () => {
     let resilienceTemplateView__btn__generate = document.getElementById('resilienceTemplateView__btn__generate');
     setTimeout(() => {
         console.log('Save Resilience Service Failure Template ...');
+        
+        const newResilienceScenarioTemplate = new ResilienceTemplate('testName', 
+        'testFaultType', 'testInjectionType', 'testEnvironment', ['service1', 'service2'], 
+        '2', 'true');
+        
+        console.log(newResilienceScenarioTemplate);
+        
         resilienceTemplateView__btn__generate.disabled = false;
     }, 7000);
 }

@@ -1,13 +1,18 @@
-class ResilienceTemplate {
-    constructor(type, name) {
-        this.type = type;
-        this.name = name;
-        // this.scenarioStart = scenarioStart;
-        // this.scenarioDuration = scenarioDuration;
+export class ResilienceTemplate {
+    constructor(scenarioName, faultType, injectionType, executionEnvironment, services, timeToFailure, 
+        numberOfInstancesAffected, randomization) {
+        this.scenarioName = scenarioName;
+        this.faultType = faultType;
+        this.injectionType = injectionType;
+        this.executionEnvironment = executionEnvironment;
+        this.services = services;
+        this.timeToFailure = timeToFailure;
+        this.numberOfInstancesAffected = numberOfInstancesAffected;
+        this.randomization = randomization;
     }
     
     getName() {
-        return this.name;
+        return this.scenarioName;
     }
 }
 
