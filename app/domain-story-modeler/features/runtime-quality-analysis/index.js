@@ -115,7 +115,7 @@ const saveResilienceScenarioTemplate = () => {
     }, 7000);
 }
 
-const verifyGenerationOfResilienceTemplate = ({ getApprovement }) => {
+const verifyGenerationOfResilienceTemplate = ({ getConfirmation }) => {
     
     let verificationModal = document.createElement('div');
     
@@ -150,7 +150,7 @@ const verifyGenerationOfResilienceTemplate = ({ getApprovement }) => {
     
     verification__btn.addEventListener('click', () => {
         console.log('Waiting for approvement...');
-        getApprovement();
+        getConfirmation();
     });
     
     abort__btn.addEventListener('click', () => {
@@ -161,16 +161,16 @@ const verifyGenerationOfResilienceTemplate = ({ getApprovement }) => {
 }
 
 const generateResilienceScenarioTemplate = () => {
-    let userApprovesToGeneration = false;
+    let userConfirmsToGeneration = false;
     
-    const getApprovement = () => {
+    const getConfirmation = () => {
         console.log('User approves!!')
-        userApprovesToGeneration = !userApprovesToGeneration;
+        userConfirmsToGeneration = !userApprovesToGeneration;
     }
     
-    verifyGenerationOfResilienceTemplate(getApprovement);
+    verifyGenerationOfResilienceTemplate(getConfirmation);
     
-    if (userApprovesToGeneration) {
+    if (userConfirmsToGeneration) {
         console.log("Generate object from template...");
     }
 }
