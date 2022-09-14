@@ -146,7 +146,7 @@ const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
     confirmation__btn.classList.add('btn-primary');
     
     abort__btn.classList.add('btn');
-    abort__btn.classList.add('btn-primary');
+    abort__btn.classList.add('btn-secondary');
     
     confirmation__btn.innerText = 'Bestätigen';
     abort__btn.innerText = 'Abbrechen';
@@ -164,13 +164,13 @@ const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
     /**
      * Put everything together...
      */
+    confirmationModalContent.appendChild(information_text);
+    confirmationModalContent.appendChild(confirmationModalContentButtonContainer);
     confirmationModalContentButtonContainer.appendChild(confirmation__btn);
     confirmationModalContentButtonContainer.appendChild(abort__btn);
-    confirmationModalContent.appendChild(confirmationModalContentButtonContainer);
-    confirmationModalContent.appendChild(information_text);
-    confirmationModal.appendChild(verificationModalContent);
+    confirmationModal.appendChild(confirmationModalContent);
     
-    topLevelModal.appendChild(verificationModal);
+    topLevelModal.appendChild(confirmationModal);
     confirmationModal.style.display = 'block';
     
 }

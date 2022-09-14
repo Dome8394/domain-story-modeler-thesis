@@ -15,7 +15,7 @@ input {
 /* THESIS-Start */
 
 .info-text {
-  color: whitesmoke;
+  color: black;
   text-align: center;
 }
 
@@ -63,7 +63,7 @@ input {
   justify-content: flex-start;
 }
 
-.verification-modal {
+.confirmation-modal {
   display: none;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -76,15 +76,15 @@ input {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.verification-modal-content {
+.confirmation-modal-content {
   display: flex;
   flex-direction: column;
-  background-color: #d2cbcb;
-  margin: 15% auto; /* 15% from the top and centered */
+  background-color: #f6f6f6;
+  margin: 30% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-  max-width: 350px;
+  max-width: 500px;
 }
 
 #modal_resilience {
