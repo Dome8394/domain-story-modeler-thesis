@@ -112,10 +112,11 @@ const saveResilienceScenarioTemplate = () => {
         console.log(newResilienceScenarioTemplate);
         
         resilienceTemplateView__btn__generate.disabled = false;
-    }, 7000);
+    }, 3000);
 }
 
-const verifyGenerationOfResilienceTemplate = ({ getConfirmation }) => {
+const verifyGenerationOfResilienceTemplate = (getConfirmation) => {
+    let topLevelModal = document.getElementById('modal_resilience_content');
     
     let verificationModal = document.createElement('div');
     
@@ -131,52 +132,60 @@ const verifyGenerationOfResilienceTemplate = ({ getConfirmation }) => {
     verificationModalContentButtonContainer.id = 'verificationModalContentButtonContainer';
     verificationModalContentButtonContainer.classList.add('btn-container-parent');
     
-    let verification__btn = document.createElement('div');
+    let confirmation__btn = document.createElement('div');
     let abort__btn = document.createElement('div');
     
     let information_text = document.createElement('p');
     information_text.innerText = VERIFICATION_MODAL_NOTIFICATION;
     information_text.classList.add('info-text');
     
-    verification__btn.id = 'verification_btn';
+    confirmation__btn.id = 'verification_btn';
     abort__btn.id = 'abort_btn';
     
-    verification__btn.classList.add('btn');
-    verification__btn.classList.add('btn-primary');
+    confirmation__btn.classList.add('btn');
+    confirmation__btn.classList.add('btn-primary');
     
     abort__btn.classList.add('btn');
     abort__btn.classList.add('btn-primary');
     
-    verification__btn.innerText = 'Bestätigen';
+    confirmation__btn.innerText = 'Bestätigen';
     abort__btn.innerText = 'Abbrechen';
     
-    verification__btn.addEventListener('click', () => {
+    confirmation__btn.addEventListener('click', () => {
         console.log('Waiting for approvement...');
         getConfirmation();
     });
     
     abort__btn.addEventListener('click', () => {
         console.log('User does not approve to generation!');
-        verificationeModal.style.display = 'none';
+        verificationModal.style.display = 'none';
     })
     
     /**
      * Put everything together...
      */
+    verificationModalContentButtonContainer.appendChild(confirmation__btn);
+    verificationModalContentButtonContainer.appendChild(abort__btn);
     verificationModalContent.appendChild(verificationModalContentButtonContainer);
+    verificationModalContent.appendChild(information_text);
     verificationModal.appendChild(verificationModalContent);
     
-    modal__container.appendChild(verificationModal);
+    topLevelModal.appendChild(verificationModal);
+    verificationModal.style.display = 'block';
     
 }
 
 const generateResilienceScenarioTemplate = () => {
+    // let verificationModal = document.getElementById('verificationModal');
+    
     let userConfirmsToGeneration = false;
     
     const getConfirmation = () => {
         console.log('User approves!!')
-        userConfirmsToGeneration = !userApprovesToGeneration;
+        userConfirmsToGeneration = !userConfirmsToGeneration;
     }
+    
+    console.log("Confirmation modal view...");
     
     verifyGenerationOfResilienceTemplate(getConfirmation);
     
