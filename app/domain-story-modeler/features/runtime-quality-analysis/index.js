@@ -102,19 +102,49 @@ const validateResilienceTemplateInput = () => {
 
 const saveResilienceScenarioTemplate = () => {
     let resilienceTemplateView__btn__generate = document.getElementById('resilienceTemplateView__btn__generate');
-    setTimeout(() => {
-        console.log('Save Resilience Service Failure Template ...');
+    
+    let resilienceServiceUnderTestElement = document.getElementById('resilienceServiceUnderTest');
+    let resilienceServiceUnderTestElementValue = resilienceServiceUnderTestElement.value;
 
-        const newResilienceScenarioTemplate = new ResilienceTemplate('testName',
-            'testFaultType', 'testInjectionType', 'testEnvironment', ['service1', 'service2'],
-            '2', 'true');
+    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
+    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
+
+    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
+    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value;
+
+    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
+    let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
+
+    let randomServiceSelectionCheckBox = document.getElementById('randomServiceSelectionCheckBox');
+    let randomServiceSelectionCheckBoxValue = randomServiceSelectionCheckBox.checked;
+
+    let injectionTypeApplicationCheckBox = document.getElementById('injectionTypeApplicationCheckBox');
+    let injectionTypeApplicationCheckBoxValue = injectionTypeApplicationCheckBox.checked;
+    
+    /**
+     * The timeout simulates the saving process and serves only demonstration purposes.
+     */
+    setTimeout(() => {
+        let INJECTION_LEVEL;
+        
+        if (injectionTypeApplicationCheckBoxValue) {
+            INJECTION_LEVEL = 'application';
+        } else {
+            INJECTION_LEVEL = 'infrastructure';
+        }
+        
+        const newResilienceScenarioTemplate = new ResilienceTemplate(
+            'test',
+            'service failure', 
+            INJECTION_LEVEL, 
+            resilienceScenarioEnvironmentSelectElementValue, 
+            resilienceServiceUnderTestElementValue,
+            timeOfServiceFailureElementValue, resilienceServiceAmountElementValue, randomServiceSelectionCheckBoxValue || true);
 
         localStorage.setItem('resilienceTemplateObject', JSON.stringify(newResilienceScenarioTemplate));
 
-        console.log(newResilienceScenarioTemplate);
-
         resilienceTemplateView__btn__generate.disabled = false;
-    }, 3000);
+    }, 2000);
 }
 
 const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
