@@ -176,7 +176,6 @@ const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
 }
 
 const generateResilienceScenarioTemplate = () => {
-    // let verificationModal = document.getElementById('verificationModal');
     
     let userConfirmsToGeneration = false;
     
