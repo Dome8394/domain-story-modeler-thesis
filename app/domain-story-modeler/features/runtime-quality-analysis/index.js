@@ -1,6 +1,6 @@
 // 'use-strict';
 import { ResilienceEnvironmentEnum, ResilienceTemplate } from './classes/ResilienceTemplate';
-import { RESILIENCE_INJECTION_TYPE_INFO, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from './RuntimeAnalysisConstants';
+import { VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_INJECTION_TYPE_INFO, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from './RuntimeAnalysisConstants';
 import { MockMapping } from './mapping/MockMapping';
 /**
  * Get Elements
@@ -134,7 +134,9 @@ const verifyGenerationOfResilienceTemplate = ({ getConfirmation }) => {
     let verification__btn = document.createElement('div');
     let abort__btn = document.createElement('div');
     
-    let information_text = VERIFICATION_MODAL_NOTIFICATION;
+    let information_text = document.createElement('p');
+    information_text.innerText = VERIFICATION_MODAL_NOTIFICATION;
+    information_text.classList.add('info-text');
     
     verification__btn.id = 'verification_btn';
     abort__btn.id = 'abort_btn';
@@ -157,6 +159,14 @@ const verifyGenerationOfResilienceTemplate = ({ getConfirmation }) => {
         console.log('User does not approve to generation!');
         verificationeModal.style.display = 'none';
     })
+    
+    /**
+     * Put everything together...
+     */
+    verificationModalContent.appendChild(verificationModalContentButtonContainer);
+    verificationModal.appendChild(verificationModalContent);
+    
+    modal__container.appendChild(verificationModal);
     
 }
 
@@ -349,6 +359,7 @@ const createButtonContainer = () => {
 
     resilienceTemplateView__btn__generate.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
+        generateResilienceScenarioTemplate();
     });
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {

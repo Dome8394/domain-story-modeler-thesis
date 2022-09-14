@@ -14,6 +14,11 @@ input {
 
 /* THESIS-Start */
 
+.info-text {
+  color: whitesmoke;
+  text-align: center;
+}
+
 .error-info {
   color: red;
 }
