@@ -115,22 +115,22 @@ const saveResilienceScenarioTemplate = () => {
     }, 3000);
 }
 
-const verifyGenerationOfResilienceTemplate = (getConfirmation) => {
+const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
     let topLevelModal = document.getElementById('modal_resilience_content');
     
-    let verificationModal = document.createElement('div');
+    let confirmationModal = document.createElement('div');
     
-    verificationModal.id = 'verificationModal';
-    verificationModal.classList.add('verification-modal');
+    confirmationModal.id = 'confirmationModal';
+    confirmationModal.classList.add('confirmation-modal');
     
-    let verificationModalContent = document.createElement('div');
+    let confirmationModalContent = document.createElement('div');
     
-    verificationModalContent.id = 'verificationModalContent';
-    verificationModalContent.classList.add('verification-modal-content');
+    confirmationModalContent.id = 'confirmationModalContent';
+    confirmationModalContent.classList.add('confirmation-modal-content');
     
-    let verificationModalContentButtonContainer = document.createElement('div');
-    verificationModalContentButtonContainer.id = 'verificationModalContentButtonContainer';
-    verificationModalContentButtonContainer.classList.add('btn-container-parent');
+    let confirmationModalContentButtonContainer = document.createElement('div');
+    confirmationModalContentButtonContainer.id = 'confirmationModalContentButtonContainer';
+    confirmationModalContentButtonContainer.classList.add('btn-container-parent');
     
     let confirmation__btn = document.createElement('div');
     let abort__btn = document.createElement('div');
@@ -158,20 +158,20 @@ const verifyGenerationOfResilienceTemplate = (getConfirmation) => {
     
     abort__btn.addEventListener('click', () => {
         console.log('User does not approve to generation!');
-        verificationModal.style.display = 'none';
+        confirmationModal.style.display = 'none';
     })
     
     /**
      * Put everything together...
      */
-    verificationModalContentButtonContainer.appendChild(confirmation__btn);
-    verificationModalContentButtonContainer.appendChild(abort__btn);
-    verificationModalContent.appendChild(verificationModalContentButtonContainer);
-    verificationModalContent.appendChild(information_text);
-    verificationModal.appendChild(verificationModalContent);
+    confirmationModalContentButtonContainer.appendChild(confirmation__btn);
+    confirmationModalContentButtonContainer.appendChild(abort__btn);
+    confirmationModalContent.appendChild(confirmationModalContentButtonContainer);
+    confirmationModalContent.appendChild(information_text);
+    confirmationModal.appendChild(verificationModalContent);
     
     topLevelModal.appendChild(verificationModal);
-    verificationModal.style.display = 'block';
+    confirmationModal.style.display = 'block';
     
 }
 
@@ -187,7 +187,7 @@ const generateResilienceScenarioTemplate = () => {
     
     console.log("Confirmation modal view...");
     
-    verifyGenerationOfResilienceTemplate(getConfirmation);
+    confirmGenerationOfResilienceTemplate(getConfirmation);
     
     if (userConfirmsToGeneration) {
         console.log("Generate object from template...");
