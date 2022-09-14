@@ -10,3 +10,5 @@ export const SERVICE_FAILURE_AMOUNT_INFO = 'Bitte geben Sie eine gültige Anzahl
 export const SERVICE_TIME_TO_FAILURE_INFO = 'Bitte geben Sie einen gültigen Zeitpunkt an!';
 export const RESILIENCE_FAULT_TYPE_INFO = 'Bitte wähle Sie die Art des Fehlers aus!';
 export const RESILIENCE_INJECTION_TYPE_INFO = 'Bitte wähle Sie eine Anwendungsebene aus!';
+
+export const VERIFICATION_MODAL_NOTIFICATION = 'Wollen Sie wirklich dieses Template als Test erzeugen?';

@@ -115,8 +115,64 @@ const saveResilienceScenarioTemplate = () => {
     }, 7000);
 }
 
+const verifyGenerationOfResilienceTemplate = ({ getApprovement }) => {
+    
+    let verificationModal = document.createElement('div');
+    
+    verificationModal.id = 'verificationModal';
+    verificationModal.classList.add('verification-modal');
+    
+    let verificationModalContent = document.createElement('div');
+    
+    verificationModalContent.id = 'verificationModalContent';
+    verificationModalContent.classList.add('verification-modal-content');
+    
+    let verificationModalContentButtonContainer = document.createElement('div');
+    verificationModalContentButtonContainer.id = 'verificationModalContentButtonContainer';
+    verificationModalContentButtonContainer.classList.add('btn-container-parent');
+    
+    let verification__btn = document.createElement('div');
+    let abort__btn = document.createElement('div');
+    
+    let information_text = VERIFICATION_MODAL_NOTIFICATION;
+    
+    verification__btn.id = 'verification_btn';
+    abort__btn.id = 'abort_btn';
+    
+    verification__btn.classList.add('btn');
+    verification__btn.classList.add('btn-primary');
+    
+    abort__btn.classList.add('btn');
+    abort__btn.classList.add('btn-primary');
+    
+    verification__btn.innerText = 'Bestätigen';
+    abort__btn.innerText = 'Abbrechen';
+    
+    verification__btn.addEventListener('click', () => {
+        console.log('Waiting for approvement...');
+        getApprovement();
+    });
+    
+    abort__btn.addEventListener('click', () => {
+        console.log('User does not approve to generation!');
+        verificationeModal.style.display = 'none';
+    })
+    
+}
+
 const generateResilienceScenarioTemplate = () => {
-    console.log("Generate object from template...");
+    let userApprovesToGeneration = false;
+    
+    const getApprovement = () => {
+        console.log('User approves!!')
+        userApprovesToGeneration = !userApprovesToGeneration;
+    }
+    
+    verifyGenerationOfResilienceTemplate(getApprovement);
+    
+    if (userApprovesToGeneration) {
+        console.log("Generate object from template...");
+    }
 }
 
 /**
@@ -297,7 +353,6 @@ const createButtonContainer = () => {
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
         if (validateResilienceTemplateInput()) {
-            // resilienceTemplateView__btn__generate.disabled = false;
             console.log("Validated!");
             saveResilienceScenarioTemplate();
         } else {
