@@ -486,9 +486,10 @@ export function createResilienceTemplateView(selectedID) {
  * 
  * @param {} selectedID 
  */
-const getNodeName = (selectedID) => {
-    let test = $(`[data-element-id=${selectedID}]`).get(0);
-    console.log("Selecting the right child: ", test.children[0].textContent);
+export const getNodeName = (selectedID) => {
+    let nodeName = $(`[data-element-id=${selectedID}]`).get(0);
+    console.log("Selecting the right child: ", nodeName.children[0].textContent);
+    return nodeName.children[0].textContent;
 }
 
 const removeResilienceTemplateForNode = (selectedID) => {

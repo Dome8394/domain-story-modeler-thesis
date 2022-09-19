@@ -8,6 +8,7 @@ import Picker from 'vanilla-picker';
 // THESIS-START
 import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
 import { createResilienceTemplateView, createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis/resilience/ResilienceScenarioTemplate';
+import { createLoadTestTemplate } from '../runtime-quality-analysis/performance/LoadTestTemplate';
 // THESIS-END
 
 import {
@@ -319,8 +320,8 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         title: translate('Give a test type'),
         action: {
           click: function (element) {
-            console.log("Create Load test");
-            // createResilienceTemplate(element);
+            selectedID = element.id;
+            createLoadTestTemplate(selectedID);
           }
         }
       }
