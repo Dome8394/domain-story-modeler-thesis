@@ -50,6 +50,7 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__label);
     loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__input);
     
+    createAndAppendLoadTestInputFields();
     createButtonContainer(selectedID);
     loadTestTemplateModal.style.display = 'block';
 }
@@ -86,7 +87,28 @@ const createButtonContainer = (selectedID) => {
     loadTestTemplateButtonContainer.appendChild(loadTestTemplate__close_btn);
     
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateButtonContainer);
+}
+
+const createAndAppendLoadTestInputFields = () => {
     
+    let getLoadTestTemplateModalContentInputContainer = document.getElementById('loadTestTemplateModalContentInputContainer');
+    
+    let availableMeasureEndpoints__select = document.createElement('select');
+    availableMeasureEndpoints__select.id = 'availableMeasureEndpoints__select';
+    availableMeasureEndpoints__select.disabled = 'true';
+    
+    let availableMeasureEndpointsOptionItem = document.createElement('option');
+    availableMeasureEndpointsOptionItem.value = 'api/test/1';
+    availableMeasureEndpointsOptionItem.text = 'api/test/1';
+    availableMeasureEndpoints__select.appendChild(availableMeasureEndpointsOptionItem);
+    
+    let availableMeasureEndpoints__label = document.createElement('label');
+    availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
+    availableMeasureEndpoints__label.innerText = 'Select the source of the stimulus';
+    availableMeasureEndpoints__label.classList.add('label-padding');
+    
+    getLoadTestTemplateModalContentInputContainer.appendChild(availableMeasureEndpoints__label);
+    getLoadTestTemplateModalContentInputContainer.appendChild(availableMeasureEndpoints__select);
     
 }
 
