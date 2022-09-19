@@ -1,7 +1,55 @@
 import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
 
+/**
+ * Get root container element
+ */
+let modal__container = document.getElementById('modal__container');
+
 const createLoadTestTemplateView = (selectedID) => {
-    // TODO!
+   
+    /**
+     * Create html elements
+     */
+    let header = document.createElement('h3');
+    header.innerText = 'Loadtest Specification';
+    header.classList.add('template-header');
+    
+    let ruler = document.createElement('hr');
+    
+    let loadTestTemplateModal = document.createElement('div');
+    loadTestTemplateModal.id = `loadTestTemplateModal_${selectedID}`;
+    loadTestTemplateModal.classList.add('modal_resilience');
+    
+    let loadTestTemplateModalContent = document.createElement('div');
+    loadTestTemplateModalContent.id = 'loadTestTemplateModalContent';
+    loadTestTemplateModalContent.classList.add(`modal_resilience_content`);
+    
+    let loadTestTemplateModalContentInputContainer = document.createElement('div');
+    loadTestTemplateModalContentInputContainer.id = 'loadTestTemplateModalContentInputContainer';
+    loadTestTemplateModalContentInputContainer.classList.add('input__container');
+    
+    let loadTestDescription__input = document.createElement('input');
+    loadTestDescription__input.id = 'loadTestDescription__input';
+    loadTestDescription__input.placeholder = 'Give a short description...';
+    loadTestDescription__input.type = 'text';
+    
+    let loadTestDescription__label = document.createElement('label');
+    loadTestDescription__label.innerText = 'Describe your load test';
+    loadTestDescription__label.classList.add('label-padding');
+    loadTestDescription__label.setAttribute('for', 'loadTestDescription__input')
+    
+    /**
+     * Append child nodes to root container element
+     */
+    modal__container.appendChild(loadTestTemplateModal);
+    loadTestTemplateModal.appendChild(loadTestTemplateModalContent);
+    loadTestTemplateModalContent.appendChild(header);
+    loadTestTemplateModalContent.appendChild(ruler);
+    loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentInputContainer);
+    
+    loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__label);
+    loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__input);
+    
     console.log("Create new load test...");
 }
 
@@ -11,8 +59,10 @@ const createLoadTestTemplateView = (selectedID) => {
 export const createLoadTestTemplate = (selectedID) => {
     
     // let nodeName = getNodeName(selectedID);
+    
+    console.log(selectedID);
 
-    let loadTestTemplateModal = document.getElementById(`modal_loadtest_${selectedID}`);
+    let loadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
 
     if (loadTestTemplateModal) {
         console.log("Modal exists with id: ", loadTestTemplateModal.id);

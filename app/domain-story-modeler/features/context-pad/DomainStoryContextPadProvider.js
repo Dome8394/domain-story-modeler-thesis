@@ -319,7 +319,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         className: 'icon-domain-story-loadtest',
         title: translate('Give a test type'),
         action: {
-          click: function (element) {
+          click: function (event, element) {
             selectedID = element.id;
             createLoadTestTemplate(selectedID);
           }
