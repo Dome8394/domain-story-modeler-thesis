@@ -439,7 +439,7 @@ export function createResilienceTemplateView(selectedID) {
      * Create html elements
      */
     let header = document.createElement('h3');
-    header.innerText = 'Resilienz Szenario';
+    header.innerText = 'Resilience Scenario';
     header.classList.add('template-header');
 
     let resilienceTemplateModal = document.createElement('div');
@@ -465,13 +465,13 @@ export function createResilienceTemplateView(selectedID) {
     let faultTypeCheckBox__label = document.createElement('label');
     faultTypeCheckBox__label.classList.add('form-check-label');
     faultTypeCheckBox__label.setAttribute('for', 'faultTypeCheckBox');
-    faultTypeCheckBox__label.innerText = 'Service Ausfall';
+    faultTypeCheckBox__label.innerText = 'Service shutdown';
 
     let faultTypeCheckBoxContainer__label = document.createElement('label');
     faultTypeCheckBoxContainer__label.classList.add('form-check-label');
     faultTypeCheckBoxContainer__label.classList.add('label-padding');
     faultTypeCheckBoxContainer__label.setAttribute('for', 'checkBoxContainerFaultType');
-    faultTypeCheckBoxContainer__label.innerText = 'Art des Fehlers (*)';
+    faultTypeCheckBoxContainer__label.innerText = 'Type of Failure (*)';
 
     let injectionTypeCheckBoxContainer__label = document.createElement('label');
     injectionTypeCheckBoxContainer__label.classList.add('form-check-label');
@@ -555,7 +555,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContentInputTopLevelContainer.id = 'input__top__container';
 
     resilienceTemplateView__btn__open.id = selectedID;
-    resilienceTemplateView__btn__open.innerText = 'Resilience Szenario ' + selectedID;
+    resilienceTemplateView__btn__open.innerText = 'Resilience Scenario ' + selectedID;
     elementContainer.appendChild(resilienceTemplateView__btn__open);
 
     resilienceTemplateView__btn__open.classList.add('btn');
@@ -572,10 +572,10 @@ export function createResilienceTemplateView(selectedID) {
 
     resilienceScenarioName.type = 'text';
 
-    resilienceScenarioName.placeholder = 'Geben Sie dem Szenario einen Namen...';
+    resilienceScenarioName.placeholder = 'Describe your scenario shortly...';
 
-    resilienceScenarioName__label.innerText = 'Name des Szenarios (*)';
-    resilienceScenarioEnvironment__label.innerText = 'Ausführungskontext (*)';
+    resilienceScenarioName__label.innerText = 'Scenario Description (*)';
+    resilienceScenarioEnvironment__label.innerText = 'Execution Context (*)';
 
     resilienceScenarioName__invalid.innerText = RESILIENCE_SCENARIO_NAME_INFO;
     resilienceScenarioEnvironmentType__invalid.innerText = RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO;
@@ -608,21 +608,9 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
 
-    // injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox__label);
-    // injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox);
-    // injectionTypeCheckBoxContainerParent.appendChild(injectionTypeApplicationCheckBoxContainerChild);
-
-    // injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox__label);
-    // injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox);
-    // injectionTypeCheckBoxContainerParent.appendChild(injectionTypeInfrastructureCheckBoxContainerChild);
-
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
-
-    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__label);
-    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainerParent);
-    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBoxContainer__label);
     checkBoxContainer.appendChild(faultTypeCheckBox__label);
