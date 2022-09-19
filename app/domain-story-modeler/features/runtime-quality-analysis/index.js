@@ -608,21 +608,21 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
 
-    injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox__label);
-    injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox);
-    injectionTypeCheckBoxContainerParent.appendChild(injectionTypeApplicationCheckBoxContainerChild);
+    // injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox__label);
+    // injectionTypeApplicationCheckBoxContainerChild.appendChild(injectionTypeApplicationCheckBox);
+    // injectionTypeCheckBoxContainerParent.appendChild(injectionTypeApplicationCheckBoxContainerChild);
 
-    injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox__label);
-    injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox);
-    injectionTypeCheckBoxContainerParent.appendChild(injectionTypeInfrastructureCheckBoxContainerChild);
+    // injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox__label);
+    // injectionTypeInfrastructureCheckBoxContainerChild.append(injectionTypeInfrastructureCheckBox);
+    // injectionTypeCheckBoxContainerParent.appendChild(injectionTypeInfrastructureCheckBoxContainerChild);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
 
-    resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__label);
-    resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainerParent);
-    resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__invalid);
+    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__label);
+    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainerParent);
+    // resilienceTemplateContentInputContainer.appendChild(injectionTypeCheckBoxContainer__invalid);
 
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBoxContainer__label);
     checkBoxContainer.appendChild(faultTypeCheckBox__label);
