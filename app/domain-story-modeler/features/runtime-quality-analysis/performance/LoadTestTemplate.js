@@ -50,7 +50,43 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__label);
     loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__input);
     
-    console.log("Create new load test...");
+    createButtonContainer(selectedID);
+}
+
+const createButtonContainer = (selectedID) => {
+    
+    let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
+    let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent`);
+    
+    let loadTestTemplateButtonContainer = document.createElement('div');
+    loadTestTemplateButtonContainer.classList.add('btn-container-parent');
+    
+    let loadTestTemplate__save_btn = document.createElement('button');
+    loadTestTemplate__save_btn.innerText = 'Save';
+    loadTestTemplate__save_btn.classList.add('btn');
+    loadTestTemplate__save_btn.classList.add('btn-primary');
+    loadTestTemplate__save_btn.classList.add('custom-btn');
+    
+    let loadTestTemplate__close_btn = document.createElement('button');
+    loadTestTemplate__close_btn.innerText = 'Close';
+    loadTestTemplate__close_btn.classList.add('btn');
+    loadTestTemplate__close_btn.classList.add('btn-secondary');
+    loadTestTemplate__close_btn.classList.add('custom-btn');
+    
+    loadTestTemplate__save_btn.addEventListener('click', () => {
+        // TODO
+    });
+    
+    loadTestTemplate__close_btn.addEventListener('click', () => {
+        getLoadTestTemplateModal.style.display = 'none';
+    });
+    
+    loadTestTemplateButtonContainer.appendChild(loadTestTemplate__save_btn);
+    loadTestTemplateButtonContainer.appendChild(loadTestTemplate__close_btn);
+    
+    getLoadTestTemplateModalContent.appendChild(loadTestTemplateButtonContainer);
+    
+    
 }
 
 /**
