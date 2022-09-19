@@ -195,6 +195,27 @@ const generateResilienceScenarioTemplate = () => {
 
 }
 
+/**
+ * Creates the generate and push button on the view
+ * if a new template is generated
+ */
+const createAndAppendGenerateButton = () => {
+    
+    let resilienceTemplateView__btn__generate = document.createElement('button');
+    resilienceTemplateView__btn__generate.innerText = 'Generate & Push';
+    resilienceTemplateView__btn__generate.classList.add('btn');
+    resilienceTemplateView__btn__generate.classList.add('btn-primary');
+    resilienceTemplateView__btn__generate.style.display = 'none';
+    resilienceTemplateView__btn__generate.disabled = true;
+    resilienceTemplateView__btn__generate.id = 'resilienceTemplateView__btn__generate';
+    
+    resilienceTemplateView__btn__generate.addEventListener('click', () => {
+        console.log("Create object from template and push to queue...");
+        generateResilienceScenarioTemplate();
+    });
+    
+}
+
 const createButtonContainer = (selectedID) => {
 
     let modal_resilience_content = document.getElementById(`modal_resilience_content_${selectedID}`);
@@ -203,29 +224,24 @@ const createButtonContainer = (selectedID) => {
     let resilienceTemplateBtnContainer = document.createElement('div');
     let resilienceTemplateBtnContainerParent = document.createElement('div');
     let resilienceTemplateBtnContainerChild = document.createElement('div');
+
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
-    let resilienceTemplateView__btn__generate = document.createElement('button');
 
     resilienceTemplateBtnContainerParent.id = 'resilienceTemplateBtnContainerParent';
 
-    resilienceTemplateView__btn__close.innerText = 'Schließen';
-    resilienceTemplateView__btn__save.innerText = 'Speichern';
-    resilienceTemplateView__btn__generate.innerText = 'Generieren';
+    resilienceTemplateView__btn__close.innerText = 'Close';
+    resilienceTemplateView__btn__save.innerText = 'Save';
 
     resilienceTemplateView__btn__close.classList.add('btn');
     resilienceTemplateView__btn__close.classList.add('btn-secondary');
+    resilienceTemplateView__btn__close.classList.add('custom-btn');
 
     resilienceTemplateView__btn__save.classList.add('btn');
     resilienceTemplateView__btn__save.classList.add('btn-primary');
-
-    resilienceTemplateView__btn__generate.classList.add('btn');
-    resilienceTemplateView__btn__generate.classList.add('btn-primary');
-    resilienceTemplateView__btn__generate.disabled = true;
-    resilienceTemplateView__btn__generate.id = 'resilienceTemplateView__btn__generate';
+    resilienceTemplateView__btn__save.classList.add('custom-btn');
 
     resilienceTemplateBtnContainerParent.classList.add('btn-container-parent');
-
 
     /**
      * Listeners
@@ -233,11 +249,6 @@ const createButtonContainer = (selectedID) => {
     resilienceTemplateView__btn__close.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'none';
     })
-
-    resilienceTemplateView__btn__generate.addEventListener('click', () => {
-        console.log("Create object from template and push to queue...");
-        generateResilienceScenarioTemplate();
-    });
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
         if (validateResilienceTemplateInput()) {
@@ -251,7 +262,6 @@ const createButtonContainer = (selectedID) => {
     /**
      * Append children to container
      */
-    resilienceTemplateBtnContainerChild.appendChild(resilienceTemplateView__btn__generate);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__save);
     resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__close);
 
@@ -264,7 +274,7 @@ const createButtonContainer = (selectedID) => {
 /**
  * Creates new template view for resilience tests with a unique ID
  * For every new resilience scenario a new template is created
- * @param {} element 
+ * @param {} selectedID 
  */
 export function createResilienceTemplateView(selectedID) {
 
@@ -303,7 +313,7 @@ export function createResilienceTemplateView(selectedID) {
     let timeOfServiceFailure__label = document.createElement('label');
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
     timeOfServiceFailure__label.setAttribute('for', 'timeOfServiceFailure');
-    timeOfServiceFailure__label.innerText = 'Zeitpunkt des Ausfalls';
+    timeOfServiceFailure__label.innerText = 'Time shutdown occurs';
     timeOfServiceFailure__label.classList.add('label-padding');
 
     let timeOfServiceFailure__invalid = document.createElement('p');
@@ -320,7 +330,7 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainer__label.classList.add('form-check-label');
     checkBoxContainer__label.classList.add('label-padding');
     checkBoxContainer__label.setAttribute('for', 'checkBoxContainerServiceFailure');
-    checkBoxContainer__label.innerText = 'Randomisierte Service Auswahl';
+    checkBoxContainer__label.innerText = 'Randomized selection of service instances';
 
     let randomServiceSelectionCheckBox = document.createElement('input');
     randomServiceSelectionCheckBox.id = 'randomServiceSelectionCheckBox';
@@ -330,7 +340,7 @@ export function createResilienceTemplateView(selectedID) {
     let randomServiceSelectionCheckBox__label = document.createElement('label');
     randomServiceSelectionCheckBox__label.classList.add('form-check-label');
     randomServiceSelectionCheckBox__label.setAttribute('for', 'randomServiceSelectionCheckBox');
-    randomServiceSelectionCheckBox__label.innerText = 'Ja';
+    randomServiceSelectionCheckBox__label.innerText = 'Yes';
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
@@ -357,7 +367,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceScenarioName.id = 'resilienceScenarioName';
     resilienceScenarioName.type = 'text';
     resilienceScenarioName.placeholder = 'Describe your scenario shortly...';
-    
+
     let resilienceScenarioName__label = document.createElement('label');
     resilienceScenarioName__label.innerText = 'Scenario Description (*)';
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');

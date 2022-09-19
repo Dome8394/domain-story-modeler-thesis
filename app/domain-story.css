@@ -14,6 +14,11 @@ input {
 
 /* THESIS-Start */
 
+.custom-btn {
+  width: 25%;
+  margin: 0 2% 0 0;
+}
+
 .info-text {
   color: black;
   text-align: center;
@@ -33,7 +38,7 @@ input {
 
 .btn-container-parent {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   margin: 0 0 0 2%;
 }
