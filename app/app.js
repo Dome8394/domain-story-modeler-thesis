@@ -1,7 +1,6 @@
 'use strict';
 
 // THESIS-START
-import { test } from './domain-story-modeler/features/runtime-quality-analysis/index';
 
 // THESIS-END
 import 'regenerator-runtime/runtime';

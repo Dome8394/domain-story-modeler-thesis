@@ -7,7 +7,7 @@ import Picker from 'vanilla-picker';
 
 // THESIS-START
 import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
-import { createResilienceTemplateView, createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis';
+import { createResilienceTemplateView, createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis/resilience/ResilienceScenarioTemplate';
 // THESIS-END
 
 import {
