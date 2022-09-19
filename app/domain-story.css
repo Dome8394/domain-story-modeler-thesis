@@ -33,7 +33,7 @@ input {
 }
 
 .label-padding {
-  margin: 2% 0 0 0;
+  margin: 5% 0 0 0;
 }
 
 .btn-container-parent {
@@ -53,7 +53,7 @@ input {
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin: 5% 0 5% 2%;
+  margin: 5% 5% 5% 2%;
   /* justify-content: center; */
 }
 
@@ -110,10 +110,10 @@ input {
   flex-direction: column;
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  max-width: 950px;
+  width: 100%; /* Could be more or less, depending on screen size */
+  max-width: 850px;
 }
 
 #modal_loadtest {

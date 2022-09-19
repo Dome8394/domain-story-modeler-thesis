@@ -200,7 +200,7 @@ const generateResilienceScenarioTemplate = () => {
  * if a new template is generated
  */
 const createAndAppendGenerateButton = () => {
-    
+
     let resilienceTemplateView__btn__generate = document.createElement('button');
     resilienceTemplateView__btn__generate.innerText = 'Generate & Push';
     resilienceTemplateView__btn__generate.classList.add('btn');
@@ -208,12 +208,12 @@ const createAndAppendGenerateButton = () => {
     resilienceTemplateView__btn__generate.style.display = 'none';
     resilienceTemplateView__btn__generate.disabled = true;
     resilienceTemplateView__btn__generate.id = 'resilienceTemplateView__btn__generate';
-    
+
     resilienceTemplateView__btn__generate.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
         generateResilienceScenarioTemplate();
     });
-    
+
 }
 
 const createButtonContainer = (selectedID) => {
@@ -448,17 +448,17 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
-
-    resilienceTemplateContent.appendChild(resilienceServiceFailureTemplateContentInputContainer);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainerRandom);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__invalid);
 
+    // resilienceTemplateContent.appendChild(resilienceServiceFailureTemplateContentInputContainer);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
 
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainerRandom);
+
 
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
@@ -477,6 +477,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
+    resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
 
     createButtonContainer(selectedID);
 
