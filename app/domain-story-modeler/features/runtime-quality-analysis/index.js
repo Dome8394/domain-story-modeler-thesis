@@ -295,7 +295,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceAmount.placeholder = 'Give a number for total failing services (min. 1)...';
 
     let resilienceServiceAmount__label = document.createElement('label');
-    resilienceServiceAmount__label.style.margin = '2% 0 0 0';
+    resilienceServiceAmount__label.classList.add('label-padding');
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
     resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
     resilienceServiceAmount__label.innerText = 'Number of failing instances (*)';
@@ -371,7 +371,7 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceScenarioName__label = document.createElement('label');
     resilienceScenarioName__label.innerText = 'Scenario Description (*)';
     resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
-    resilienceScenarioName__label.style.margin = '2% 0 0 0';
+    resilienceScenarioName__label.classList.add('label-padding');
 
     let resilienceScenarioName__invalid = document.createElement('p');
     resilienceScenarioName__invalid.id = 'resilienceScenarioName__invalid';
@@ -407,7 +407,7 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceScenarioEnvironment__label = document.createElement('label');
     resilienceScenarioEnvironment__label.innerText = 'Execution Context (*)';
     resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
-    resilienceScenarioEnvironment__label.style.margin = '2% 0 0 0';
+    resilienceScenarioEnvironment__label.classList.add('label-padding');
 
     let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
     resilienceScenarioEnvironmentType__invalid.id = 'resilienceScenarioEnvironmentType__invalid';
@@ -436,7 +436,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateView__btn__open.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'block';
     });
-
+    
     /**
      * Appending all child nodes to parent container, i.e., template view
      */
@@ -444,7 +444,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateModal.appendChild(resilienceTemplateContent);
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
-
+    
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
@@ -453,47 +453,61 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__label);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__invalid);
-
-    // resilienceTemplateContent.appendChild(resilienceServiceFailureTemplateContentInputContainer);
+    
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
-
-
-
+    
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
 
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
-
+    
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBoxContainer__label);
     checkBoxContainer.appendChild(faultTypeCheckBox__label);
     checkBoxContainer.appendChild(faultTypeCheckBox);
     resilienceTemplateContentInputContainer.appendChild(checkBoxContainer);
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBox__invalid);
-
+    
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
-
+    
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceServiceFailureTemplateContentInputContainer);
-
+    
     createButtonContainer(selectedID);
-
+    resilienceTemplateModal.style.display = 'block';
 }
 
+/**
+ * Retrieves the name of the currently selected node on which a test will be
+ * modeled.
+ * 
+ * @param {} selectedID 
+ */
 const getNodeName = (selectedID) => {
-    let canvasItemsList = document.getElementsByClassName('djs-group');
     let test = $(`[data-element-id=${selectedID}]`).get(0);
     console.log("Selecting the right child: ", test.children[0].textContent);
 }
 
+const removeResilienceTemplateForNode = (selectedID) => {
+    let getNode = $(`[data-element-id=${selectedID}`).get(0);
+    let getSummaryView = document.getElementById(selectedID);
+    
+    console.log("Found the following node: ", getNode);
+    console.log("Found the following summary view: ", getSummaryView);
+    
+    getSummaryView.remove();
+}
+
+/**
+ * Creates a resilience template from a selected node;
+ * @param {} selectedID
+ */
 export const createResilienceTemplate = (selectedID) => {
 
     getNodeName(selectedID);
-
-    console.log(selectedID);
 
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 

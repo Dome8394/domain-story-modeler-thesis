@@ -7,7 +7,7 @@ import Picker from 'vanilla-picker';
 
 // THESIS-START
 import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
-import { createResilienceTemplateView, createResilienceTemplate } from '../runtime-quality-analysis';
+import { createResilienceTemplateView, createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis';
 // THESIS-END
 
 import {
@@ -27,7 +27,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   let selectedID;
   let startConnect;
-  let templateId = 'test';
 
   injector.invoke(ContextPadProvider, this);
   let autoPlace = injector.get('autoPlace', false);
@@ -182,6 +181,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           title: 'Remove Group without Child-Elements',
           action: {
             click: function(event, element) {
+              selectedID = element.id;
+              console.log("Test");
+              removeResilienceTemplateForNode(selectedID);
               modeling.removeGroup(element);
               makeDirty();
             }
@@ -204,6 +206,9 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
           title: 'Remove',
           action: {
             click: function(event, element) {
+              selectedID = element.id;
+              console.log("Test");
+              removeResilienceTemplateForNode(selectedID);
               modeling.removeElements({ element });
               makeDirty();
             }
