@@ -51,6 +51,7 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__input);
     
     createButtonContainer(selectedID);
+    loadTestTemplateModal.style.display = 'block';
 }
 
 const createButtonContainer = (selectedID) => {

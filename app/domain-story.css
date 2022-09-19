@@ -38,8 +38,7 @@ input {
 
 .btn-container-parent {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
   margin: 0 0 0 2%;
 }
 

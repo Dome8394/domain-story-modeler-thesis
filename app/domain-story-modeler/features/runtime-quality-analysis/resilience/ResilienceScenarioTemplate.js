@@ -262,11 +262,9 @@ const createButtonContainer = (selectedID) => {
     /**
      * Append children to container
      */
-    resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__save);
-    resilienceTemplateBtnContainer.appendChild(resilienceTemplateView__btn__close);
 
-    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainer);
-    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateBtnContainerChild);
+    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateView__btn__save);
+    resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateView__btn__close);
 
     modal_resilience_content.appendChild(resilienceTemplateBtnContainerParent);
 }
