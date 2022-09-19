@@ -2,6 +2,9 @@
 import { ResilienceEnvironmentEnum, ResilienceTemplate } from './classes/ResilienceTemplate';
 import { VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_INJECTION_TYPE_INFO, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from './RuntimeAnalysisConstants';
 import { MockMapping } from './mapping/MockMapping';
+import { initElementRegistry } from '../../language/canvasElementRegistry';
+
+
 /**
  * Get Elements
  */
@@ -13,13 +16,14 @@ let modal__container = document.getElementById('modal__container');
  */
 const clearRemovedRuntimeAnalysisViews = () => {
     let canvasItemsList = document.getElementsByClassName('djs-group');
-    console.log(canvasItemsList);
+    // console.log(canvasItemsList);
 
     for (let i = 0; i < canvasItemsList.length; i++) {
         let SVGItemParent = canvasItemsList[i];
-        console.log("Shape id:", SVGItemParent.firstChild.getAttribute('data-element-id'));
+        // console.log("Shape id:", SVGItemParent.firstChild.getAttribute('data-element-id'));
     }
 }
+
 
 /**
  * Validates the resilience scenario template inputs if they have been entered by the user.
@@ -356,10 +360,10 @@ const createServiceFailureTemplate = () => {
 
 }
 
-const createButtonContainer = () => {
+const createButtonContainer = (selectedID) => {
 
-    let modal_resilience_content = document.getElementById('modal_resilience_content');
-    let resilienceTemplateModal = document.getElementById('modal_resilience');
+    let modal_resilience_content = document.getElementById(`modal_resilience_content_${selectedID}`);
+    let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 
     let resilienceTemplateBtnContainer = document.createElement('div');
     let resilienceTemplateBtnContainerParent = document.createElement('div');
@@ -427,7 +431,7 @@ const createButtonContainer = () => {
  * For every new resilience scenario a new template is created
  * @param {} element 
  */
-export function createResilienceTemplateView(element) {
+export function createResilienceTemplateView(selectedID) {
 
     clearRemovedRuntimeAnalysisViews();
 
@@ -439,6 +443,7 @@ export function createResilienceTemplateView(element) {
     header.classList.add('template-header');
 
     let resilienceTemplateModal = document.createElement('div');
+    resilienceTemplateModal.classList.add('modal_resilience');
     let resilienceTemplateContent = document.createElement('div');
     let resilienceTemplateContentInputContainer = document.createElement('div');
 
@@ -541,21 +546,16 @@ export function createResilienceTemplateView(element) {
         resilienceScenarioEnvironmentSelect.appendChild(optionItem);
     }
 
-    /**
-     * As the domain-story-modeler does not assign nor create unique IDs in a specific manner,
-     * we will use the shape_id of a newly created element on the canvas
-     */
-    let templateId = element.id;
-
-    resilienceTemplateModal.id = 'modal_resilience';
-    resilienceTemplateContent.id = 'modal_resilience_content';
+    resilienceTemplateModal.id = `modal_resilience_${selectedID}`;
+    resilienceTemplateContent.id = `modal_resilience_content_${selectedID}`;
+    resilienceTemplateContent.classList.add('modal_resilience_content');
     resilienceTemplateContentInputContainer.id = 'input__container';
     resilienceTemplateContentInputContainer.classList.add('input__container');
 
     resilienceTemplateContentInputTopLevelContainer.id = 'input__top__container';
 
-    resilienceTemplateView__btn__open.id = templateId;
-    resilienceTemplateView__btn__open.innerText = 'Resilience Szenario ' + templateId.toString();
+    resilienceTemplateView__btn__open.id = selectedID;
+    resilienceTemplateView__btn__open.innerText = 'Resilience Szenario ' + selectedID;
     elementContainer.appendChild(resilienceTemplateView__btn__open);
 
     resilienceTemplateView__btn__open.classList.add('btn');
@@ -635,6 +635,30 @@ export function createResilienceTemplateView(element) {
 
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
 
-    createButtonContainer();
+    createButtonContainer(selectedID);
 
 }
+
+const getNodeName = (selectedID) => {
+    let canvasItemsList = document.getElementsByClassName('djs-group');
+    let test = $(`[data-element-id=${selectedID}]`).get(0);
+    console.log("Selecting the right child: ", test.children[0].textContent);
+}
+
+export const createResilienceTemplate = (selectedID) => {
+    
+    getNodeName(selectedID);
+    
+    console.log(selectedID);
+    
+    let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
+    
+    if (resilienceTemplateModal) {
+        console.log("Modal exists with id: ", resilienceTemplateModal.id);
+        resilienceTemplateModal.style.display = 'block';
+    } else {
+        console.log("Create new modal...");
+        createResilienceTemplateView(selectedID);
+    }
+}
+

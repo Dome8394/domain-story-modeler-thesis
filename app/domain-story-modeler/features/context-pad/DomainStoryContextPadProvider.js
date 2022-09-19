@@ -7,7 +7,7 @@ import Picker from 'vanilla-picker';
 
 // THESIS-START
 import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
-import { createResilienceTemplateView } from '../runtime-quality-analysis';
+import { createResilienceTemplateView, createResilienceTemplate } from '../runtime-quality-analysis';
 // THESIS-END
 
 import {
@@ -25,9 +25,9 @@ import { getAllGroups, getAllCanvasObjects, getAllActivities } from '../../langu
 
 export default function DomainStoryContextPadProvider(injector, connect, translate, elementFactory, create, canvas, contextPad, popupMenu, replaceMenuProvider, commandStack, eventBus, modeling) {
 
-
   let selectedID;
   let startConnect;
+  let templateId = 'test';
 
   injector.invoke(ContextPadProvider, this);
   let autoPlace = injector.get('autoPlace', false);
@@ -83,6 +83,11 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
   this.getContextPadEntries = function(element) {
 
     /**
+     * Maybe start checking here if there are any elements on the canvas ?
+     */
+    
+    
+    /**
      * Returns all icons in a dictionary from all_Icons.js
      */
     const allStandardIconKeys = getAllStandardIconKeys();
@@ -99,14 +104,11 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     let ids = [];
     let idExists = false;
     
-    const chaosExperiment__label = 'domainStory:workObjectChaosExperiment';
-
     if (element.type.includes(EXPERIMENT_NAME)) {
       
-      console.log(element);
-
       let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
       let elementName = element.id;
+      console.log(elementName);
       ids.push(elementName);
 
       if (elementContainer.hasChildNodes) {
@@ -136,14 +138,15 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     }
 
     if (element.type.includes(WORKOBJECT)) {
-
-      // if (element.type.includes(chaosExperiment__label)) {
-      //   addInputFields(actions);
-      // }
+      console.log(element.id);
 
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
+      addInputFields(actions, element);
+      addLoadTest(actions);
+      addMonitoring(actions);
+      
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addActors(appendAction, actions);
@@ -154,13 +157,19 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
 
     else if (element.type.includes(ACTOR)) {
+      console.log(element.id);
       if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
         addColorChange(actions);
       }
+      addInputFields(actions, element);
+      // addLoadTest(actions);
+      addMonitoring(actions);
+      
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
       addWorkObjects(appendAction, actions);
       addChangeActorTypeMenu(actions);
+      
     }
 
     else if (element.type.includes(GROUP)) {
@@ -186,6 +195,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       moveDeleteActionToEndOfArray(actions);
 
       addColorChange(actions);
+      addLoadTest(actions);
 
       assign(actions, {
         'delete': {
@@ -251,6 +261,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         action: {
           click: function(event, element) {
             selectedID = element.id;
+            console.log(selectedID);
             picker.show();
 
           }
@@ -281,9 +292,49 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
   function addInputFields(actions) {
     assign(actions, {
-      group: 'type',
-      className: 'bpmn-icon-testType',
-      title: translate('Give a test type')
+      'experiment': {
+        group: 'type',
+        className: 'icon-domain-story-chaosexperiment',
+        title: translate('Give a test type'),
+        action: {
+          click: function (event, element) {
+            selectedID = element.id;
+            createResilienceTemplate(selectedID);
+          }
+        }
+      }
+    });
+  }
+  
+  function addLoadTest(actions) {
+    assign(actions, {
+      'analysis': {
+        group: 'type',
+        className: 'icon-domain-story-loadtest',
+        title: translate('Give a test type'),
+        action: {
+          click: function (element) {
+            console.log("Create Load test");
+            // createResilienceTemplate(element);
+          }
+        }
+      }
+    });
+  }
+  
+  function addMonitoring(actions) {
+    assign(actions, {
+      'monitoring': {
+        group: 'type',
+        className: 'icon-domain-story-monitoring',
+        title: translate('Give a test type'),
+        action: {
+          click: function (element) {
+            console.log("Create Monitoring");
+            // createResilienceTemplate(element);
+          }
+        }
+      }
     });
   }
 

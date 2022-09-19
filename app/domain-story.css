@@ -87,7 +87,7 @@ input {
   max-width: 500px;
 }
 
-#modal_resilience {
+.modal_resilience {
   display: none;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -100,7 +100,7 @@ input {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#modal_resilience_content {
+.modal_resilience_content {
   display: flex;
   flex-direction: column;
   background-color: #fefefe;
