@@ -26,6 +26,8 @@ export const saveLoadTestTemplateToLocalStorage = () => {
 
 const verifyLoadTestTemplate = (selectedHttpEndpoint, loadTestDuration, numberSelectedRequests) => {
     console.log("Verify template content...");
+    let getDurationInputElement = document.getElementById('duration__input');
+    let getLoadTestDuration__invalid = document.getElementById('duration__input__invalid');
     
     if (!selectedHttpEndpoint) {
         console.log("selected endpoint is invalid");
@@ -33,6 +35,11 @@ const verifyLoadTestTemplate = (selectedHttpEndpoint, loadTestDuration, numberSe
     
     if (!loadTestDuration) {
         console.log("Please give a duration in minutes!");
+        getLoadTestDuration__invalid.style.display = 'block';
+        getDurationInputElement.style.borderColor = 'red';
+    } else {
+        getLoadTestDuration__invalid.style.display = 'none';
+        getDurationInputElement.style.borderColor = 'springgreen';
     }
     
     if (!numberSelectedRequests) {

@@ -26,6 +26,7 @@ input {
 
 .error-info {
   color: red;
+  display: none;
 }
 
 .template-header {
