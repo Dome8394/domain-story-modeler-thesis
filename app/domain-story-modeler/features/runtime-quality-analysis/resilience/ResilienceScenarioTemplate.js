@@ -2,6 +2,7 @@
 import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/ResilienceTemplate';
 import { VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { MockMapping } from '../mapping/MockMapping';
+import { saveResilienceTemplate } from './saveResilienceTemplate';
 
 
 /**
@@ -251,12 +252,13 @@ const createButtonContainer = (selectedID) => {
     })
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        if (validateResilienceTemplateInput()) {
-            console.log("Validated!");
-            saveResilienceScenarioTemplate();
-        } else {
-            console.log("Resilience failure scenario is incomplete!");
-        }
+        saveResilienceTemplate();
+        // if (validateResilienceTemplateInput()) {
+        //     console.log("Validated!");
+        //     // saveResilienceScenarioTemplate();
+        // } else {
+        //     console.log("Resilience failure scenario is incomplete!");
+        // }
     })
 
     /**
