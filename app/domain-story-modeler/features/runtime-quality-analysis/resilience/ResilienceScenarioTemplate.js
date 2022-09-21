@@ -24,98 +24,6 @@ const clearRemovedRuntimeAnalysisViews = () => {
     }
 }
 
-
-/**
- * Validates the resilience scenario template inputs if they have been entered by the user.
- * It does not validate the <it>correctness</it> of input data.
- */
-const validateResilienceTemplateInput = () => {
-    /**
-     * Get HTML elements and their values
-     */
-    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
-    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
-
-    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
-    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value;
-
-    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
-    let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
-
-    let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
-    let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.value;
-
-
-    /**
-     * Get error msg elements
-     */
-    let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
-    let timeOfServiceFailure__invalidElement = document.getElementById('timeOfServiceFailure__invalid');
-    let faultTypeCheckBox__invalid = document.getElementById('faultTypeCheckBox__invalid');
-    let resilienceScenarioEnvironmentType__invalid = document.getElementById('resilienceScenarioEnvironmentType__invalid');
-
-
-    if (!faultTypeCheckBoxElementValue) {
-        console.log("faultTypeCheckBoxElementValue is invalid!");
-        faultTypeCheckBox__invalid.style.display = 'block';
-        return false;
-    }
-
-    if (!resilienceServiceAmountElementValue) {
-        console.log("resilienceServiceAmountElementValue is invalid");
-        resilienceServiceAmount__invalidElement.style.display = 'block';
-        return false;
-    }
-
-    if (!timeOfServiceFailureElementValue) {
-        console.log("timeOfServiceFailureElementValue is invalid!");
-        timeOfServiceFailure__invalidElement.style.display = 'block';
-        return false;
-    }
-
-    if (!resilienceScenarioEnvironmentSelectElementValue) {
-        console.log("resilienceScenarioEnvironmentSelectElementValue is invalid!");
-        resilienceScenarioEnvironmentType__invalid.style.display = 'block';
-        return false;
-    }
-
-    return true;
-}
-
-const saveResilienceScenarioTemplate = () => {
-    let resilienceTemplateView__btn__generate = document.getElementById('resilienceTemplateView__btn__generate');
-
-    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
-    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
-
-    let resilienceScenarioEnvironmentSelectElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
-    let resilienceScenarioEnvironmentSelectElementValue = resilienceScenarioEnvironmentSelectElement.value;
-
-    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
-    let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
-
-    let randomServiceSelectionCheckBox = document.getElementById('randomServiceSelectionCheckBox');
-    let randomServiceSelectionCheckBoxValue = randomServiceSelectionCheckBox.checked;
-
-    /**
-     * The timeout simulates the saving process and serves only demonstration purposes.
-     */
-    setTimeout(() => {
-
-        const newResilienceScenarioTemplate = new ResilienceTemplate(
-            'test',
-            'service failure',
-            'application',
-            resilienceScenarioEnvironmentSelectElementValue,
-            'test',
-            timeOfServiceFailureElementValue, resilienceServiceAmountElementValue, randomServiceSelectionCheckBoxValue || true);
-
-        localStorage.setItem('resilienceTemplateObject', JSON.stringify(newResilienceScenarioTemplate));
-
-        resilienceTemplateView__btn__generate.disabled = false;
-    }, 2000);
-}
-
 const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
     let topLevelModal = document.getElementById('modal_resilience_content');
 
@@ -193,27 +101,6 @@ const generateResilienceScenarioTemplate = () => {
     }
 
     confirmGenerationOfResilienceTemplate(getConfirmation);
-
-}
-
-/**
- * Creates the generate and push button on the view
- * if a new template is generated
- */
-const createAndAppendGenerateButton = () => {
-
-    let resilienceTemplateView__btn__generate = document.createElement('button');
-    resilienceTemplateView__btn__generate.innerText = 'Generate & Push';
-    resilienceTemplateView__btn__generate.classList.add('btn');
-    resilienceTemplateView__btn__generate.classList.add('btn-primary');
-    resilienceTemplateView__btn__generate.style.display = 'none';
-    resilienceTemplateView__btn__generate.disabled = true;
-    resilienceTemplateView__btn__generate.id = 'resilienceTemplateView__btn__generate';
-
-    resilienceTemplateView__btn__generate.addEventListener('click', () => {
-        console.log("Create object from template and push to queue...");
-        generateResilienceScenarioTemplate();
-    });
 
 }
 

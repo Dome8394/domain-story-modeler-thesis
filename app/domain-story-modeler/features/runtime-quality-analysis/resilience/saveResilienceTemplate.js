@@ -1,3 +1,4 @@
+import { ResilienceTemplate } from '../classes/ResilienceTemplate';
 
 export const saveResilienceTemplate = () => {
     /**
@@ -20,6 +21,18 @@ export const saveResilienceTemplate = () => {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
+        
+        // TODO: Check and verify which input is needed and adjust the class accordingly
+        const newResilienceScenarioTemplate = new ResilienceTemplate(
+            'test',
+            'service failure',
+            'application',
+            'prod',
+            'test',
+            timeOfServiceFailureElementValue, resilienceServiceAmountElementValue, true);
+
+        localStorage.setItem('resilienceTemplateObject', JSON.stringify(newResilienceScenarioTemplate));
+        console.log("saved obj: ", newResilienceScenarioTemplate);
     }
     
 }
