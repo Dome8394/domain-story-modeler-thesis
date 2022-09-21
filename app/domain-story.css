@@ -61,6 +61,11 @@ input {
   flex-direction: row;
 }
 
+.input__top__container {
+  display: flex;
+  flex-direction: row;
+}
+
 #infoContextContainer {
   display: flex;
   flex-direction: row;

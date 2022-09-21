@@ -24,19 +24,9 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContent.id = 'loadTestTemplateModalContent';
     loadTestTemplateModalContent.classList.add(`modal_resilience_content`);
     
-    let loadTestTemplateModalContentInputContainer = document.createElement('div');
-    loadTestTemplateModalContentInputContainer.id = 'loadTestTemplateModalContentInputContainer';
-    loadTestTemplateModalContentInputContainer.classList.add('input__container');
-    
-    let loadTestDescription__input = document.createElement('input');
-    loadTestDescription__input.id = 'loadTestDescription__input';
-    loadTestDescription__input.placeholder = 'Give a short description...';
-    loadTestDescription__input.type = 'text';
-    
-    let loadTestDescription__label = document.createElement('label');
-    loadTestDescription__label.innerText = 'Describe your load test';
-    loadTestDescription__label.classList.add('label-padding');
-    loadTestDescription__label.setAttribute('for', 'loadTestDescription__input')
+    let loadTestTemplateModalContentTopLevelInputContainer = document.createElement('div');
+    loadTestTemplateModalContentTopLevelInputContainer.id = 'loadTestTemplateModalContentTopLevelInputContainer';
+    loadTestTemplateModalContentTopLevelInputContainer.classList.add('input__top__container');
     
     /**
      * Append child nodes to root container element
@@ -45,10 +35,8 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModal.appendChild(loadTestTemplateModalContent);
     loadTestTemplateModalContent.appendChild(header);
     loadTestTemplateModalContent.appendChild(ruler);
-    loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentInputContainer);
     
-    loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__label);
-    loadTestTemplateModalContentInputContainer.appendChild(loadTestDescription__input);
+    loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
     
     createAndAppendLoadTestInputFields();
     createButtonContainer(selectedID);
@@ -91,7 +79,23 @@ const createButtonContainer = (selectedID) => {
 
 const createAndAppendLoadTestInputFields = () => {
     
-    let getLoadTestTemplateModalContentInputContainer = document.getElementById('loadTestTemplateModalContentInputContainer');
+    let getLoadTestTemplateModalContentTopLevelInputContainer = document.getElementById('loadTestTemplateModalContentTopLevelInputContainer');
+    
+    let loadTestTemplatInputContainer__left = document.createElement('div');
+    loadTestTemplatInputContainer__left.classList.add('input__container');
+    
+    let loadTestTemplatInputContainer__right = document.createElement('div');
+    loadTestTemplatInputContainer__right.classList.add('input__container');
+    
+    let loadTestDescription__input = document.createElement('input');
+    loadTestDescription__input.id = 'loadTestDescription__input';
+    loadTestDescription__input.placeholder = 'Give a short description...';
+    loadTestDescription__input.type = 'text';
+
+    let loadTestDescription__label = document.createElement('label');
+    loadTestDescription__label.innerText = 'Describe your load test';
+    loadTestDescription__label.classList.add('label-padding');
+    loadTestDescription__label.setAttribute('for', 'loadTestDescription__input')
     
     let availableMeasureEndpoints__select = document.createElement('select');
     availableMeasureEndpoints__select.id = 'availableMeasureEndpoints__select';
@@ -104,11 +108,42 @@ const createAndAppendLoadTestInputFields = () => {
     
     let availableMeasureEndpoints__label = document.createElement('label');
     availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
-    availableMeasureEndpoints__label.innerText = 'Select the source of the stimulus';
+    availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
     availableMeasureEndpoints__label.classList.add('label-padding');
     
-    getLoadTestTemplateModalContentInputContainer.appendChild(availableMeasureEndpoints__label);
-    getLoadTestTemplateModalContentInputContainer.appendChild(availableMeasureEndpoints__select);
+    let duration__input = document.createElement('input');
+    duration__input.id = 'duration__input';
+    duration__input.placeholder = 'Please give a duration in minutes';
+    duration__input.type = 'number';
+    
+    let duration__label = document.createElement('label');
+    duration__label.setAttribute('for', 'duration__input');
+    duration__label.classList.add('label-padding');
+    duration__label.innerText = 'Duration of the Loadtest (*)';
+    
+    let numberOfSimulatedRequests__input = document.createElement('input');
+    numberOfSimulatedRequests__input.id = 'numberOfSimulatedRequests__input';
+    numberOfSimulatedRequests__input.placeholder = 'Please give a number';
+    numberOfSimulatedRequests__input.type = 'number';
+    
+    let numberOfSimulatedRequests__label = document.createElement('label');
+    numberOfSimulatedRequests__label.setAttribute('for', 'numberOfSimulatedRequests__input');
+    numberOfSimulatedRequests__label.classList.add('label-padding');
+    numberOfSimulatedRequests__label.innerText = 'Number of simulated Requests (*)';
+    
+    loadTestTemplatInputContainer__left.appendChild(loadTestDescription__label);
+    loadTestTemplatInputContainer__left.appendChild(loadTestDescription__input);
+    
+    loadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
+    loadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__select);
+    
+    loadTestTemplatInputContainer__right.appendChild(duration__label);
+    loadTestTemplatInputContainer__right.appendChild(duration__input);
+    loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__label);
+    loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input);
+    
+    getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
+    getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
     
 }
 

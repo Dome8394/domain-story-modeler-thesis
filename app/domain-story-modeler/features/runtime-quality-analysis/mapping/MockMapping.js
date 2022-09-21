@@ -27,7 +27,7 @@ export const MockMapping = {
         },
         {
             PERSONELL: ['GET', 'UPDATE', 'DELETE']
-        },
+        }, 
         {
             PAYMENT: ['POST']
         }
