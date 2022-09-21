@@ -14,7 +14,7 @@ export const saveLoadTestTemplateToLocalStorage = () => {
     let getNumberOfSimulatedRequestsInputElement = document.getElementById('numberOfSimulatedRequests__input');
     let getNumberOfSimulatedRequestsValue = getNumberOfSimulatedRequestsInputElement.value;
     
-    if(verifyLoadTestTemplate( getSelectedHttpEndpoint, getDurationValue, getNumberOfSimulatedRequestsValue)) {
+    if(verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue)) {
         console.log("Saving loadtest template...");
         const newLoadTestTemplateObj = new LoadTestTemplate(getDescriptionValue, getSelectedHttpEndpoint, getDurationValue, getNumberOfSimulatedRequestsValue);
         localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
@@ -24,14 +24,13 @@ export const saveLoadTestTemplateToLocalStorage = () => {
 }
 
 
-const verifyLoadTestTemplate = (selectedHttpEndpoint, loadTestDuration, numberSelectedRequests) => {
+const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests) => {
     console.log("Verify template content...");
     let getDurationInputElement = document.getElementById('duration__input');
     let getLoadTestDuration__invalid = document.getElementById('duration__input__invalid');
     
-    if (!selectedHttpEndpoint) {
-        console.log("selected endpoint is invalid");
-    }
+    let getNumberOfSimulatedRequestsInputElement = document.getElementById('numberOfSimulatedRequests__input');
+    let getNumberOfSimulatedRequests__input__invalid = document.getElementById('numberOfSimulatedRequests__input__invalid');
     
     if (!loadTestDuration) {
         console.log("Please give a duration in minutes!");
@@ -44,7 +43,13 @@ const verifyLoadTestTemplate = (selectedHttpEndpoint, loadTestDuration, numberSe
     
     if (!numberSelectedRequests) {
         console.log("Please provide a number for simulated requests!");
+        getNumberOfSimulatedRequests__input__invalid.style.display = 'block';
+        getNumberOfSimulatedRequestsInputElement.style.borderColor = 'red';
         return false;
+        
+    } else {
+        getNumberOfSimulatedRequests__input__invalid.style.display = 'none';
+        getNumberOfSimulatedRequestsInputElement.style.borderColor = 'springgreen';
     }
     
     return true;

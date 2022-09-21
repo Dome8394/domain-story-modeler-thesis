@@ -1,7 +1,7 @@
 import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
 import { MockMapping } from '../mapping/MockMapping';
 import { saveLoadTestTemplateToLocalStorage } from './saveTemplate';
-import { LOADTEST_DURATION_INFO } from '../RuntimeAnalysisConstants';
+import { LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO } from '../RuntimeAnalysisConstants';
 
 /**
  * Get root container element
@@ -166,6 +166,11 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
     numberOfSimulatedRequests__input.id = 'numberOfSimulatedRequests__input';
     numberOfSimulatedRequests__input.placeholder = 'Please give a number';
     numberOfSimulatedRequests__input.type = 'number';
+    
+    let numberOfSimulatedRequests__input__invalid = document.createElement('p');
+    numberOfSimulatedRequests__input__invalid.id = 'numberOfSimulatedRequests__input__invalid';
+    numberOfSimulatedRequests__input__invalid.innerText = LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO;
+    numberOfSimulatedRequests__input__invalid.classList.add('error-info');
 
     let numberOfSimulatedRequests__label = document.createElement('label');
     numberOfSimulatedRequests__label.setAttribute('for', 'numberOfSimulatedRequests__input');
@@ -180,6 +185,7 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
     loadTestTemplatInputContainer__right.appendChild(duration__input__invalid);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__label);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input);
+    loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input__invalid);
 
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
     createAndAppendMeasureEndpointsSelection(nodeName);

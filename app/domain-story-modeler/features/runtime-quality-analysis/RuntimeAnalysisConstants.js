@@ -11,5 +11,6 @@ export const SERVICE_TIME_TO_FAILURE_INFO = 'Bitte geben Sie einen gültigen Zei
 export const RESILIENCE_FAULT_TYPE_INFO = 'Bitte wähle Sie die Art des Fehlers aus!';
 
 export const LOADTEST_DURATION_INFO = 'Please provide a valid number for the duration!';
+export const LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO = 'Please provide a valid positive number!';
 
 export const VERIFICATION_MODAL_NOTIFICATION = 'Wollen Sie wirklich dieses Template als Test erzeugen?';
