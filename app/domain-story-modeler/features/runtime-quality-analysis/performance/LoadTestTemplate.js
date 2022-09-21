@@ -1,11 +1,12 @@
 import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
+import { MockMapping } from '../mapping/MockMapping';
 
 /**
  * Get root container element
  */
 let modal__container = document.getElementById('modal__container');
 
-const createLoadTestTemplateView = (selectedID) => {
+const createLoadTestTemplateView = (selectedID, nodeName) => {
    
     /**
      * Create html elements
@@ -38,7 +39,7 @@ const createLoadTestTemplateView = (selectedID) => {
     
     loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
     
-    createAndAppendLoadTestInputFields();
+    createAndAppendLoadTestInputFields(nodeName);
     createButtonContainer(selectedID);
     loadTestTemplateModal.style.display = 'block';
 }
@@ -77,11 +78,42 @@ const createButtonContainer = (selectedID) => {
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateButtonContainer);
 }
 
-const createAndAppendLoadTestInputFields = () => {
+const createAndAppendMeasureEndpointsSelection = (nodeName) => {
+    let getLoadTestTemplatInputContainer__left = document.getElementById('loadTestTemplatInputContainer__left');
+    
+    let availableMeasureEndpoints__select = document.createElement('select');
+    availableMeasureEndpoints__select.id = 'availableMeasureEndpoints__select';
+    
+    let availableMeasureEndpoints__label = document.createElement('label');
+    availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
+    availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
+    availableMeasureEndpoints__label.classList.add('label-padding');
+    
+    for(const [key, value] of Object.entries(MockMapping)) {
+        if(key === 'AVAILABLE_SERVICE_ENDPOINTS') {
+            value.forEach((endpoint, idx) => {
+                console.log(`key: ${endpoint}, value: ${idx} `);
+                let optionItem = document.createElement('option');
+                optionItem.value = endpoint;
+                optionItem.text = endpoint;
+                availableMeasureEndpoints__select.appendChild(optionItem);
+            })
+        }
+    }
+    console.log(getLoadTestTemplatInputContainer__left);
+    
+    getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
+    getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__select);
+    
+    
+}
+
+const createAndAppendLoadTestInputFields = (nodeName) => {
     
     let getLoadTestTemplateModalContentTopLevelInputContainer = document.getElementById('loadTestTemplateModalContentTopLevelInputContainer');
     
     let loadTestTemplatInputContainer__left = document.createElement('div');
+    loadTestTemplatInputContainer__left.id = 'loadTestTemplatInputContainer__left';
     loadTestTemplatInputContainer__left.classList.add('input__container');
     
     let loadTestTemplatInputContainer__right = document.createElement('div');
@@ -134,17 +166,14 @@ const createAndAppendLoadTestInputFields = () => {
     loadTestTemplatInputContainer__left.appendChild(loadTestDescription__label);
     loadTestTemplatInputContainer__left.appendChild(loadTestDescription__input);
     
-    loadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
-    loadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__select);
-    
     loadTestTemplatInputContainer__right.appendChild(duration__label);
     loadTestTemplatInputContainer__right.appendChild(duration__input);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__label);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input);
     
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
+    createAndAppendMeasureEndpointsSelection(nodeName);
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
-    
 }
 
 /**
@@ -152,7 +181,7 @@ const createAndAppendLoadTestInputFields = () => {
  */
 export const createLoadTestTemplate = (selectedID) => {
     
-    // let nodeName = getNodeName(selectedID);
+    let nodeName = getNodeName(selectedID);
     
     console.log(selectedID);
 
@@ -163,6 +192,6 @@ export const createLoadTestTemplate = (selectedID) => {
         loadTestTemplateModal.style.display = 'block';
     } else {
         console.log("Create new modal...");
-        createLoadTestTemplateView(selectedID);
+        createLoadTestTemplateView(selectedID, nodeName);
     }
 }
