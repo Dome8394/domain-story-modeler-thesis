@@ -100,6 +100,7 @@ const createAndAppendMeasureEndpointsSelection = (nodeName) => {
             })
         }
     }
+    
     console.log(getLoadTestTemplatInputContainer__left);
     
     getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
