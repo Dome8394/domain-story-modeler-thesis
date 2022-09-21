@@ -2,6 +2,8 @@ import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
 
 
 export const saveLoadTestTemplateToLocalStorage = () => {
+    let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
+    
     let getHttpEndpointSelectElement = document.getElementById('availableMeasureEndpoints__select');
     let getSelectedHttpEndpoint = getHttpEndpointSelectElement.value;
     
@@ -19,6 +21,7 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         const newLoadTestTemplateObj = new LoadTestTemplate(getDescriptionValue, getSelectedHttpEndpoint, getDurationValue, getNumberOfSimulatedRequestsValue);
         localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
         console.log("New object stored: ", newLoadTestTemplateObj);
+        getGenerateAndPush__btn.disabled = false;
         
         createSummaryView(loadTestTemplateObj);
     }
