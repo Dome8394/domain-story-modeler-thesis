@@ -1,5 +1,6 @@
 import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
 import { MockMapping } from '../mapping/MockMapping';
+import { saveLoadTestTemplateToLocalStorage } from './saveTemplate';
 
 /**
  * Get root container element
@@ -53,6 +54,7 @@ const createButtonContainer = (selectedID) => {
     loadTestTemplateButtonContainer.classList.add('btn-container-parent');
     
     let loadTestTemplate__save_btn = document.createElement('button');
+    loadTestTemplate__save_btn.id = 'loadTestTemplate__save_btn';
     loadTestTemplate__save_btn.innerText = 'Save';
     loadTestTemplate__save_btn.classList.add('btn');
     loadTestTemplate__save_btn.classList.add('btn-primary');
@@ -65,7 +67,7 @@ const createButtonContainer = (selectedID) => {
     loadTestTemplate__close_btn.classList.add('custom-btn');
     
     loadTestTemplate__save_btn.addEventListener('click', () => {
-        // TODO
+        saveLoadTestTemplateToLocalStorage();
     });
     
     loadTestTemplate__close_btn.addEventListener('click', () => {
