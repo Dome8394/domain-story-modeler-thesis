@@ -2,6 +2,7 @@ import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
 import { MockMapping } from '../mapping/MockMapping';
 import { saveLoadTestTemplateToLocalStorage } from './saveTemplate';
 import { LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO } from '../RuntimeAnalysisConstants';
+import { createDisabledGenerateBtn } from '../generateTemplateObject';
 
 /**
  * Get root container element
@@ -190,6 +191,7 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
     createAndAppendMeasureEndpointsSelection(nodeName);
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
+    createDisabledGenerateBtn();
 }
 
 /**

@@ -19,6 +19,8 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         const newLoadTestTemplateObj = new LoadTestTemplate(getDescriptionValue, getSelectedHttpEndpoint, getDurationValue, getNumberOfSimulatedRequestsValue);
         localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
         console.log("New object stored: ", newLoadTestTemplateObj);
+        
+        createSummaryView(loadTestTemplateObj);
     }
     
 }
