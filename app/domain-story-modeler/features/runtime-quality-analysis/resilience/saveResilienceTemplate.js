@@ -3,6 +3,8 @@ export const saveResilienceTemplate = () => {
     /**
     * Get HTML elements and their values
     */
+    let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
+    
     let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
     let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
 
@@ -14,6 +16,10 @@ export const saveResilienceTemplate = () => {
     
     if (verifyResilienceTemplate(resilienceServiceAmountElementValue, timeOfServiceFailureElementValue, faultTypeCheckBoxElementValue)) {
         console.log("Save resilience template...");
+        console.log(getGenerateAndPush__btn.disabled);
+        if (getGenerateAndPush__btn.disabled) {
+            getGenerateAndPush__btn.disabled = false;
+        }
     }
     
 }
