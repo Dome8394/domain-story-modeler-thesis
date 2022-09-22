@@ -7,9 +7,9 @@ export const saveResilienceTemplate = (selectedID) => {
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
     
     // TODO: rename variable to numberOfInstances
-    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
-    let numberOfInstances = resilienceServiceAmountElement.value;
-    
+    let numberOfInstancesElement = document.getElementById('resilienceServiceAmount');
+    let numberOfInstances = numberOfInstancesElement.value;
+    ``
     let getResilienceScenarioDescriptionElement = document.getElementById('resilienceScenarioName');
     let scenarioDescription = getResilienceScenarioDescriptionElement.value;
     
@@ -48,7 +48,6 @@ export const saveResilienceTemplate = (selectedID) => {
             randomizedServiceSelection = true
         }
         
-        // TODO: Check and verify which input is needed and adjust the class accordingly
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             scenarioDescription,
             executionEnvironment,
@@ -66,7 +65,7 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     /**
      * Get HTML elements and their values
      */
-    let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
+    let numberOfInstances = document.getElementById('resilienceServiceAmount');
     let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
     let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
 
@@ -82,10 +81,10 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     if (!amountOfFailingInstances) {
         console.log("amountOfFailingInstances is invalid!");
         resilienceServiceAmount__invalidElement.style.display = 'block';
-        resilienceServiceAmountElement.style.borderColor = 'red';
+        numberOfInstances.style.borderColor = 'red';
     } else {
         resilienceServiceAmount__invalidElement.style.display = 'none';
-        resilienceServiceAmountElement.style.borderColor = 'springgreen';
+        numberOfInstances.style.borderColor = 'springgreen';
     }
 
     if (!timeToFailure) {
