@@ -35,6 +35,14 @@ export const saveResilienceTemplate = (selectedID) => {
         
         let serviceName = getNodeName(selectedID);
         
+        /**
+         * This is probably not necessary for the future...
+         */
+        if(serviceName === '') {
+            console.log('Please give the node a proper name that matches the architectural mapping!');
+            return;
+        }
+        
         // TODO: check if this can be simplified with the checkbox state...
         if (randomizedServiceSelection === false) {
             randomizedServiceSelection = true
