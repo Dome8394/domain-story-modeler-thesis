@@ -1,6 +1,6 @@
-import { getNodeName } from '../resilience/ResilienceScenarioTemplate';
+import { getNodeName } from '../resilience/ResilienceTemplateView';
 import { MockMapping } from '../mapping/MockMapping';
-import { saveLoadTestTemplateToLocalStorage } from './saveTemplate';
+import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
 import { LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO } from '../RuntimeAnalysisConstants';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 

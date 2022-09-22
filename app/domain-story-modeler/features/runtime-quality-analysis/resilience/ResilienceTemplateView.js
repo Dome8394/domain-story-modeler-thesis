@@ -1,5 +1,5 @@
 // 'use-strict';
-import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/ResilienceTemplate';
+import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 import { VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
@@ -139,7 +139,7 @@ const createButtonContainer = (selectedID) => {
     })
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
-        saveResilienceTemplate();
+        saveResilienceTemplate(selectedID);
     })
 
     /**
@@ -370,18 +370,6 @@ export function createResilienceTemplateView(selectedID) {
     }
 }
 
-/**
- * Retrieves the name of the currently selected node on which a test will be
- * modeled.
- * 
- * @param {} selectedID 
- */
-export const getNodeName = (selectedID) => {
-    let nodeName = $(`[data-element-id=${selectedID}]`).get(0);
-    console.log("Selecting the right child: ", nodeName.children[0].textContent);
-    return nodeName.children[0].textContent;
-}
-
 const removeResilienceTemplateForNode = (selectedID) => {
     let getNode = $(`[data-element-id=${selectedID}`).get(0);
     let getSummaryView = document.getElementById(selectedID);
@@ -397,8 +385,6 @@ const removeResilienceTemplateForNode = (selectedID) => {
  * @param {} selectedID
  */
 export const createResilienceTemplate = (selectedID) => {
-
-    getNodeName(selectedID);
 
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 

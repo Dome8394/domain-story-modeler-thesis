@@ -1,16 +1,20 @@
 export class ResilienceTemplate {
-    constructor(scenarioName, faultType, injectionType, executionEnvironment, services, timeToFailure, 
-        numberOfInstancesAffected, randomization) {
-        this.scenarioName = scenarioName;
-        this.faultType = faultType;
-        this.injectionType = injectionType;
+
+
+    constructor(scenarioDescription = 'Very basic resilience scenario', executionEnvironment, serviceName, timeToFailure,
+        numberOfInstancesAffected = 1, randomization = true) {
+        if (scenarioDescription === '') {
+            this.scenarioDescription = 'Very basic resilience scenario';
+        } else {
+            this.scenarioDescription = scenarioDescription;
+        }
         this.executionEnvironment = executionEnvironment;
-        this.services = services;
+        this.serviceName = serviceName;
         this.timeToFailure = timeToFailure;
         this.numberOfInstancesAffected = numberOfInstancesAffected;
         this.randomization = randomization;
     }
-    
+
     getName() {
         return this.scenarioName;
     }

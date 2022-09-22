@@ -1,35 +1,51 @@
-import { ResilienceTemplate } from '../classes/ResilienceTemplate';
+import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 
-export const saveResilienceTemplate = () => {
+export const saveResilienceTemplate = (selectedID) => {
     /**
     * Get HTML elements and their values
     */
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
     
+    // TODO: rename variable to numberOfInstances
     let resilienceServiceAmountElement = document.getElementById('resilienceServiceAmount');
-    let resilienceServiceAmountElementValue = resilienceServiceAmountElement.value;
+    let numberOfInstances = resilienceServiceAmountElement.value;
+    
+    let getResilienceScenarioDescriptionElement = document.getElementById('resilienceScenarioName');
+    let scenarioDescription = getResilienceScenarioDescriptionElement.value;
+    
+    let getResilienceScenarioExecutionEnvironmentElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
+    let executionEnvironment = getResilienceScenarioExecutionEnvironmentElement.value;
+    
+    let getRandomizedServiceSelectionCheckbox = document.getElementById('randomServiceSelectionCheckBox');
+    let randomizedServiceSelection = getRandomizedServiceSelectionCheckbox.checked;
+    
 
     let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
-    let timeOfServiceFailureElementValue = timeOfServiceFailureElement.value;
+    let timeOfServiceFailure = timeOfServiceFailureElement.value;
 
     let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
     let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.checked;
     
-    if (verifyResilienceTemplate(resilienceServiceAmountElementValue, timeOfServiceFailureElementValue, faultTypeCheckBoxElementValue)) {
+    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue)) {
         console.log("Save resilience template...");
         console.log(getGenerateAndPush__btn.disabled);
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
         
+        let serviceName = getNodeName(selectedID);
+        
+        // TODO: check if this can be simplified with the checkbox state...
+        if (randomizedServiceSelection === false) {
+            randomizedServiceSelection = true
+        }
+        
         // TODO: Check and verify which input is needed and adjust the class accordingly
         const newResilienceScenarioTemplate = new ResilienceTemplate(
-            'test',
-            'service failure',
-            'application',
-            'prod',
-            'test',
-            timeOfServiceFailureElementValue, resilienceServiceAmountElementValue, true);
+            scenarioDescription,
+            executionEnvironment,
+            serviceName,
+            timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
 
         localStorage.setItem('resilienceTemplateObject', JSON.stringify(newResilienceScenarioTemplate));
         console.log("saved obj: ", newResilienceScenarioTemplate);
@@ -84,4 +100,16 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     }
 
     return true;
+}
+
+/**
+ * Retrieves the name of the currently selected node on which a test will be
+ * modeled.
+ * 
+ * @param {} selectedID 
+ */
+export const getNodeName = (selectedID) => {
+    let nodeName = $(`[data-element-id=${selectedID}]`).get(0);
+    console.log("Selecting the right child: ", nodeName.children[0].textContent);
+    return nodeName.children[0].textContent;
 }
