@@ -199,17 +199,11 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
  */
 export const createLoadTestTemplate = (selectedID) => {
 
-    let nodeName = getNodeName(selectedID);
-
-    console.log(selectedID);
-
     let loadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
 
     if (loadTestTemplateModal) {
-        console.log("Modal exists with id: ", loadTestTemplateModal.id);
         loadTestTemplateModal.style.display = 'block';
     } else {
-        console.log("Create new modal...");
-        createLoadTestTemplateView(selectedID, nodeName);
+        createLoadTestTemplateView(selectedID, '');
     }
 }

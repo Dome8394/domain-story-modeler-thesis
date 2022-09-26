@@ -16,11 +16,9 @@ let modal__container = document.getElementById('modal__container');
  */
 const clearRemovedRuntimeAnalysisViews = () => {
     let canvasItemsList = document.getElementsByClassName('djs-group');
-    // console.log(canvasItemsList);
 
     for (let i = 0; i < canvasItemsList.length; i++) {
         let SVGItemParent = canvasItemsList[i];
-        // console.log("Shape id:", SVGItemParent.firstChild.getAttribute('data-element-id'));
     }
 }
 
@@ -78,29 +76,6 @@ const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
 
     topLevelModal.appendChild(confirmationModal);
     confirmationModal.style.display = 'block';
-
-}
-
-/**
- * Retrieves the saved template object and pushes it to a message queue.
- * Queue is not yet implemented.
- */
-const generateResilienceScenarioTemplate = () => {
-
-    let userConfirmsToGeneration = false;
-
-    const getConfirmation = () => {
-        let getConfirmationModal = document.getElementById('confirmationModal');
-        userConfirmsToGeneration = true;
-        getConfirmationModal.style.display = 'none';
-
-        if (userConfirmsToGeneration) {
-            const resilienceTemplateObject = localStorage.getItem('resilienceTemplateObject');
-            console.log("Retrieved object: ", JSON.parse(resilienceTemplateObject));
-        }
-    }
-
-    confirmGenerationOfResilienceTemplate(getConfirmation);
 
 }
 
@@ -309,7 +284,7 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceTemplateView__btn__open = document.createElement('button');
     resilienceTemplateView__btn__open.id = selectedID;
     resilienceTemplateView__btn__open.innerText = 'Resilience Scenario ' + selectedID;
-    elementContainer.appendChild(resilienceTemplateView__btn__open);
+    // elementContainer.appendChild(resilienceTemplateView__btn__open);
     resilienceTemplateView__btn__open.classList.add('btn');
     resilienceTemplateView__btn__open.classList.add('btn-primary');
 

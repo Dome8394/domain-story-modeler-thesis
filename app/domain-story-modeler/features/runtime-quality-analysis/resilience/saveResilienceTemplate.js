@@ -1,10 +1,13 @@
 import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
+import { createSummaryView } from '../summaryView';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**
     * Get HTML elements and their values
     */
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
+    
+    let getSummaryView = document.getElementById('summaryView');
     
     // TODO: rename variable to numberOfInstances
     let numberOfInstancesElement = document.getElementById('resilienceServiceAmount');
@@ -28,7 +31,6 @@ export const saveResilienceTemplate = (selectedID) => {
     
     if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue)) {
         console.log("Save resilience template...");
-        console.log(getGenerateAndPush__btn.disabled);
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
@@ -54,8 +56,12 @@ export const saveResilienceTemplate = (selectedID) => {
             serviceName,
             timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
 
-        localStorage.setItem('resilienceTemplateObject', JSON.stringify(newResilienceScenarioTemplate));
+        localStorage.setItem(`resilience_${selectedID}`, JSON.stringify(newResilienceScenarioTemplate));
         console.log("saved obj: ", newResilienceScenarioTemplate);
+        
+        if (!getSummaryView) {
+            createSummaryView();
+        }
     }
     
 }
