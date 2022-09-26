@@ -9,6 +9,8 @@ export const saveResilienceTemplate = (selectedID) => {
     
     let getSummaryView = document.getElementById('summaryView');
     
+    let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
+    
     // TODO: rename variable to numberOfInstances
     let numberOfInstancesElement = document.getElementById('resilienceServiceAmount');
     let numberOfInstances = numberOfInstancesElement.value;
@@ -62,6 +64,8 @@ export const saveResilienceTemplate = (selectedID) => {
         if (!getSummaryView) {
             createSummaryView();
         }
+        
+        resilienceTemplateModal.style.display = 'none';
     }
     
 }
