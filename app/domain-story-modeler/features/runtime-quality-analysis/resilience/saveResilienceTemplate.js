@@ -1,5 +1,5 @@
 import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
-import { createSummaryView } from '../summaryView';
+import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**
@@ -63,6 +63,8 @@ export const saveResilienceTemplate = (selectedID) => {
         
         if (!getSummaryView) {
             createSummaryView();
+        } else {
+            createNewSummaryForTemplate(newResilienceScenarioTemplate);
         }
         
         resilienceTemplateModal.style.display = 'none';

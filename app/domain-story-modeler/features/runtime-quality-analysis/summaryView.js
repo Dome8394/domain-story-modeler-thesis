@@ -55,7 +55,7 @@ export const createSummaryView = () => {
 export const createNewSummaryForTemplate = (templateObject) => {
     
     let getSummaryViewModalContentItems = document.getElementById('summaryViewModalContentItems');
-        
+    console.log(getSummaryViewModalContentItems);
     let newInputContainer = document.createElement('div');
     newInputContainer.classList.add('summary-input-container');
     

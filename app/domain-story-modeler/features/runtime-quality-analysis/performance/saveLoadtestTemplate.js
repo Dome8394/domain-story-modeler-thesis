@@ -28,6 +28,7 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         
         if (!getSummaryView) {
             createSummaryView();
+        } else {
             createNewSummaryForTemplate(newLoadTestTemplateObj);
         }
     }

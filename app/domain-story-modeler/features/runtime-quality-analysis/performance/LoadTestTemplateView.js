@@ -9,7 +9,7 @@ import { createDisabledGenerateBtn } from '../generateTemplateObject';
  */
 let modal__container = document.getElementById('modal__container');
 
-const createLoadTestTemplateView = (selectedID, nodeName) => {
+const createLoadTestTemplateView = (selectedID) => {
 
     /**
      * Create html elements
@@ -42,7 +42,7 @@ const createLoadTestTemplateView = (selectedID, nodeName) => {
 
     loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
 
-    createAndAppendLoadTestInputFields(nodeName);
+    createAndAppendLoadTestInputFields();
     createButtonContainer(selectedID);
     loadTestTemplateModal.style.display = 'block';
 }
@@ -82,7 +82,7 @@ const createButtonContainer = (selectedID) => {
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateButtonContainer);
 }
 
-const createAndAppendMeasureEndpointsSelection = (nodeName) => {
+const createAndAppendMeasureEndpointsSelection = () => {
     let getLoadTestTemplatInputContainer__left = document.getElementById('loadTestTemplatInputContainer__left');
 
     let availableMeasureEndpoints__select = document.createElement('select');
@@ -112,10 +112,10 @@ const createAndAppendMeasureEndpointsSelection = (nodeName) => {
 
 }
 
-const createAndAppendLoadTestInputFields = (nodeName) => {
+const createAndAppendLoadTestInputFields = () => {
 
     let getLoadTestTemplateModalContentTopLevelInputContainer = document.getElementById('loadTestTemplateModalContentTopLevelInputContainer');
-    
+    console.log("Test!");
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
 
     let loadTestTemplatInputContainer__left = document.createElement('div');
@@ -190,7 +190,7 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input__invalid);
 
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
-    createAndAppendMeasureEndpointsSelection(nodeName);
+    createAndAppendMeasureEndpointsSelection();
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
     
     if (!getGenerateAndPush__btn) {
@@ -208,6 +208,6 @@ export const createLoadTestTemplate = (selectedID) => {
     if (loadTestTemplateModal) {
         loadTestTemplateModal.style.display = 'block';
     } else {
-        createLoadTestTemplateView(selectedID, '');
+        createLoadTestTemplateView(selectedID);
     }
 }
