@@ -116,6 +116,8 @@ const createAndAppendMeasureEndpointsSelection = (nodeName) => {
 const createAndAppendLoadTestInputFields = (nodeName) => {
 
     let getLoadTestTemplateModalContentTopLevelInputContainer = document.getElementById('loadTestTemplateModalContentTopLevelInputContainer');
+    
+    let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
 
     let loadTestTemplatInputContainer__left = document.createElement('div');
     loadTestTemplatInputContainer__left.id = 'loadTestTemplatInputContainer__left';
@@ -191,7 +193,10 @@ const createAndAppendLoadTestInputFields = (nodeName) => {
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
     createAndAppendMeasureEndpointsSelection(nodeName);
     getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
-    createDisabledGenerateBtn();
+    
+    if (!getGenerateAndPush__btn) {
+        createDisabledGenerateBtn();
+    }
 }
 
 /**

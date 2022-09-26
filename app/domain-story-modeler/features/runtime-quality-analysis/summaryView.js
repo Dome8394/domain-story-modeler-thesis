@@ -22,7 +22,7 @@ export const createSummaryView = () => {
     summaryView__btn__close.classList.add('btn');
     summaryView__btn__close.classList.add('btn-primary');
     summaryView__btn__close.classList.add('custom-btn');
-    
+    ``
     summaryView__btn__close.addEventListener('click', () => {
         summaryViewModal.style.display = 'none';
     })

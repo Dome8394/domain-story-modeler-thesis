@@ -25,10 +25,7 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
         console.log("New object stored: ", newLoadTestTemplateObj);
         getGenerateAndPush__btn.disabled = false;
-        
     }
-    
-    console.log('');
     
     if (!getSummaryView) {
         createSummaryView();
