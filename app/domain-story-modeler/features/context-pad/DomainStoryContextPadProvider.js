@@ -162,7 +162,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
         addColorChange(actions);
       }
       addInputFields(actions, element);
-      // addLoadTest(actions);
+      addLoadTest(actions);
       addMonitoring(actions);
       
       addConnectWithActivity(actions, startConnect);

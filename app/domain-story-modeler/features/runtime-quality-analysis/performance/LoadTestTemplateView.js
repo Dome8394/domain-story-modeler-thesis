@@ -49,6 +49,7 @@ const createLoadTestTemplateView = (selectedID) => {
 
 const createButtonContainer = (selectedID) => {
 
+    console.log("I am called!");
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent`);
 
@@ -202,12 +203,14 @@ const createAndAppendLoadTestInputFields = () => {
  * Creates the load test template view based on the selected node.
  */
 export const createLoadTestTemplate = (selectedID) => {
-
+    
+    
     let loadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
-
+    
     if (loadTestTemplateModal) {
         loadTestTemplateModal.style.display = 'block';
     } else {
+        
         createLoadTestTemplateView(selectedID);
     }
 }
