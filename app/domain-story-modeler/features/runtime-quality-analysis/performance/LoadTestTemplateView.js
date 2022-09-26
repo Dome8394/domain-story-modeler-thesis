@@ -96,7 +96,6 @@ const createAndAppendMeasureEndpointsSelection = (nodeName) => {
     for (const [key, value] of Object.entries(MockMapping)) {
         if (key === 'AVAILABLE_SERVICE_ENDPOINTS') {
             value.forEach((endpoint, idx) => {
-                console.log(`key: ${endpoint}, value: ${idx} `);
                 let optionItem = document.createElement('option');
                 optionItem.value = endpoint;
                 optionItem.text = endpoint;

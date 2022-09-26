@@ -14,6 +14,17 @@ input {
 
 /* THESIS-Start */
 
+.row-summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.summary-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .runtime-quality-analysis-info-container {
   display: flex;
   flex-direction: row;

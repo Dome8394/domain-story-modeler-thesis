@@ -1,5 +1,5 @@
 import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
-import { createSummaryView } from '../summaryView';
+import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 
 
 export const saveLoadTestTemplateToLocalStorage = () => {
@@ -25,11 +25,13 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
         console.log("New object stored: ", newLoadTestTemplateObj);
         getGenerateAndPush__btn.disabled = false;
+        
+        if (!getSummaryView) {
+            createSummaryView();
+            createNewSummaryForTemplate(newLoadTestTemplateObj);
+        }
     }
     
-    if (!getSummaryView) {
-        createSummaryView();
-    }
     
 }
 

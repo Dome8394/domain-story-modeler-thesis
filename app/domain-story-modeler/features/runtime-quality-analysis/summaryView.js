@@ -37,9 +37,12 @@ export const createSummaryView = () => {
     
     let summaryViewModalContentItems = document.createElement('div');
     summaryViewModalContentItems.classList.add('input__container');
+    summaryViewModalContentItems.id = 'summaryViewModalContentItems';
     
     let summaryViewModalHeader = document.createElement('h3');
     summaryViewModalHeader.innerText = 'Summary';
+    
+    
     
     modal__container.appendChild(summaryViewModal);
     summaryViewModal.appendChild(summaryViewModalContent);
@@ -47,4 +50,30 @@ export const createSummaryView = () => {
     summaryViewModalContent.appendChild(summaryViewModalContentItems);
     summaryViewModalContent.appendChild(summaryView__btn__close);
     elementContainer.appendChild(summaryView__btn__open);
+}
+
+export const createNewSummaryForTemplate = (templateObject) => {
+    
+    let getSummaryViewModalContentItems = document.getElementById('summaryViewModalContentItems');
+        
+    let newInputContainer = document.createElement('div');
+    newInputContainer.classList.add('summary-input-container');
+    
+    for (const [key, value] of Object.entries(templateObject)) {
+        console.log(`${key}: ${value}`);
+        let newKeyElement = document.createElement('p');
+        newKeyElement.innerText = key;
+        
+        let newValueElement = document.createElement('p');
+        newValueElement.innerText = value;
+        
+        let row = document.createElement('div');
+        row.classList.add('row-summary');
+        
+        row.appendChild(newKeyElement);
+        row.appendChild(newValueElement);
+        newInputContainer.appendChild(row);
+    }
+    
+    getSummaryViewModalContentItems.appendChild(newInputContainer);
 }
