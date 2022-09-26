@@ -7,7 +7,7 @@ export const saveResilienceTemplate = (selectedID) => {
     */
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
     
-    let getSummaryView = document.getElementById('summaryView');
+    let getSummaryView = document.getElementById('summaryViewModal');
     
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
     

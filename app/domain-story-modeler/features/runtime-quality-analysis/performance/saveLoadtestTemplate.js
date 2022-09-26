@@ -1,8 +1,11 @@
 import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
+import { createSummaryView } from '../summaryView';
 
 
 export const saveLoadTestTemplateToLocalStorage = () => {
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
+    
+    let getSummaryView = document.getElementById('summaryViewModal');
     
     let getHttpEndpointSelectElement = document.getElementById('availableMeasureEndpoints__select');
     let getSelectedHttpEndpoint = getHttpEndpointSelectElement.value;
@@ -23,7 +26,12 @@ export const saveLoadTestTemplateToLocalStorage = () => {
         console.log("New object stored: ", newLoadTestTemplateObj);
         getGenerateAndPush__btn.disabled = false;
         
-        createSummaryView(loadTestTemplateObj);
+    }
+    
+    console.log('');
+    
+    if (!getSummaryView) {
+        createSummaryView();
     }
     
 }
