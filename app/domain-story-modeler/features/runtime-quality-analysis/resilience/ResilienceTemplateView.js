@@ -149,6 +149,8 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceAmount.id = 'resilienceServiceAmount';
     resilienceServiceAmount.type = 'number';
     resilienceServiceAmount.placeholder = 'Give a number for total failing services (min. 1)...';
+    resilienceServiceAmount.disabled = true;
+    resilienceServiceAmount.value = 1;
 
     let resilienceServiceAmount__label = document.createElement('label');
     resilienceServiceAmount__label.classList.add('label-padding');
@@ -192,11 +194,15 @@ export function createResilienceTemplateView(selectedID) {
     randomServiceSelectionCheckBox.id = 'randomServiceSelectionCheckBox';
     randomServiceSelectionCheckBox.type = 'checkbox';
     randomServiceSelectionCheckBox.classList.add('form-check-input');
+    
+    randomServiceSelectionCheckBox.addEventListener('click', () => {
+        resilienceServiceAmount.disabled = false;
+    })
 
     let randomServiceSelectionCheckBox__label = document.createElement('label');
     randomServiceSelectionCheckBox__label.classList.add('form-check-label');
     randomServiceSelectionCheckBox__label.setAttribute('for', 'randomServiceSelectionCheckBox');
-    randomServiceSelectionCheckBox__label.innerText = 'Yes';
+    randomServiceSelectionCheckBox__label.innerText = 'No';
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
