@@ -25,12 +25,12 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModal.classList.add('modal_resilience');
 
     let loadTestTemplateModalContent = document.createElement('div');
-    loadTestTemplateModalContent.id = 'loadTestTemplateModalContent';
+    loadTestTemplateModalContent.id = `loadTestTemplateModalContent_${selectedID}`;
     loadTestTemplateModalContent.classList.add(`modal_resilience_content`);
 
-    let loadTestTemplateModalContentTopLevelInputContainer = document.createElement('div');
-    loadTestTemplateModalContentTopLevelInputContainer.id = 'loadTestTemplateModalContentTopLevelInputContainer';
-    loadTestTemplateModalContentTopLevelInputContainer.classList.add('input__top__container');
+    // let loadTestTemplateModalContentTopLevelInputContainer = document.createElement('div');
+    // loadTestTemplateModalContentTopLevelInputContainer.id = 'loadTestTemplateModalContentTopLevelInputContainer';
+    // loadTestTemplateModalContentTopLevelInputContainer.classList.add('input__top__container');
 
     /**
      * Append child nodes to root container element
@@ -40,18 +40,17 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContent.appendChild(header);
     loadTestTemplateModalContent.appendChild(ruler);
 
-    loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
-
-    createAndAppendLoadTestInputFields();
+    // loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
+    createAndAppendLoadTestInputFields(selectedID);
     createButtonContainer(selectedID);
-    loadTestTemplateModal.style.display = 'block';
+    // loadTestTemplateModal.style.display = 'block';
 }
 
 const createButtonContainer = (selectedID) => {
 
-    console.log("I am called!");
+    console.log("Appending button container...");
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
-    let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent`);
+    let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
 
     let loadTestTemplateButtonContainer = document.createElement('div');
     loadTestTemplateButtonContainer.classList.add('btn-container-parent');
@@ -105,19 +104,24 @@ const createAndAppendMeasureEndpointsSelection = () => {
         }
     }
 
-    console.log(getLoadTestTemplatInputContainer__left);
-
     getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
     getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__select);
 
 
 }
 
-const createAndAppendLoadTestInputFields = () => {
+const createAndAppendLoadTestInputFields = (selectedID) => {
 
-    let getLoadTestTemplateModalContentTopLevelInputContainer = document.getElementById('loadTestTemplateModalContentTopLevelInputContainer');
-    console.log("Test!");
+    console.log("Adding input fields...");
+    
+    let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
+    let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
+    
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
+    
+    let loadTestTemplateModalContentTopLevelInputContainer = document.createElement('div');
+    loadTestTemplateModalContentTopLevelInputContainer.id = 'loadTestTemplateModalContentTopLevelInputContainer';
+    loadTestTemplateModalContentTopLevelInputContainer.classList.add('input__top__container');
 
     let loadTestTemplatInputContainer__left = document.createElement('div');
     loadTestTemplatInputContainer__left.id = 'loadTestTemplatInputContainer__left';
@@ -190,13 +194,17 @@ const createAndAppendLoadTestInputFields = () => {
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input__invalid);
 
-    getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
-    createAndAppendMeasureEndpointsSelection();
-    getLoadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
+    loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
+    // createAndAppendMeasureEndpointsSelection();
+    loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
+    getLoadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer)
+    console.log(getLoadTestTemplateModalContent);
     
     if (!getGenerateAndPush__btn) {
         createDisabledGenerateBtn();
     }
+    
+    getLoadTestTemplateModal.style.display = 'block';
 }
 
 /**
@@ -210,7 +218,7 @@ export const createLoadTestTemplate = (selectedID) => {
     if (loadTestTemplateModal) {
         loadTestTemplateModal.style.display = 'block';
     } else {
-        
         createLoadTestTemplateView(selectedID);
+        console.log("Creating template...");
     }
 }

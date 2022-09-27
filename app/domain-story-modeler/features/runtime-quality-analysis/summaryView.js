@@ -55,12 +55,10 @@ export const createSummaryView = (templateObject) => {
 export const createNewSummaryForTemplate = (templateObject) => {
     
     let getSummaryViewModalContentItems = document.getElementById('summaryViewModalContentItems');
-    console.log(getSummaryViewModalContentItems);
     let newInputContainer = document.createElement('div');
     newInputContainer.classList.add('summary-input-container');
     
     for (const [key, value] of Object.entries(templateObject)) {
-        console.log(`${key}: ${value}`);
         let newKeyElement = document.createElement('p');
         newKeyElement.innerText = key;
         
