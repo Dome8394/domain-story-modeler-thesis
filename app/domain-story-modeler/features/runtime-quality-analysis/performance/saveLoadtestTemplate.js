@@ -27,7 +27,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         getGenerateAndPush__btn.disabled = false;
 
         if (!getSummaryView) {
-            createSummaryView();
+            createSummaryView(newLoadTestTemplateObj);
         } else {
             createNewSummaryForTemplate(newLoadTestTemplateObj);
         }

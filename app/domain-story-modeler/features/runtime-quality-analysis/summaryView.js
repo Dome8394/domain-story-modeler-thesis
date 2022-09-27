@@ -2,7 +2,7 @@
 let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
 let modal__container = document.getElementById('modal__container');
 
-export const createSummaryView = () => {
+export const createSummaryView = (templateObject) => {
     
     let summaryView__btn__open = document.createElement('button');
     summaryView__btn__open.innerText = 'Summary';
@@ -22,7 +22,7 @@ export const createSummaryView = () => {
     summaryView__btn__close.classList.add('btn');
     summaryView__btn__close.classList.add('btn-primary');
     summaryView__btn__close.classList.add('custom-btn');
-    ``
+    
     summaryView__btn__close.addEventListener('click', () => {
         summaryViewModal.style.display = 'none';
     })
@@ -42,14 +42,14 @@ export const createSummaryView = () => {
     let summaryViewModalHeader = document.createElement('h3');
     summaryViewModalHeader.innerText = 'Summary';
     
-    
-    
     modal__container.appendChild(summaryViewModal);
     summaryViewModal.appendChild(summaryViewModalContent);
     summaryViewModalContent.appendChild(summaryViewModalHeader);
     summaryViewModalContent.appendChild(summaryViewModalContentItems);
     summaryViewModalContent.appendChild(summaryView__btn__close);
     elementContainer.appendChild(summaryView__btn__open);
+    
+    createNewSummaryForTemplate(templateObject);
 }
 
 export const createNewSummaryForTemplate = (templateObject) => {

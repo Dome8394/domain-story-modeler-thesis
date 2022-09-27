@@ -70,7 +70,7 @@ const createButtonContainer = (selectedID) => {
     loadTestTemplate__close_btn.classList.add('custom-btn');
 
     loadTestTemplate__save_btn.addEventListener('click', () => {
-        saveLoadTestTemplateToLocalStorage();
+        saveLoadTestTemplateToLocalStorage(selectedID);
     });
 
     loadTestTemplate__close_btn.addEventListener('click', () => {

@@ -101,45 +101,43 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
     // const modal_loadtest = document.getElementById('modal_loadtest');
     // const modal_monitoring = document.getElementById('modal_monitoring');
   
-    let ids = [];
-    let idExists = false;
+    // let ids = [];
+    // let idExists = false;
     
-    if (element.type.includes(EXPERIMENT_NAME)) {
+    // if (element.type.includes(EXPERIMENT_NAME)) {
       
-      let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
-      let elementName = element.id;
-      console.log(elementName);
-      ids.push(elementName);
+    //   let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
+    //   let elementName = element.id;
+    //   console.log(elementName);
+    //   ids.push(elementName);
 
-      if (elementContainer.hasChildNodes) {
-        for (let node of elementContainer.childNodes) {
-          if (ids.includes(node.id)) {
-            idExists = true;
-            break;
-          }
-        }
+    //   if (elementContainer.hasChildNodes) {
+    //     for (let node of elementContainer.childNodes) {
+    //       if (ids.includes(node.id)) {
+    //         idExists = true;
+    //         break;
+    //       }
+    //     }
 
-        /**
-         * If there is no chaos experiment with the same ID add it to the HTML container
-         */
-        if (!idExists) {
-          createResilienceTemplateView(element);
-        }
-      }
+    //     /**
+    //      * If there is no chaos experiment with the same ID add it to the HTML container
+    //      */
+    //     if (!idExists) {
+    //       createResilienceTemplateView(element);
+    //     }
+    //   }
 
-      return actions;
+    //   return actions;
 
-    } else if (element.type.includes(LOADTEST_NAME)) {
-      console.log('Element in contextprovider is LOADTEST', element);
-    } else if (element.type.includes(MONITORING_NAME)) {
-      console.log('Element in contextprovider is MONITORING', element);
-    } else if (element.type.includes(SERVICE_DELAY_NAME)) {
-      console.log('Element in contextprovider is SERVICE_DELAY', element);
-    }
+    // } else if (element.type.includes(LOADTEST_NAME)) {
+    //   console.log('Element in contextprovider is LOADTEST', element);
+    // } else if (element.type.includes(MONITORING_NAME)) {
+    //   console.log('Element in contextprovider is MONITORING', element);
+    // } else if (element.type.includes(SERVICE_DELAY_NAME)) {
+    //   console.log('Element in contextprovider is SERVICE_DELAY', element);
+    // }
 
     if (element.type.includes(WORKOBJECT)) {
-      console.log(element.id);
-
       if (allStandardIconKeys.includes(element.type.replace(WORKOBJECT, ''))) {
         addColorChange(actions);
       }
@@ -157,7 +155,6 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
 
 
     else if (element.type.includes(ACTOR)) {
-      console.log(element.id);
       if (allStandardIconKeys.includes(element.type.replace(ACTOR, ''))) {
         addColorChange(actions);
       }

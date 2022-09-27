@@ -59,7 +59,7 @@ export const saveResilienceTemplate = (selectedID) => {
         localStorage.setItem(`resilience_${selectedID}`, JSON.stringify(newResilienceScenarioTemplate));
 
         if (!getSummaryView) {
-            createSummaryView();
+            createSummaryView(newResilienceScenarioTemplate);
         } else {
             createNewSummaryForTemplate(newResilienceScenarioTemplate);
         }
