@@ -66,6 +66,12 @@ input {
   justify-content: space-between;
 }
 
+.checkbox-parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .input__container {
   display: flex;
   flex-direction: column;
