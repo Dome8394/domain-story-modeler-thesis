@@ -2,7 +2,7 @@ export class ResilienceTemplate {
 
 
     constructor(scenarioDescription = 'Very basic resilience scenario', executionEnvironment, runTestDuringOfficeHours = false, runTestAfterOfficeHours = false, serviceName, timeToFailure,
-        numberOfInstancesAffected = 1, randomization = true) {
+        numberOfInstancesAffected = 1, randomization) {
         if (scenarioDescription === '') {
             console.log(scenarioDescription);
             this.scenarioDescription = 'Very basic resilience scenario';

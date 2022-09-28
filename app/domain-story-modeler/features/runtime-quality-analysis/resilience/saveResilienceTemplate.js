@@ -56,10 +56,10 @@ export const saveResilienceTemplate = (selectedID) => {
             return;
         }
 
-        // TODO: check if this can be simplified with the checkbox state...
-        // if (randomizedServiceSelection === false) {
-        //     randomizedServiceSelection = true
-        // }
+        //TODO: check if this can be simplified with the checkbox state...
+        if (randomizedServiceSelection === true) {
+            randomizedServiceSelection = false;
+        }
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             scenarioDescription,
