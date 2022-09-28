@@ -21,9 +21,14 @@ export const saveResilienceTemplate = (selectedID) => {
     let getResilienceScenarioExecutionEnvironmentElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
     let executionEnvironment = getResilienceScenarioExecutionEnvironmentElement.value;
 
+    let getExecutionContextWorkingHoursCheckBox = document.getElementById('executionContextWorkingHoursCheckBox');
+    let getExecutionContextWorkingHoursCheckBoxValue = getExecutionContextWorkingHoursCheckBox.checked;
+    
+    let getExecutionContextOffWorkingHoursCheckBox = document.getElementById('executionContextOffWorkingHoursCheckBox');
+    let getExecutionContextOffWorkingHoursCheckBoxValue = getExecutionContextOffWorkingHoursCheckBox.checked;
+    
     let getRandomizedServiceSelectionCheckbox = document.getElementById('randomServiceSelectionCheckBox');
     let randomizedServiceSelection = getRandomizedServiceSelectionCheckbox.checked;
-
 
     let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
     let timeOfServiceFailure = timeOfServiceFailureElement.value;
@@ -35,6 +40,11 @@ export const saveResilienceTemplate = (selectedID) => {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
+        
+        console.info("Get number of affected instances: ", numberOfInstances);
+        console.info("Log checkbox for randomization", randomizedServiceSelection);
+        console.info("Log checkbox for schedule: ", getExecutionContextWorkingHoursCheckBoxValue);
+        console.info("Log checkbox for off schedule: ", getExecutionContextOffWorkingHoursCheckBoxValue);
 
         let serviceName = getNodeName(selectedID);
 
@@ -47,17 +57,20 @@ export const saveResilienceTemplate = (selectedID) => {
         }
 
         // TODO: check if this can be simplified with the checkbox state...
-        if (randomizedServiceSelection === false) {
-            randomizedServiceSelection = true
-        }
+        // if (randomizedServiceSelection === false) {
+        //     randomizedServiceSelection = true
+        // }
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             scenarioDescription,
             executionEnvironment,
+            getExecutionContextWorkingHoursCheckBoxValue,
+            getExecutionContextOffWorkingHoursCheckBoxValue,
             serviceName,
             timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
 
         localStorage.setItem(`resilience_${selectedID}`, JSON.stringify(newResilienceScenarioTemplate));
+        console.log(newResilienceScenarioTemplate);
 
         if (!getSummaryView) {
             createSummaryView(newResilienceScenarioTemplate);
