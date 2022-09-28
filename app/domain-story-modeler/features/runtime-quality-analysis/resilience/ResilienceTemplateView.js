@@ -290,6 +290,11 @@ export function createResilienceTemplateView(selectedID) {
     
     // finish this label
     let executionContextScheduleParentContainer__label = document.createElement('label');
+    executionContextScheduleParentContainer__label.id = 'executionContextScheduleParentContainer__label';
+    executionContextScheduleParentContainer__label.innerText = 'Additional Environment Information';
+    executionContextScheduleParentContainer__label.setAttribute('for', 'executionContextScheduleParentContainer');
+    executionContextScheduleParentContainer__label.classList.add('form-check-label');
+    executionContextScheduleParentContainer__label.classList.add('label-padding');
     
     let executionContextWorkingHoursCheckBox = document.createElement('input');
     executionContextWorkingHoursCheckBox.id = 'executionContextWorkingHoursCheckBox';
@@ -300,7 +305,6 @@ export function createResilienceTemplateView(selectedID) {
     let executionContextWorkingHoursCheckBox__label = document.createElement('label');
     executionContextWorkingHoursCheckBox__label.id = 'executionContextWorkingHoursCheckBox__label';
     executionContextWorkingHoursCheckBox__label.innerText = 'Office Hours 08:00 am to 16:00 pm';
-    executionContextWorkingHoursCheckBox__label.classList.add('label-padding');
     executionContextWorkingHoursCheckBox__label.classList.add('form-check-label')
     executionContextWorkingHoursCheckBox__label.setAttribute('for', executionContextWorkingHoursCheckBox);
     
@@ -313,10 +317,8 @@ export function createResilienceTemplateView(selectedID) {
     let executionContextOffWorkingHoursCheckBox__label = document.createElement('label');
     executionContextOffWorkingHoursCheckBox__label.id = 'executionContextOffWorkingHoursCheckBox__label';
     executionContextOffWorkingHoursCheckBox__label.innerText = 'Off Schedule after 16:00 pm';
-    executionContextOffWorkingHoursCheckBox__label.classList.add('label-padding');
     executionContextOffWorkingHoursCheckBox__label.classList.add('form-check-label')
     executionContextOffWorkingHoursCheckBox__label.setAttribute('for', executionContextOffWorkingHoursCheckBox);
-    
 
     let faultTypeCheckBox__invalid = document.createElement('p');
     faultTypeCheckBox__invalid.id = 'faultTypeCheckBox__invalid';
@@ -385,6 +387,7 @@ export function createResilienceTemplateView(selectedID) {
     
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioEnvironmentSelect);
+    resilienceTemplateContentInputContainer.appendChild(executionContextScheduleParentContainer__label);
     resilienceTemplateContentInputContainer.appendChild(executionContextScheduleParentContainer);
     
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateContentInputContainer);
