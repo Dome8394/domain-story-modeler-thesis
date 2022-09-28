@@ -1,6 +1,7 @@
 import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 import { getNodeName } from '../util';
+import { setupTemplateObject } from '../classes/setupTemplateObject';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**
@@ -69,9 +70,8 @@ export const saveResilienceTemplate = (selectedID) => {
             serviceName,
             timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
 
-        localStorage.setItem(`resilience_${selectedID}`, JSON.stringify(newResilienceScenarioTemplate));
-        console.log(newResilienceScenarioTemplate);
-
+        setupTemplateObject(newResilienceScenarioTemplate, 'RESILIENCE');
+        
         if (!getSummaryView) {
             createSummaryView(newResilienceScenarioTemplate);
         } else {
