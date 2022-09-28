@@ -142,11 +142,11 @@ export function createResilienceTemplateView(selectedID) {
     header.classList.add('template-header');
 
     let resilienceServiceFailureTemplateContentInputContainer = document.createElement('div');
-    resilienceServiceFailureTemplateContentInputContainer.id = 'resilienceServiceFailureTemplateContentInputContainer';
+    resilienceServiceFailureTemplateContentInputContainer.id = `resilienceServiceFailureTemplateContentInputContainer_${selectedID}`;
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
 
     let resilienceServiceAmount = document.createElement('input');
-    resilienceServiceAmount.id = 'resilienceServiceAmount';
+    resilienceServiceAmount.id = `resilienceServiceAmount_${selectedID}`;
     resilienceServiceAmount.type = 'number';
     resilienceServiceAmount.placeholder = 'Give a number for total failing services (min. 1)...';
     resilienceServiceAmount.disabled = true;
@@ -155,28 +155,28 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceServiceAmount__label = document.createElement('label');
     resilienceServiceAmount__label.classList.add('label-padding');
     resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
-    resilienceServiceAmount__label.setAttribute('for', 'resilienceServiceAmount');
+    resilienceServiceAmount__label.setAttribute('for', `resilienceServiceAmount_${selectedID}`);
     resilienceServiceAmount__label.innerText = 'Number of failing instances (*)';
 
     let resilienceServiceAmount__invalid = document.createElement('p');
     resilienceServiceAmount__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
-    resilienceServiceAmount__invalid.id = 'resilienceServiceAmount__invalid';
+    resilienceServiceAmount__invalid.id = `resilienceServiceAmount__invalid_${selectedID}`;
     resilienceServiceAmount__invalid.classList.add('error-info');
     resilienceServiceAmount__invalid.style.display = 'none';
 
     let timeOfServiceFailure = document.createElement('input');
-    timeOfServiceFailure.id = 'timeOfServiceFailure';
+    timeOfServiceFailure.id = `timeOfServiceFailure_${selectedID}`;
     timeOfServiceFailure.type = 'text';
 
     let timeOfServiceFailure__label = document.createElement('label');
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
-    timeOfServiceFailure__label.setAttribute('for', 'timeOfServiceFailure');
+    timeOfServiceFailure__label.setAttribute('for', `timeOfServiceFailure_${selectedID}`);
     timeOfServiceFailure__label.innerText = 'Time shutdown occurs';
     timeOfServiceFailure__label.classList.add('label-padding');
 
     let timeOfServiceFailure__invalid = document.createElement('p');
     timeOfServiceFailure__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
-    timeOfServiceFailure__invalid.id = 'timeOfServiceFailure__invalid';
+    timeOfServiceFailure__invalid.id = `timeOfServiceFailure__invalid_${selectedID}`;
     timeOfServiceFailure__invalid.classList.add('error-info');
     timeOfServiceFailure__invalid.style.display = 'none';
 
@@ -191,7 +191,7 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainer__label.innerText = 'Randomized selection of service instances';
 
     let randomServiceSelectionCheckBox = document.createElement('input');
-    randomServiceSelectionCheckBox.id = 'randomServiceSelectionCheckBox';
+    randomServiceSelectionCheckBox.id = `randomServiceSelectionCheckBox_${selectedID}`;
     randomServiceSelectionCheckBox.type = 'checkbox';
     randomServiceSelectionCheckBox.classList.add('form-check-input');
     
@@ -201,7 +201,7 @@ export function createResilienceTemplateView(selectedID) {
 
     let randomServiceSelectionCheckBox__label = document.createElement('label');
     randomServiceSelectionCheckBox__label.classList.add('form-check-label');
-    randomServiceSelectionCheckBox__label.setAttribute('for', 'randomServiceSelectionCheckBox');
+    randomServiceSelectionCheckBox__label.setAttribute('for', `randomServiceSelectionCheckBox_${selectedID}`);
     randomServiceSelectionCheckBox__label.innerText = 'No';
 
     let checkBoxContainer = document.createElement('div');
@@ -209,13 +209,13 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainer.classList.add('checkbox-child');
 
     let faultTypeCheckBox = document.createElement('input');
-    faultTypeCheckBox.id = 'faultTypeCheckBox';
+    faultTypeCheckBox.id = `faultTypeCheckBox_${selectedID}`;
     faultTypeCheckBox.type = 'checkbox';
     faultTypeCheckBox.classList.add('form-check-input');
 
     let faultTypeCheckBox__label = document.createElement('label');
     faultTypeCheckBox__label.classList.add('form-check-label');
-    faultTypeCheckBox__label.setAttribute('for', 'faultTypeCheckBox');
+    faultTypeCheckBox__label.setAttribute('for', `faultTypeCheckBox_${selectedID}`);
     faultTypeCheckBox__label.innerText = 'Service shutdown';
 
     let faultTypeCheckBoxContainer__label = document.createElement('label');
@@ -225,17 +225,17 @@ export function createResilienceTemplateView(selectedID) {
     faultTypeCheckBoxContainer__label.innerText = 'Type of Failure (*)';
 
     let resilienceScenarioName = document.createElement('input');
-    resilienceScenarioName.id = 'resilienceScenarioName';
+    resilienceScenarioName.id = `resilienceScenarioName_${selectedID}`;
     resilienceScenarioName.type = 'text';
     resilienceScenarioName.placeholder = 'Describe your scenario shortly...';
 
     let resilienceScenarioName__label = document.createElement('label');
     resilienceScenarioName__label.innerText = 'Scenario Description (*)';
-    resilienceScenarioName__label.setAttribute("for", 'resilienceScenarioName');
+    resilienceScenarioName__label.setAttribute("for", `resilienceScenarioName_${selectedID}`);
     resilienceScenarioName__label.classList.add('label-padding');
 
     let resilienceScenarioName__invalid = document.createElement('p');
-    resilienceScenarioName__invalid.id = 'resilienceScenarioName__invalid';
+    resilienceScenarioName__invalid.id = `resilienceScenarioName__invalid_${selectedID}`;
     resilienceScenarioName__invalid.innerText = RESILIENCE_SCENARIO_NAME_INFO;
     resilienceScenarioName__invalid.classList.add('error-info');
     resilienceScenarioName__invalid.style.display = 'none';
@@ -256,7 +256,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContentInputTopLevelContainer.id = 'input__top__container';
 
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
-    resilienceScenarioEnvironmentSelect.id = 'resilienceScenarioEnvironmentTypeSelect';
+    resilienceScenarioEnvironmentSelect.id = `resilienceScenarioEnvironmentTypeSelect_${selectedID}`;
 
     for (const [key, value] of Object.entries(ResilienceEnvironmentEnum)) {
         let optionItem = document.createElement('option');
@@ -267,11 +267,11 @@ export function createResilienceTemplateView(selectedID) {
 
     let resilienceScenarioEnvironment__label = document.createElement('label');
     resilienceScenarioEnvironment__label.innerText = 'Execution Context (*)';
-    resilienceScenarioEnvironment__label.setAttribute("for", 'resilienceScenarioEnvironmentSelect');
+    resilienceScenarioEnvironment__label.setAttribute("for", `resilienceScenarioEnvironmentTypeSelect_${selectedID}`);
     resilienceScenarioEnvironment__label.classList.add('label-padding');
 
     let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
-    resilienceScenarioEnvironmentType__invalid.id = 'resilienceScenarioEnvironmentType__invalid';
+    resilienceScenarioEnvironmentType__invalid.id = `resilienceScenarioEnvironmentType__invalid_${selectedID}`;
     resilienceScenarioEnvironmentType__invalid.innerText = RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO;
     resilienceScenarioEnvironmentType__invalid.classList.add('error-info');
     resilienceScenarioEnvironmentType__invalid.style.display = 'none';
@@ -288,7 +288,6 @@ export function createResilienceTemplateView(selectedID) {
     executionContextScheduleParentContainer.id = 'executionContextScheduleParentContainer';
     executionContextScheduleParentContainer.classList.add('checkbox-parent');
     
-    // finish this label
     let executionContextScheduleParentContainer__label = document.createElement('label');
     executionContextScheduleParentContainer__label.id = 'executionContextScheduleParentContainer__label';
     executionContextScheduleParentContainer__label.innerText = 'Additional Environment Information';
@@ -297,7 +296,7 @@ export function createResilienceTemplateView(selectedID) {
     executionContextScheduleParentContainer__label.classList.add('label-padding');
     
     let executionContextWorkingHoursCheckBox = document.createElement('input');
-    executionContextWorkingHoursCheckBox.id = 'executionContextWorkingHoursCheckBox';
+    executionContextWorkingHoursCheckBox.id = `executionContextWorkingHoursCheckBox_${selectedID}`;
     executionContextWorkingHoursCheckBox.type = 'checkbox';
     executionContextWorkingHoursCheckBox.classList.add('form-check-input');
     executionContextWorkingHoursCheckBox.classList.add('label-padding');;
@@ -306,10 +305,10 @@ export function createResilienceTemplateView(selectedID) {
     executionContextWorkingHoursCheckBox__label.id = 'executionContextWorkingHoursCheckBox__label';
     executionContextWorkingHoursCheckBox__label.innerText = 'Office Hours 08:00 am to 16:00 pm';
     executionContextWorkingHoursCheckBox__label.classList.add('form-check-label')
-    executionContextWorkingHoursCheckBox__label.setAttribute('for', executionContextWorkingHoursCheckBox);
+    executionContextWorkingHoursCheckBox__label.setAttribute('for', `executionContextWorkingHoursCheckBox_${selectedID}`);
     
     let executionContextOffWorkingHoursCheckBox = document.createElement('input');
-    executionContextOffWorkingHoursCheckBox.id = 'executionContextOffWorkingHoursCheckBox';
+    executionContextOffWorkingHoursCheckBox.id = `executionContextOffWorkingHoursCheckBox_${selectedID}`;
     executionContextOffWorkingHoursCheckBox.type = 'checkbox';
     executionContextOffWorkingHoursCheckBox.classList.add('form-check-input');
     executionContextOffWorkingHoursCheckBox.classList.add('label-padding');
@@ -318,10 +317,10 @@ export function createResilienceTemplateView(selectedID) {
     executionContextOffWorkingHoursCheckBox__label.id = 'executionContextOffWorkingHoursCheckBox__label';
     executionContextOffWorkingHoursCheckBox__label.innerText = 'Off Schedule after 16:00 pm';
     executionContextOffWorkingHoursCheckBox__label.classList.add('form-check-label')
-    executionContextOffWorkingHoursCheckBox__label.setAttribute('for', executionContextOffWorkingHoursCheckBox);
+    executionContextOffWorkingHoursCheckBox__label.setAttribute('for', `executionContextOffWorkingHoursCheckBox_${selectedID}`);
 
     let faultTypeCheckBox__invalid = document.createElement('p');
-    faultTypeCheckBox__invalid.id = 'faultTypeCheckBox__invalid';
+    faultTypeCheckBox__invalid.id = `faultTypeCheckBox__invalid_${selectedID}`;
     faultTypeCheckBox__invalid.innerText = RESILIENCE_FAULT_TYPE_INFO;
     faultTypeCheckBox__invalid.classList.add('error-info');
     faultTypeCheckBox__invalid.style.display = 'none';

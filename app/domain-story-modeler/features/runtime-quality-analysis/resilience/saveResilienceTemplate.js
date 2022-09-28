@@ -12,31 +12,31 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 
-    let numberOfInstancesElement = document.getElementById('resilienceServiceAmount');
+    let numberOfInstancesElement = document.getElementById(`resilienceServiceAmount_${selectedID}`);
     let numberOfInstances = numberOfInstancesElement.value;
 
-    let getResilienceScenarioDescriptionElement = document.getElementById('resilienceScenarioName');
+    let getResilienceScenarioDescriptionElement = document.getElementById(`resilienceScenarioName_${selectedID}`);
     let scenarioDescription = getResilienceScenarioDescriptionElement.value;
 
-    let getResilienceScenarioExecutionEnvironmentElement = document.getElementById('resilienceScenarioEnvironmentTypeSelect');
+    let getResilienceScenarioExecutionEnvironmentElement = document.getElementById(`resilienceScenarioEnvironmentTypeSelect_${selectedID}`);
     let executionEnvironment = getResilienceScenarioExecutionEnvironmentElement.value;
 
-    let getExecutionContextWorkingHoursCheckBox = document.getElementById('executionContextWorkingHoursCheckBox');
+    let getExecutionContextWorkingHoursCheckBox = document.getElementById(`executionContextWorkingHoursCheckBox_${selectedID}`);
     let getExecutionContextWorkingHoursCheckBoxValue = getExecutionContextWorkingHoursCheckBox.checked;
     
-    let getExecutionContextOffWorkingHoursCheckBox = document.getElementById('executionContextOffWorkingHoursCheckBox');
+    let getExecutionContextOffWorkingHoursCheckBox = document.getElementById(`executionContextOffWorkingHoursCheckBox_${selectedID}`);
     let getExecutionContextOffWorkingHoursCheckBoxValue = getExecutionContextOffWorkingHoursCheckBox.checked;
     
-    let getRandomizedServiceSelectionCheckbox = document.getElementById('randomServiceSelectionCheckBox');
+    let getRandomizedServiceSelectionCheckbox = document.getElementById(`randomServiceSelectionCheckBox_${selectedID}`);
     let randomizedServiceSelection = getRandomizedServiceSelectionCheckbox.checked;
 
-    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
+    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
     let timeOfServiceFailure = timeOfServiceFailureElement.value;
 
-    let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
+    let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
     let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.checked;
 
-    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue)) {
+    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue, selectedID)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
@@ -84,21 +84,21 @@ export const saveResilienceTemplate = (selectedID) => {
 }
 
 
-export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure, serviceFails) => {
+export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure, serviceFails, selectedID) => {
     /**
      * Get HTML elements and their values
      */
-    let numberOfInstances = document.getElementById('resilienceServiceAmount');
-    let timeOfServiceFailureElement = document.getElementById('timeOfServiceFailure');
-    let faultTypeCheckBoxElement = document.getElementById('faultTypeCheckBox');
+    let numberOfInstances = document.getElementById(`resilienceServiceAmount_${selectedID}`);
+    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
+    let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
 
 
     /**
      * Get error msg elements
      */
-    let resilienceServiceAmount__invalidElement = document.getElementById('resilienceServiceAmount__invalid');
-    let timeOfServiceFailure__invalidElement = document.getElementById('timeOfServiceFailure__invalid');
-    let faultTypeCheckBox__invalid = document.getElementById('faultTypeCheckBox__invalid');
+    let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
+    let timeOfServiceFailure__invalidElement = document.getElementById(`timeOfServiceFailure__invalid_${selectedID}`);
+    let faultTypeCheckBox__invalid = document.getElementById(`faultTypeCheckBox__invalid_${selectedID}`);
 
 
     if (!amountOfFailingInstances) {
