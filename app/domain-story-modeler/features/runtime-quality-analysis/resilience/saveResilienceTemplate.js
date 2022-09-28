@@ -1,5 +1,6 @@
 import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
+import { getNodeName } from '../util';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**
@@ -113,15 +114,4 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     }
 
     return true;
-}
-
-/**
- * Retrieves the name of the currently selected node on which a test will be
- * modeled.
- * 
- * @param {} selectedID 
- */
-export const getNodeName = (selectedID) => {
-    let nodeName = $(`[data-element-id=${selectedID}]`).get(0);
-    return nodeName.children[0].textContent;
 }

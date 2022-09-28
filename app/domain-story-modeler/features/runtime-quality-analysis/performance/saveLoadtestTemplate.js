@@ -1,5 +1,6 @@
 import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
+import { getNodeName } from '../util';
 
 
 export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
@@ -8,9 +9,6 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
     let getSummaryView = document.getElementById('summaryViewModal');
 
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
-
-    let getHttpEndpointSelectElement = document.getElementById('availableMeasureEndpoints__select');
-    let getSelectedHttpEndpoint = getHttpEndpointSelectElement.value;
 
     let getDescriptionInputElement = document.getElementById('loadTestDescription__input');
     let getDescriptionValue = getDescriptionInputElement.value;
@@ -22,10 +20,31 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
     let getNumberOfSimulatedRequestsValue = getNumberOfSimulatedRequestsInputElement.value;
 
     if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue)) {
-        const newLoadTestTemplateObj = new LoadTestTemplate(getDescriptionValue, getSelectedHttpEndpoint, getDurationValue, getNumberOfSimulatedRequestsValue);
-        localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
-        getGenerateAndPush__btn.disabled = false;
+        
+        if (getGenerateAndPush__btn.disabled) {
+            getGenerateAndPush__btn.disabled = false;
+        }
+        
+        let serviceName = getNodeName(selectedID);
+        
+        /**
+         * This is probably not necessary for the future...
+         */
+        if (serviceName === '') {
+            console.log('Please give the node a proper name that matches the architectural mapping!');
+            return;
+        }
+        
+        console.log(getNumberOfSimulatedRequestsValue);
 
+        const newLoadTestTemplateObj = new LoadTestTemplate(
+            getDescriptionValue,
+            serviceName,
+            getDurationValue,
+            getNumberOfSimulatedRequestsValue);
+            
+        localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
+        console.log(newLoadTestTemplateObj);
         if (!getSummaryView) {
             createSummaryView(newLoadTestTemplateObj);
         } else {
