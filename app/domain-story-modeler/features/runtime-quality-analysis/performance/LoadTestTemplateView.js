@@ -1,4 +1,3 @@
-import { getNodeName } from '../resilience/ResilienceTemplateView';
 import { MockMapping } from '../mapping/MockMapping';
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
 import { LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO } from '../RuntimeAnalysisConstants';
@@ -131,7 +130,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     loadTestTemplatInputContainer__right.classList.add('input__container');
 
     let loadTestDescription__input = document.createElement('input');
-    loadTestDescription__input.id = 'loadTestDescription__input';
+    loadTestDescription__input.id = `loadTestDescription__input_${selectedID}`;
     loadTestDescription__input.placeholder = 'Give a short description...';
     loadTestDescription__input.type = 'text';
 
@@ -141,46 +140,46 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     loadTestDescription__label.setAttribute('for', 'loadTestDescription__input')
 
     let availableMeasureEndpoints__select = document.createElement('select');
-    availableMeasureEndpoints__select.id = 'availableMeasureEndpoints__select';
+    availableMeasureEndpoints__select.id = `availableMeasureEndpoints__select_${selectedID}`;
     availableMeasureEndpoints__select.disabled = 'true';
 
-    let availableMeasureEndpointsOptionItem = document.createElement('option');
-    availableMeasureEndpointsOptionItem.value = 'api/test/1';
-    availableMeasureEndpointsOptionItem.text = 'api/test/1';
-    availableMeasureEndpoints__select.appendChild(availableMeasureEndpointsOptionItem);
+    // let availableMeasureEndpointsOptionItem = document.createElement('option');
+    // availableMeasureEndpointsOptionItem.value = 'api/test/1';
+    // availableMeasureEndpointsOptionItem.text = 'api/test/1';
+    // availableMeasureEndpoints__select.appendChild(availableMeasureEndpointsOptionItem);
 
-    let availableMeasureEndpoints__label = document.createElement('label');
-    availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
-    availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
-    availableMeasureEndpoints__label.classList.add('label-padding');
+    // let availableMeasureEndpoints__label = document.createElement('label');
+    // availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
+    // availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
+    // availableMeasureEndpoints__label.classList.add('label-padding');
 
     let duration__input = document.createElement('input');
-    duration__input.id = 'duration__input';
+    duration__input.id = `duration__input_${selectedID}`;
     duration__input.placeholder = 'Please give a duration in minutes';
     duration__input.type = 'number';
 
     let duration__input__invalid = document.createElement('p');
-    duration__input__invalid.id = 'duration__input__invalid';
+    duration__input__invalid.id = `duration__input__invalid_${selectedID}`;
     duration__input__invalid.innerText = LOADTEST_DURATION_INFO;
     duration__input__invalid.classList.add('error-info');
 
     let duration__label = document.createElement('label');
-    duration__label.setAttribute('for', 'duration__input');
+    duration__label.setAttribute('for', `duration__input_${selectedID}`);
     duration__label.classList.add('label-padding');
     duration__label.innerText = 'Duration of the Loadtest (*)';
 
     let numberOfSimulatedRequests__input = document.createElement('input');
-    numberOfSimulatedRequests__input.id = 'numberOfSimulatedRequests__input';
+    numberOfSimulatedRequests__input.id = `numberOfSimulatedRequests__input_${selectedID}`;
     numberOfSimulatedRequests__input.placeholder = 'Please give a number';
     numberOfSimulatedRequests__input.type = 'number';
     
     let numberOfSimulatedRequests__input__invalid = document.createElement('p');
-    numberOfSimulatedRequests__input__invalid.id = 'numberOfSimulatedRequests__input__invalid';
+    numberOfSimulatedRequests__input__invalid.id = `numberOfSimulatedRequests__input__invalid_${selectedID}`;
     numberOfSimulatedRequests__input__invalid.innerText = LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO;
     numberOfSimulatedRequests__input__invalid.classList.add('error-info');
 
     let numberOfSimulatedRequests__label = document.createElement('label');
-    numberOfSimulatedRequests__label.setAttribute('for', 'numberOfSimulatedRequests__input');
+    numberOfSimulatedRequests__label.setAttribute('for', `numberOfSimulatedRequests__input_${selectedID}`);
     numberOfSimulatedRequests__label.classList.add('label-padding');
     numberOfSimulatedRequests__label.innerText = 'Number of simulated Requests (*)';
 

@@ -11,16 +11,16 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
 
-    let getDescriptionInputElement = document.getElementById('loadTestDescription__input');
+    let getDescriptionInputElement = document.getElementById(`loadTestDescription__input_${selectedID}`);
     let getDescriptionValue = getDescriptionInputElement.value;
 
-    let getDurationInputElement = document.getElementById('duration__input');
+    let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
     let getDurationValue = getDurationInputElement.value;
 
-    let getNumberOfSimulatedRequestsInputElement = document.getElementById('numberOfSimulatedRequests__input');
+    let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
     let getNumberOfSimulatedRequestsValue = getNumberOfSimulatedRequestsInputElement.value;
 
-    if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue)) {
+    if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue, selectedID)) {
         
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
@@ -58,12 +58,12 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 }
 
 
-const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests) => {
-    let getDurationInputElement = document.getElementById('duration__input');
-    let getLoadTestDuration__invalid = document.getElementById('duration__input__invalid');
+const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, selectedID) => {
+    let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
+    let getLoadTestDuration__invalid = document.getElementById(`duration__input__invalid_${selectedID}`);
 
-    let getNumberOfSimulatedRequestsInputElement = document.getElementById('numberOfSimulatedRequests__input');
-    let getNumberOfSimulatedRequests__input__invalid = document.getElementById('numberOfSimulatedRequests__input__invalid');
+    let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
+    let getNumberOfSimulatedRequests__input__invalid = document.getElementById(`numberOfSimulatedRequests__input__invalid_${selectedID}`);
 
     if (!loadTestDuration) {
         getLoadTestDuration__invalid.style.display = 'block';
