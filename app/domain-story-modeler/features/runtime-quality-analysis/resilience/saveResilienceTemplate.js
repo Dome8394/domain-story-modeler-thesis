@@ -41,11 +41,6 @@ export const saveResilienceTemplate = (selectedID) => {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
-        
-        console.info("Get number of affected instances: ", numberOfInstances);
-        console.info("Log checkbox for randomization", randomizedServiceSelection);
-        console.info("Log checkbox for schedule: ", getExecutionContextWorkingHoursCheckBoxValue);
-        console.info("Log checkbox for off schedule: ", getExecutionContextOffWorkingHoursCheckBoxValue);
 
         let serviceName = getNodeName(selectedID);
 

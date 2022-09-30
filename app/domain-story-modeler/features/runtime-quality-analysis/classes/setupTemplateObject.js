@@ -30,9 +30,6 @@ export const setupTemplateObject = (templateObject, type) => {
         localStorage.setItem('runtimeQualityAnalysis', JSON.stringify(runtimeQualityAnalysisObj));
         
     } else {
-        let existingObject = localStorage.getItem('runtimeQualityAnalysis');
-        let parsedObject = JSON.parse(existingObject);
-        
         switch (type) {
             case 'RESILIENCE':
                 parsedExistingRuntimeQualityAnalysis.resilience.push(templateObject);

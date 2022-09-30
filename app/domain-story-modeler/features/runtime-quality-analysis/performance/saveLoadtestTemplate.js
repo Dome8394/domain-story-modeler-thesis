@@ -1,6 +1,7 @@
 import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 import { getNodeName } from '../util';
+import { setupTemplateObject } from '../classes/setupTemplateObject';
 
 
 export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
@@ -35,16 +36,14 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             return;
         }
         
-        console.log(getNumberOfSimulatedRequestsValue);
-
         const newLoadTestTemplateObj = new LoadTestTemplate(
             getDescriptionValue,
             serviceName,
             getDurationValue,
             getNumberOfSimulatedRequestsValue);
             
-        localStorage.setItem('loadTestTemplateObj', newLoadTestTemplateObj);
-        console.log(newLoadTestTemplateObj);
+        setupTemplateObject(newLoadTestTemplateObj, 'LOADTEST');
+        
         if (!getSummaryView) {
             createSummaryView(newLoadTestTemplateObj);
         } else {
