@@ -66,6 +66,7 @@
     "watchify": "^4.0.0"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.9.1",
     "bpmn-js": "^8.7.0",
     "diagram-js": "^7.3.0",
     "diagram-js-direct-editing": "^1.6.3",
