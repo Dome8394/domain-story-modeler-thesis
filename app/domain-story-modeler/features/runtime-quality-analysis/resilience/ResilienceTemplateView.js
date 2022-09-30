@@ -84,9 +84,7 @@ const createButtonContainer = (selectedID) => {
     let modal_resilience_content = document.getElementById(`modal_resilience_content_${selectedID}`);
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 
-    let resilienceTemplateBtnContainer = document.createElement('div');
     let resilienceTemplateBtnContainerParent = document.createElement('div');
-    let resilienceTemplateBtnContainerChild = document.createElement('div');
 
     let resilienceTemplateView__btn__close = document.createElement('button');
     let resilienceTemplateView__btn__save = document.createElement('button');
@@ -151,6 +149,12 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceAmount.placeholder = 'Give a number for total failing services (min. 1)...';
     resilienceServiceAmount.disabled = true;
     resilienceServiceAmount.value = 1;
+    
+    let resilienceServiceAmount__info = document.createElement('i');
+    resilienceServiceAmount__info.classList.add('bi');
+    resilienceServiceAmount__info.classList.add('bi-info-circle');
+    
+    let resilienceServiceAmountLabelContainer = document.createElement('div');
 
     let resilienceServiceAmount__label = document.createElement('label');
     resilienceServiceAmount__label.classList.add('label-padding');
@@ -349,7 +353,10 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
     
-    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__label);
+    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__label);
+    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info);
+    
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmountLabelContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(checkBoxContainer__label);
