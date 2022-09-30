@@ -27,10 +27,6 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContent.id = `loadTestTemplateModalContent_${selectedID}`;
     loadTestTemplateModalContent.classList.add(`modal_resilience_content`);
 
-    // let loadTestTemplateModalContentTopLevelInputContainer = document.createElement('div');
-    // loadTestTemplateModalContentTopLevelInputContainer.id = 'loadTestTemplateModalContentTopLevelInputContainer';
-    // loadTestTemplateModalContentTopLevelInputContainer.classList.add('input__top__container');
-
     /**
      * Append child nodes to root container element
      */
@@ -81,34 +77,6 @@ const createButtonContainer = (selectedID) => {
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateButtonContainer);
 }
 
-const createAndAppendMeasureEndpointsSelection = () => {
-    let getLoadTestTemplatInputContainer__left = document.getElementById('loadTestTemplatInputContainer__left');
-
-    let availableMeasureEndpoints__select = document.createElement('select');
-    availableMeasureEndpoints__select.id = 'availableMeasureEndpoints__select';
-
-    let availableMeasureEndpoints__label = document.createElement('label');
-    availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
-    availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
-    availableMeasureEndpoints__label.classList.add('label-padding');
-
-    for (const [key, value] of Object.entries(MockMapping)) {
-        if (key === 'AVAILABLE_SERVICE_ENDPOINTS') {
-            value.forEach((endpoint, idx) => {
-                let optionItem = document.createElement('option');
-                optionItem.value = endpoint;
-                optionItem.text = endpoint;
-                availableMeasureEndpoints__select.appendChild(optionItem);
-            })
-        }
-    }
-
-    getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__label);
-    getLoadTestTemplatInputContainer__left.appendChild(availableMeasureEndpoints__select);
-
-
-}
-
 const createAndAppendLoadTestInputFields = (selectedID) => {
 
     console.log("Adding input fields...");
@@ -138,20 +106,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     loadTestDescription__label.innerText = 'Describe your load test';
     loadTestDescription__label.classList.add('label-padding');
     loadTestDescription__label.setAttribute('for', 'loadTestDescription__input')
-
-    let availableMeasureEndpoints__select = document.createElement('select');
-    availableMeasureEndpoints__select.id = `availableMeasureEndpoints__select_${selectedID}`;
-    availableMeasureEndpoints__select.disabled = 'true';
-
-    // let availableMeasureEndpointsOptionItem = document.createElement('option');
-    // availableMeasureEndpointsOptionItem.value = 'api/test/1';
-    // availableMeasureEndpointsOptionItem.text = 'api/test/1';
-    // availableMeasureEndpoints__select.appendChild(availableMeasureEndpointsOptionItem);
-
-    // let availableMeasureEndpoints__label = document.createElement('label');
-    // availableMeasureEndpoints__label.setAttribute('for', 'availableMeasureEndpoints__select');
-    // availableMeasureEndpoints__label.innerText = 'Select a measure endpoint (*)';
-    // availableMeasureEndpoints__label.classList.add('label-padding');
 
     let duration__input = document.createElement('input');
     duration__input.id = `duration__input_${selectedID}`;
@@ -194,7 +148,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input__invalid);
 
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
-    // createAndAppendMeasureEndpointsSelection();
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer)
     console.log(getLoadTestTemplateModalContent);
