@@ -16,7 +16,7 @@ export const LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO = 'Please provide a vali
 export const VERIFICATION_MODAL_NOTIFICATION = 'Wollen Sie wirklich dieses Template als Test erzeugen?';
 
 /**
- * Information text constants
+ * Information text constants for resilience templates
  */
 export const INFO_SCENARIO_DESC = 'Describe your scenario with a few words. This is optional.';
 export const INFO_TYPE_OF_FAILURE = 'The type of failure describes what you would like to do with this element. Currently, there is only a "service shutdown"' + 
@@ -35,3 +35,13 @@ export const INFO_RANDOMIZATION = 'By default, Dqualizer selects a random servic
 ' If you would like, to select a particular instance ID, check the box below.';
 export const INFO_TIME_OF_SHUTDOWN = 'You can provide the time at which the service terminates in minutes. The time is calculated from the start of the scenario.' + 
 'For instance, if you would like the service to terminate after 10 minutes, simply type in the value 10 in the input field.';
+
+
+/**
+ * Information text constants for loadtest templates
+ */
+
+export const INFO_DESCRIPTION = '';
+export const INFO_DURATION = '';
+export const INFO_NUMBER_USERS = '';
+export const INFO_RAMP_UP_TIME = '';
