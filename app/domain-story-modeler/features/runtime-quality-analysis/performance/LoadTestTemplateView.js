@@ -1,5 +1,5 @@
-import { MockMapping } from '../mapping/MockMapping';
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
+import { getNodeRectElementAndSetColor } from '../util';
 import {
     INVALID_RAMP_UP_TIME,
     INFO_DESCRIPTION,
@@ -279,6 +279,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     }
 
     getLoadTestTemplateModal.style.display = 'block';
+    getNodeRectElementAndSetColor(selectedID, false);
 }
 
 /**

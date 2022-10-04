@@ -2,6 +2,7 @@ import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 import { getNodeName } from '../util';
 import { setupTemplateObject } from '../classes/setupTemplateObject';
+import { getNodeRectElementAndSetColor } from '../util';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**
@@ -72,6 +73,8 @@ export const saveResilienceTemplate = (selectedID) => {
         } else {
             createNewSummaryForTemplate(newResilienceScenarioTemplate);
         }
+        
+        getNodeRectElementAndSetColor(selectedID, true);
 
         resilienceTemplateModal.style.display = 'none';
     }

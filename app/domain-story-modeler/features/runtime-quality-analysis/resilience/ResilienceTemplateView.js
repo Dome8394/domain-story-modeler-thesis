@@ -3,7 +3,7 @@ import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resili
 import { INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
-
+import { getNodeRectElementAndSetColor } from '../util';
 
 /**
  * Get Elements
@@ -572,6 +572,8 @@ export function createResilienceTemplateView(selectedID) {
     if (!getGenerateAndPush__btn) {
         createDisabledGenerateBtn();
     }
+    
+    getNodeRectElementAndSetColor(selectedID, false);
 }
 
 const removeResilienceTemplateForNode = (selectedID) => {

@@ -2,6 +2,7 @@ import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 import { getNodeName } from '../util';
 import { setupTemplateObject } from '../classes/setupTemplateObject';
+import { getNodeRectElementAndSetColor } from '../util';
 
 
 export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
@@ -54,6 +55,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             createNewSummaryForTemplate(newLoadTestTemplateObj);
         }
 
+        getNodeRectElementAndSetColor(selectedID, true);
         getLoadTestTemplateModal.style.display = 'none';
 
     }
