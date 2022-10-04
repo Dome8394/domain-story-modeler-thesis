@@ -1,6 +1,7 @@
 import { MockMapping } from '../mapping/MockMapping';
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
 import {
+    INVALID_RAMP_UP_TIME,
     INFO_DESCRIPTION,
     INFO_DURATION,
     INFO_NUMBER_USERS,
@@ -234,7 +235,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     
     let rampUpTime__input__invalid = document.createElement('p');
     rampUpTime__input__invalid.id = `rampUpTime__input__invalid_${selectedID}`;
-    rampUpTime__input__invalid.innerText = 'invalid...'; // TODO: Put in constants
+    rampUpTime__input__invalid.innerText = INVALID_RAMP_UP_TIME;
     rampUpTime__input__invalid.classList.add('error-info');
     
     

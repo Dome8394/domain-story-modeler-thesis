@@ -16,6 +16,11 @@ export const LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO = 'Please provide a vali
 export const VERIFICATION_MODAL_NOTIFICATION = 'Wollen Sie wirklich dieses Template als Test erzeugen?';
 
 /**
+ * Invalid input for loadtests
+ */
+export const INVALID_RAMP_UP_TIME = 'Please provide a valid number!';
+
+/**
  * Information text constants for resilience templates
  */
 export const INFO_SCENARIO_DESC = 'Describe your scenario with a few words. This is optional.';

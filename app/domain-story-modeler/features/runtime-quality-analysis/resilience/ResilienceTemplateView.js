@@ -311,7 +311,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceScenarioName.placeholder = 'Describe your scenario shortly...';
 
     let resilienceScenarioName__label = document.createElement('label');
-    resilienceScenarioName__label.innerText = 'Scenario Description (*)';
+    resilienceScenarioName__label.innerText = 'Scenario Description';
     resilienceScenarioName__label.setAttribute("for", `resilienceScenarioName_${selectedID}`);
     resilienceScenarioName__label.classList.add('label-padding');
     
