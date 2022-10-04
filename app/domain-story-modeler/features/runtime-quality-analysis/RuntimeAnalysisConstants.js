@@ -25,14 +25,14 @@ export const INFO_TYPE_OF_FAILURE = 'The type of failure describes what you woul
 ' "later than" describes a failure where the reponse of the service is delayed by a given threshold.';
 export const INFO_EXECUTION_CONTEXT = 'The execution context describes in which environment you would like to execute the scenario. You can' + 
 'decide between production, staging, and testing. Production is the environment with the highest risk. You should communicate with your technical expert before you select the production environment as this'+ 
-' may affect your users. Testing and staging are the most secure environments and do not affect your users.';
+' may affect your users. Testing and staging are the most secure environments and do not affect your users. The default is set to the production environment.';
 export const INFO_ENVIRONMENT_INFORMATION = 'You can provide additional information about the environment in which you would like to execute this scenario.' + 
-'The application may behave differently when running a resilience scenario during office hours than a scenario that is executed at midnight for example (off schedule).';
+'The application may behave differently when running a resilience scenario during office hours than a scenario that is executed at midnight for example (off schedule). This is optional.';
 export const INFO_FAILING_INSTANCES = 'If there are more than one running instances that comprise this domain story element, you can select a particular instance' + 
 ' that you would like to terminate for this scenario. If it does not matter to you which particular instance terminates, you do not need to select a particular instance ID.' + 
-'Note that, if you would like to select a particular instance ID, you need to check the randomization checkbox below.';
+'Note that, if you would like to select a particular instance ID, you need to check the randomization checkbox below. This is optional.';
 export const INFO_RANDOMIZATION = 'By default, Dqualizer selects a random service ID for termination only if there are more than one instance IDs available.' + 
-' If you would like, to select a particular instance ID, check the box below.';
+' If you would like, to select a particular instance ID, check the box below. This is optional.';
 export const INFO_TIME_OF_SHUTDOWN = 'You can provide the time at which the service terminates in minutes. The time is calculated from the start of the scenario.' + 
 'For instance, if you would like the service to terminate after 10 minutes, simply type in the value 10 in the input field.';
 
@@ -41,7 +41,10 @@ export const INFO_TIME_OF_SHUTDOWN = 'You can provide the time at which the serv
  * Information text constants for loadtest templates
  */
 
-export const INFO_DESCRIPTION = '';
-export const INFO_DURATION = '';
-export const INFO_NUMBER_USERS = '';
-export const INFO_RAMP_UP_TIME = '';
+export const INFO_DESCRIPTION = 'Describe your loadtest with a few words. This is optional.';
+export const INFO_DURATION = 'The duration declares the total time for the loadtest in minutes.';
+export const INFO_NUMBER_USERS = 'The number of users describes how many concurrent requests the application will be exposed to. In the best case, ' + 
+'the number you provide is approximately the same according to the number of requests the application has to handle in production.';
+export const INFO_RAMP_UP_TIME = 'The ramp up time defines how long the loadtest tool will take to reach the total amount of concurrent user requests.' + 
+'For instance, if the number of concurrent user requests is 300 and the ramp up time is 10 minutes, then the loadtest tool will gradually increase the ' + 
+'number of requests from 1 to 300 within a 10 minutes interval.';
