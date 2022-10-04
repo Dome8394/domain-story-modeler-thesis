@@ -267,7 +267,40 @@ export function createResilienceTemplateView(selectedID) {
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
-    checkBoxContainer.classList.add('checkbox-child');
+    checkBoxContainer.classList.add('checkbox-parent');
+    
+    let checkBoxContainerChildFaultTypeServiceShutdown = document.createElement('div');
+    checkBoxContainerChildFaultTypeServiceShutdown.classList.add('checkbox-child');
+    
+    let checkBoxContainerChildFaultTypeOtherThan = document.createElement('div');
+    checkBoxContainerChildFaultTypeOtherThan.classList.add('checkbox-child');
+    
+    let checkBoxContainerChildFaultTypeLaterThan = document.createElement('div');
+    checkBoxContainerChildFaultTypeLaterThan.classList.add('checkbox-child');
+    
+    let faultTypeOtherThanCheckbox = document.createElement('input');
+    faultTypeOtherThanCheckbox.id = `faultTypeOtherThanCheckbox_${selectedID}`;
+    faultTypeOtherThanCheckbox.type = 'checkbox';
+    faultTypeOtherThanCheckbox.classList.add('form-check-input');
+    faultTypeOtherThanCheckbox.disabled = true;
+    
+    let faultTypeOtherThanCheckbox__label = document.createElement('label');
+    faultTypeOtherThanCheckbox__label.classList.add('form-check-label');
+    faultTypeOtherThanCheckbox__label.setAttribute('for', `faultTypeOtherThanCheckbox_${selectedID}`);
+    faultTypeOtherThanCheckbox__label.innerText = 'Other than';
+    faultTypeOtherThanCheckbox__label.style.color = 'grey';
+    
+    let faultTypeLaterThanCheckbox = document.createElement('input');
+    faultTypeLaterThanCheckbox.id = `faultTypeLaterThanCheckbox_${selectedID}`;
+    faultTypeLaterThanCheckbox.type = 'checkbox';
+    faultTypeLaterThanCheckbox.classList.add('form-check-input');
+    faultTypeLaterThanCheckbox.disabled = true;
+    
+    let faultTypeLaterThanCheckbox__label = document.createElement('label');
+    faultTypeLaterThanCheckbox__label.classList.add('form-check-label');
+    faultTypeLaterThanCheckbox__label.setAttribute('for', `faultTypeLaterThanCheckbox_${selectedID}`);
+    faultTypeLaterThanCheckbox__label.innerText = 'Later than';
+    faultTypeLaterThanCheckbox__label.style.color = 'grey';
 
     let faultTypeCheckBox = document.createElement('input');
     faultTypeCheckBox.id = `faultTypeCheckBox_${selectedID}`;
@@ -538,8 +571,19 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
     
     resilienceTemplateContentInputContainer.appendChild(faultTypeLabelContainer);
-    checkBoxContainer.appendChild(faultTypeCheckBox__label);
-    checkBoxContainer.appendChild(faultTypeCheckBox);
+    
+    checkBoxContainerChildFaultTypeServiceShutdown.appendChild(faultTypeCheckBox__label);
+    checkBoxContainerChildFaultTypeServiceShutdown.appendChild(faultTypeCheckBox);
+    
+    checkBoxContainerChildFaultTypeOtherThan.appendChild(faultTypeOtherThanCheckbox__label);
+    checkBoxContainerChildFaultTypeOtherThan.appendChild(faultTypeOtherThanCheckbox);
+    
+    checkBoxContainerChildFaultTypeLaterThan.appendChild(faultTypeLaterThanCheckbox__label);
+    checkBoxContainerChildFaultTypeLaterThan.appendChild(faultTypeLaterThanCheckbox);
+    
+    checkBoxContainer.appendChild(checkBoxContainerChildFaultTypeServiceShutdown);
+    checkBoxContainer.appendChild(checkBoxContainerChildFaultTypeOtherThan);
+    checkBoxContainer.appendChild(checkBoxContainerChildFaultTypeLaterThan);
     resilienceTemplateContentInputContainer.appendChild(checkBoxContainer);
     resilienceTemplateContentInputContainer.appendChild(faultTypeCheckBox__invalid);
     
