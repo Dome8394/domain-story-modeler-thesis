@@ -1,6 +1,6 @@
 // 'use-strict';
 import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
-import { VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
+import { INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 
@@ -153,8 +153,23 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceServiceAmount__info = document.createElement('i');
     resilienceServiceAmount__info.classList.add('bi');
     resilienceServiceAmount__info.classList.add('bi-info-circle');
+    resilienceServiceAmount__info.classList.add('toolTip');
+    
+    resilienceServiceAmount__info.addEventListener('mouseover', () => {
+        resilienceServiceAmount__info_text.style.display = 'block';
+    });
+    
+    resilienceServiceAmount__info.addEventListener('mouseleave', () => {
+        resilienceServiceAmount__info_text.style.display = 'none';
+    })
+    
+    let resilienceServiceAmount__info_text = document.createElement('span');
+    resilienceServiceAmount__info_text.classList.add('tooltipText');
+    resilienceServiceAmount__info_text.id = `resilienceServiceAmount_${selectedID}_info_text`
+    resilienceServiceAmount__info_text.innerText = INFO_FAILING_INSTANCES;
     
     let resilienceServiceAmountLabelContainer = document.createElement('div');
+    resilienceServiceAmountLabelContainer.classList.add('label-container');
 
     let resilienceServiceAmount__label = document.createElement('label');
     resilienceServiceAmount__label.classList.add('label-padding');
@@ -181,9 +196,24 @@ export function createResilienceTemplateView(selectedID) {
     let timeOfServiceFailure__label_info = document.createElement('i');
     timeOfServiceFailure__label_info.classList.add('bi');
     timeOfServiceFailure__label_info.classList.add('bi-info-circle');
+    timeOfServiceFailure__label_info.classList.add('toolTip');
+    
+    timeOfServiceFailure__label_info.addEventListener('mouseover', () => {
+        timeOfServiceFailure__label_info_text.style.display = 'block';
+    });
+    
+    timeOfServiceFailure__label_info.addEventListener('mouseleave', () => {
+        timeOfServiceFailure__label_info_text.style.display = 'none';
+    })
+    
+    let timeOfServiceFailure__label_info_text = document.createElement('span');
+    timeOfServiceFailure__label_info_text.classList.add('tooltipText');
+    timeOfServiceFailure__label_info_text.id = `timeOfServiceFailure__label_info_text_${selectedID}_info_text`
+    timeOfServiceFailure__label_info_text.innerText = INFO_TIME_OF_SHUTDOWN;
     
     let timeOfServiceFailureLabelContainer = document.createElement('div');
-
+    timeOfServiceFailureLabelContainer.classList.add('label-container');
+    
     let timeOfServiceFailure__invalid = document.createElement('p');
     timeOfServiceFailure__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
     timeOfServiceFailure__invalid.id = `timeOfServiceFailure__invalid_${selectedID}`;
@@ -200,14 +230,13 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainer__label.setAttribute('for', 'checkBoxContainerServiceFailure');
     checkBoxContainer__label.innerText = 'Randomized selection of service instances';
     
-    
     let randomServiceSelectionCheckBox = document.createElement('input');
     randomServiceSelectionCheckBox.id = `randomServiceSelectionCheckBox_${selectedID}`;
     randomServiceSelectionCheckBox.type = 'checkbox';
     randomServiceSelectionCheckBox.classList.add('form-check-input');
     
     randomServiceSelectionCheckBox.addEventListener('click', () => {
-        resilienceServiceAmount.disabled = false;
+        resilienceServiceAmount.disabled = !resilienceServiceAmount.disabled;
     })
     
     let randomServiceSelectionCheckBox__label = document.createElement('label');
@@ -218,8 +247,23 @@ export function createResilienceTemplateView(selectedID) {
     let randomizedServiceSelection__label_info = document.createElement('i');
     randomizedServiceSelection__label_info.classList.add('bi');
     randomizedServiceSelection__label_info.classList.add('bi-info-circle');
+    randomizedServiceSelection__label_info.classList.add('toolTip');
+    
+    randomizedServiceSelection__label_info.addEventListener('mouseover', () => {
+        randomizedServiceSelection__label_info_text.style.display = 'block';
+    });
+    
+    randomizedServiceSelection__label_info.addEventListener('mouseleave', () => {
+        randomizedServiceSelection__label_info_text.style.display = 'none';
+    });
+    
+    
+    let randomizedServiceSelection__label_info_text = document.createElement('span');
+    randomizedServiceSelection__label_info_text.classList.add('tooltipText');
+    randomizedServiceSelection__label_info_text.innerText = INFO_RANDOMIZATION;
     
     let randomizedServiceSelectionLabelContainer = document.createElement('div');
+    randomizedServiceSelectionLabelContainer.classList.add('label-container');
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerFaultType';
@@ -236,10 +280,24 @@ export function createResilienceTemplateView(selectedID) {
     faultTypeCheckBox__label.innerText = 'Service shutdown';
     
     let faultTypeLabelContainer = document.createElement('div');
+    faultTypeLabelContainer.classList.add('label-container');
     
     let faultTypeCheckBox__label_info = document.createElement('i');
     faultTypeCheckBox__label_info.classList.add('bi');
     faultTypeCheckBox__label_info.classList.add('bi-info-circle');
+    faultTypeCheckBox__label_info.classList.add('toolTip');
+    
+    faultTypeCheckBox__label_info.addEventListener('mouseover', () => {
+        faultTypeCheckBox__label_info_text.style.display = 'block';
+    });
+    
+    faultTypeCheckBox__label_info.addEventListener('mouseleave', () => {
+        faultTypeCheckBox__label_info_text.style.display = 'none';
+    });
+    
+    let faultTypeCheckBox__label_info_text = document.createElement('span');
+    faultTypeCheckBox__label_info_text.classList.add('tooltipText');
+    faultTypeCheckBox__label_info_text.innerText = INFO_TYPE_OF_FAILURE;
 
     let faultTypeCheckBoxContainer__label = document.createElement('label');
     faultTypeCheckBoxContainer__label.classList.add('form-check-label');
@@ -258,10 +316,24 @@ export function createResilienceTemplateView(selectedID) {
     resilienceScenarioName__label.classList.add('label-padding');
     
     let resilienceScenarioNameLabelContainer = document.createElement('div');
+    resilienceScenarioNameLabelContainer.classList.add('label-container');
     
     let resilienceScenarioName__label_info = document.createElement('i');
     resilienceScenarioName__label_info.classList.add('bi');
     resilienceScenarioName__label_info.classList.add('bi-info-circle');
+    resilienceScenarioName__label_info.classList.add('toolTip');
+    
+    resilienceScenarioName__label_info.addEventListener('mouseover', () => {
+        resilienceScenarioName__label_info_text.style.display = 'block';
+    });
+    
+    resilienceScenarioName__label_info.addEventListener('mouseleave', () => {
+        resilienceScenarioName__label_info_text.style.display = 'none';
+    });
+    
+    let resilienceScenarioName__label_info_text = document.createElement('span');
+    resilienceScenarioName__label_info_text.classList.add('tooltipText');
+    resilienceScenarioName__label_info_text.innerText = INFO_SCENARIO_DESC;
 
     let resilienceScenarioName__invalid = document.createElement('p');
     resilienceScenarioName__invalid.id = `resilienceScenarioName__invalid_${selectedID}`;
@@ -300,10 +372,24 @@ export function createResilienceTemplateView(selectedID) {
     resilienceScenarioEnvironment__label.classList.add('label-padding');
     
     let resilienceScenarioEnvironmentLabelContainer = document.createElement('div');
+    resilienceScenarioEnvironmentLabelContainer.classList.add('label-container');
     
     let resilienceScenarioEnvironment__label_info = document.createElement('i');
     resilienceScenarioEnvironment__label_info.classList.add('bi');
     resilienceScenarioEnvironment__label_info.classList.add('bi-info-circle');
+    resilienceScenarioEnvironment__label_info.classList.add('toolTip');
+    
+    resilienceScenarioEnvironment__label_info.addEventListener('mouseover', () => {
+        resilienceScenarioEnvironment__label_info_text.style.display = 'block';
+    });
+    
+    resilienceScenarioEnvironment__label_info.addEventListener('mouseleave', () => {
+        resilienceScenarioEnvironment__label_info_text.style.display = 'none';
+    });
+    
+    let resilienceScenarioEnvironment__label_info_text = document.createElement('span');
+    resilienceScenarioEnvironment__label_info_text.classList.add('tooltipText');
+    resilienceScenarioEnvironment__label_info_text.innerText = INFO_EXECUTION_CONTEXT;
 
     let resilienceScenarioEnvironmentType__invalid = document.createElement('p');
     resilienceScenarioEnvironmentType__invalid.id = `resilienceScenarioEnvironmentType__invalid_${selectedID}`;
@@ -331,10 +417,24 @@ export function createResilienceTemplateView(selectedID) {
     executionContextScheduleParentContainer__label.classList.add('label-padding');
     
     let executionContextLabelContainer = document.createElement('div');
+    executionContextLabelContainer.classList.add('label-container');
     
     let executionContext__label_info = document.createElement('i');
     executionContext__label_info.classList.add('bi');
     executionContext__label_info.classList.add('bi-info-circle');
+    executionContext__label_info.classList.add('toolTip');
+    
+    executionContext__label_info.addEventListener('mouseover', () => {
+        executionContext__label_info_text.style.display = 'block';
+    });
+    
+    executionContext__label_info.addEventListener('mouseleave', () => {
+        executionContext__label_info_text.style.display = 'none';
+    });
+    
+    let executionContext__label_info_text = document.createElement('span');
+    executionContext__label_info_text.classList.add('tooltipText');
+    executionContext__label_info_text.innerText = INFO_ENVIRONMENT_INFORMATION;
     
     let executionContextWorkingHoursCheckBox = document.createElement('input');
     executionContextWorkingHoursCheckBox.id = `executionContextWorkingHoursCheckBox_${selectedID}`;
@@ -392,24 +492,31 @@ export function createResilienceTemplateView(selectedID) {
     
     resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__label);
     resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info);
+    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info_text);
     
     timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label);
     timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info);
+    timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
     
     randomizedServiceSelectionLabelContainer.appendChild(checkBoxContainer__label);
     randomizedServiceSelectionLabelContainer.appendChild(randomizedServiceSelection__label_info);
+    randomizedServiceSelectionLabelContainer.appendChild(randomizedServiceSelection__label_info_text);
     
     resilienceScenarioNameLabelContainer.appendChild(resilienceScenarioName__label);
     resilienceScenarioNameLabelContainer.appendChild(resilienceScenarioName__label_info);
+    resilienceScenarioNameLabelContainer.appendChild(resilienceScenarioName__label_info_text);
     
     faultTypeLabelContainer.appendChild(faultTypeCheckBoxContainer__label);
     faultTypeLabelContainer.appendChild(faultTypeCheckBox__label_info);
+    faultTypeLabelContainer.appendChild(faultTypeCheckBox__label_info_text);
     
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label_info);
+    resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label_info_text);
     
     executionContextLabelContainer.appendChild(executionContextScheduleParentContainer__label);
     executionContextLabelContainer.appendChild(executionContext__label_info);
+    executionContextLabelContainer.appendChild(executionContext__label_info_text);
     
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmountLabelContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
