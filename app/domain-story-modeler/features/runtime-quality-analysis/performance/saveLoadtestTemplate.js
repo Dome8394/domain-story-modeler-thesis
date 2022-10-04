@@ -19,8 +19,11 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
     let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
     let getNumberOfSimulatedRequestsValue = getNumberOfSimulatedRequestsInputElement.value;
+    
+    let getRampUpTimeElement = document.getElementById(`rampUpTime__input_${selectedID}`);
+    let getRampUpTimeValue = getRampUpTimeElement.value;
 
-    if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue, selectedID)) {
+    if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue, getRampUpTimeValue, selectedID)) {
         
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
@@ -38,6 +41,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         
         const newLoadTestTemplateObj = new LoadTestTemplate(
             getDescriptionValue,
+            getRampUpTimeValue,
             serviceName,
             getDurationValue,
             getNumberOfSimulatedRequestsValue);
@@ -58,9 +62,14 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 }
 
 
-const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, selectedID) => {
+const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, rampUpTime, selectedID) => {
     let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
+    
     let getLoadTestDuration__invalid = document.getElementById(`duration__input__invalid_${selectedID}`);
+    
+    console.log(getLoadTestDuration__invalid);
+    let getRampUpTimeElement = document.getElementById(`rampUpTime__input_${selectedID}`);
+    let getRampUpTime__input__invalid = document.getElementById(`rampUpTime__input__invalid_${selectedID}`);
 
     let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
     let getNumberOfSimulatedRequests__input__invalid = document.getElementById(`numberOfSimulatedRequests__input__invalid_${selectedID}`);
@@ -71,6 +80,14 @@ const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, select
     } else {
         getLoadTestDuration__invalid.style.display = 'none';
         getDurationInputElement.style.borderColor = 'springgreen';
+    }
+    
+    if (!rampUpTime) {
+        getRampUpTime__input__invalid.style.display = 'block';
+        getRampUpTimeElement.style.borderColor = 'red';
+    } else {
+        getRampUpTime__input__invalid.style.display = 'none';
+        getRampUpTimeElement.style.borderColor = 'springgreen';
     }
 
     if (!numberSelectedRequests) {

@@ -259,6 +259,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     
     loadTestTemplatInputContainer__left.appendChild(rampUpTimeLabelContainer);
     loadTestTemplatInputContainer__left.appendChild(rampUpTime__input);
+    loadTestTemplatInputContainer__left.appendChild(rampUpTime__input__invalid);
 
     loadTestTemplatInputContainer__right.appendChild(durationLabelContainer);
     loadTestTemplatInputContainer__right.appendChild(duration__input);
