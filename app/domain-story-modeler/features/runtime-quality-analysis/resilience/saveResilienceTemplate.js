@@ -37,10 +37,35 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
     let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.checked;
-
+    
+    let getResponseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
+    let getResponseMeasureResponseTimeCheckBoxValue = getResponseMeasureResponseTimeCheckBoxElement.checked;
+    
+    let getResponseMeasureRecoveryTimeCheckBoxElement = document.createElement(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
+    let getResponseMeasureRecoveryTimeCheckBoxValue = getResponseMeasureRecoveryTimeCheckBoxElement.checked;
+    
+    
     if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue, selectedID)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
+        }
+        
+        if (getResponseMeasureResponseTimeCheckBoxValue) {
+            let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
+            let getResponseTimeInputValue = getResponseTimeInputElement.value;
+        } 
+        
+        if (getResponseMeasureRecoveryTimeCheckBoxValue) {
+            let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
+            let getRecoveryTimeValue = getRecoveryTimeElement.value;
+        }
+        
+        if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
+            let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
+            let getResponseTimeInputValue = getResponseTimeInputElement.value;
+            
+            let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
+            let getRecoveryTimeValue = getRecoveryTimeElement.value;
         }
 
         let serviceName = getNodeName(selectedID);

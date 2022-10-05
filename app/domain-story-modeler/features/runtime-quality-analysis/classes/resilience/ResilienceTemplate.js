@@ -1,7 +1,7 @@
 export class ResilienceTemplate {
 
 
-    constructor(scenarioDescription = 'Very basic resilience scenario', executionEnvironment, runTestDuringOfficeHours = false, runTestAfterOfficeHours = false, serviceName, timeToFailure,
+    constructor(scenarioDescription = 'Very basic resilience scenario', executionEnvironment, runTestDuringOfficeHours = false, runTestAfterOfficeHours = false, artifact, timeToFailure,
         numberOfInstancesAffected = 1, randomization) {
         if (scenarioDescription === '') {
             console.log(scenarioDescription);
@@ -14,7 +14,7 @@ export class ResilienceTemplate {
         this.executionEnvironment = executionEnvironment;
         this.runTestDuringOfficeHours = runTestDuringOfficeHours;
         this.runTestAfterOfficeHours = runTestAfterOfficeHours;
-        this.serviceName = serviceName;
+        this.artifact = artifact;
         this.timeToFailure = timeToFailure;
         this.numberOfInstancesAffected = numberOfInstancesAffected;
         this.randomization = randomization;
