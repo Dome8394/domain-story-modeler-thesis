@@ -190,7 +190,7 @@ export function createResilienceTemplateView(selectedID) {
     let timeOfServiceFailure__label = document.createElement('label');
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
     timeOfServiceFailure__label.setAttribute('for', `timeOfServiceFailure_${selectedID}`);
-    timeOfServiceFailure__label.innerText = 'Time shutdown occurs';
+    timeOfServiceFailure__label.innerText = 'Time of shutdown';
     timeOfServiceFailure__label.classList.add('label-padding');
     
     let timeOfServiceFailure__label_info = document.createElement('i');
@@ -498,7 +498,73 @@ export function createResilienceTemplateView(selectedID) {
     faultTypeCheckBox__invalid.innerText = RESILIENCE_FAULT_TYPE_INFO;
     faultTypeCheckBox__invalid.classList.add('error-info');
     faultTypeCheckBox__invalid.style.display = 'none';
-
+    
+    let responseMeasureCheckboxContainer = document.createElement('div');
+    responseMeasureCheckboxContainer.classList.add('checkbox-parent');
+    
+    let responseMeasureCheckBoxLabelContainer = document.createElement('div');
+    responseMeasureCheckBoxLabelContainer.classList.add('label-container');
+    
+    let responseMeasureCheckboxLabel = document.createElement('label');
+    responseMeasureCheckboxLabel.innerText = 'Response Measure (*)';
+    responseMeasureCheckboxLabel.classList.add('label-padding');
+    
+    let responseMeasureCheckboxLabel__info = document.createElement('i');
+    responseMeasureCheckboxLabel__info.classList.add('bi');
+    responseMeasureCheckboxLabel__info.classList.add('bi-info-circle');
+    responseMeasureCheckboxLabel__info.classList.add('toolTip');
+    
+    let responseMeasureResponseTimeCheckboxContainerChild = document.createElement('div');
+    responseMeasureResponseTimeCheckboxContainerChild.classList.add('checkbox-child');
+    
+    let responseMeasureResponseTimeCheckbox = document.createElement('input');
+    responseMeasureResponseTimeCheckbox.type = 'checkbox';
+    responseMeasureResponseTimeCheckbox.id = `responseMeasureCheckbox_${selectedID}`;
+    responseMeasureResponseTimeCheckbox.classList.add('form-check-input');
+    responseMeasureResponseTimeCheckbox.classList.add('label-padding');
+    
+    responseMeasureResponseTimeCheckbox.addEventListener('click', () => {
+        responseMeasureResponseTimeInput.disabled = !responseMeasureResponseTimeInput.disabled;
+    });
+    
+    let responseMeasureResponseTimeInput = document.createElement('input');
+    responseMeasureResponseTimeInput.id = `responseMeasureResponseTimeInput_${selectedID}`;
+    responseMeasureResponseTimeInput.type = 'number';
+    responseMeasureResponseTimeInput.placeholder = 'E.g., 1000 ms...';
+    responseMeasureResponseTimeInput.disabled = true;
+    responseMeasureResponseTimeInput.style.height = '20px';
+    responseMeasureResponseTimeInput.style.width = '135px';
+    
+    let responseMeasureResponseTimeCheckbox__label = document.createElement('label');
+    responseMeasureResponseTimeCheckbox__label.classList.add('form-check-label');
+    responseMeasureResponseTimeCheckbox__label.setAttribute('for', `responseMeasureCheckbox_${selectedID}`)
+    responseMeasureResponseTimeCheckbox__label.innerText = 'Response time';
+    
+    let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
+    responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
+    
+    let responseMeasureRecoveryTimeCheckbox = document.createElement('input');
+    responseMeasureRecoveryTimeCheckbox.type = 'checkbox';
+    responseMeasureRecoveryTimeCheckbox.id = `responseMeasureRecoveryTimeCheckbox_${selectedID}`;
+    responseMeasureRecoveryTimeCheckbox.classList.add('form-check-input');
+    responseMeasureRecoveryTimeCheckbox.classList.add('label-padding');
+    
+    responseMeasureRecoveryTimeCheckbox.addEventListener('click', () => {
+        responseMeasureRecoveryTimeInput.disabled = !responseMeasureRecoveryTimeInput.disabled;
+    });
+    
+    let responseMeasureRecoveryTimeInput = document.createElement('input');
+    responseMeasureRecoveryTimeInput.id = `responseMeasureRecoveryTimeInput_${selectedID}`;
+    responseMeasureRecoveryTimeInput.type = 'number';
+    responseMeasureRecoveryTimeInput.placeholder = 'E.g., 50000 ms';
+    responseMeasureRecoveryTimeInput.disabled = true;
+    responseMeasureRecoveryTimeInput.style.height = '20px';
+    responseMeasureRecoveryTimeInput.style.width = '135px';
+    
+    let responseMeasureRecoveryTimeCheckbox__label = document.createElement('label');
+    responseMeasureRecoveryTimeCheckbox__label.classList.add('form-check-label');
+    responseMeasureRecoveryTimeCheckbox__label.setAttribute('for', `responseMeasureRecoveryTimeCheckbox_${selectedID}`);
+    responseMeasureRecoveryTimeCheckbox__label.innerText = 'Recovery Time';
 
     /**
      * This is probably going to be the summary view for all resilience scenarios
@@ -551,6 +617,21 @@ export function createResilienceTemplateView(selectedID) {
     executionContextLabelContainer.appendChild(executionContext__label_info);
     executionContextLabelContainer.appendChild(executionContext__label_info_text);
     
+    responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel);
+    responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel__info);
+    // TODO info text element
+    
+    responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
+    responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
+    
+    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox__label);
+    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox);
+    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeInput);
+    
+    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeCheckbox__label);
+    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeCheckbox);
+    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeInput);
+    
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmountLabelContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(resilienceServiceAmount__invalid);
@@ -559,6 +640,8 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailureLabelContainer);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure);
     resilienceServiceFailureTemplateContentInputContainer.appendChild(timeOfServiceFailure__invalid);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(responseMeasureCheckBoxLabelContainer);
+    resilienceServiceFailureTemplateContentInputContainer.appendChild(responseMeasureCheckboxContainer);
     
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
