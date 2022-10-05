@@ -50,14 +50,21 @@ export const saveResilienceTemplate = (selectedID) => {
             getGenerateAndPush__btn.disabled = false;
         }
         
+        let responseMeasure = [];
+        let stimulus = [];
+        
         if (getResponseMeasureResponseTimeCheckBoxValue) {
             let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
             let getResponseTimeInputValue = getResponseTimeInputElement.value;
+            
+            responseMeasure.push({ "Response time": getResponseTimeInputValue })
         } 
         
         if (getResponseMeasureRecoveryTimeCheckBoxValue) {
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
+            
+            responseMeasure.push({ "Recovery time": getRecoveryTimeValue });
         }
         
         if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
@@ -66,14 +73,19 @@ export const saveResilienceTemplate = (selectedID) => {
             
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
+            
+            responseMeasure.push({
+                "Response time": getResponseTimeInputValue,
+                "Recovery time": getRecoveryTimeValue
+            })
         }
 
-        let serviceName = getNodeName(selectedID);
+        let artifact = getNodeName(selectedID);
 
         /**
          * This is probably not necessary for the future...
          */
-        if (serviceName === '') {
+        if (artifact === '') {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
         }
@@ -82,13 +94,21 @@ export const saveResilienceTemplate = (selectedID) => {
         if (randomizedServiceSelection === true) {
             randomizedServiceSelection = false;
         }
+        
+        if (faultTypeCheckBoxElementValue) {
+            stimulus.push({ 
+                "Service Failure": true
+            })
+        }
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             scenarioDescription,
             executionEnvironment,
             getExecutionContextWorkingHoursCheckBoxValue,
             getExecutionContextOffWorkingHoursCheckBoxValue,
-            serviceName,
+            responseMeasure,
+            artifact,
+            stimulus,
             timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
 
         setupTemplateObject(newResilienceScenarioTemplate, 'RESILIENCE');
