@@ -49,45 +49,54 @@ export const saveResilienceTemplate = (selectedID) => {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
+        
+        /**
+         * This is probably not necessary for the future...
+         */
+        if (artifact === '') {
+            console.log('Please give the node a proper name that matches the architectural mapping!');
+            return;
+        }
+    
+        //TODO: check if this can be simplified with the checkbox state...
+        if (randomizedServiceSelection === true) {
+            randomizedServiceSelection = false;
+        } else {
+            randomizedServiceSelection = true;
+        }
 
 
         let artifact = getNodeName(selectedID);
-        let responseMeasure = [];
-        let stimulus = [];
-        let environment = [
-            {
-                "Environment": executionEnvironment,
-                "Additional Information": [
-                    {
-                        "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
-                        "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue
-                    }
-
-                ],
-                "Instances": numberOfInstances,
-                "Random Selection": randomizedServiceSelection
-            }
-        ];
+        let responseMeasure;
+        let stimulus;
+        let environment =
+        {
+            "Environment": executionEnvironment,
+            "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
+            "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
+            "Instances": numberOfInstances,
+            "Random Selection": randomizedServiceSelection
+        };
 
         if (faultTypeCheckBoxElementValue) {
-            stimulus.push({
+            stimulus = {
                 "Service Failure": true,
                 "Time to Failure": timeOfServiceFailure
-            })
+            };
         }
 
         if (getResponseMeasureResponseTimeCheckBoxValue) {
             let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
             let getResponseTimeInputValue = getResponseTimeInputElement.value;
 
-            responseMeasure.push({ "Response time": getResponseTimeInputValue })
+            responseMeasure = { "Response time": getResponseTimeInputValue };
         }
 
         if (getResponseMeasureRecoveryTimeCheckBoxValue) {
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
 
-            responseMeasure.push({ "Recovery time": getRecoveryTimeValue });
+            responseMeasure = { "Recovery time": getRecoveryTimeValue };
         }
 
         if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
@@ -97,24 +106,12 @@ export const saveResilienceTemplate = (selectedID) => {
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
 
-            responseMeasure.push({
+            responseMeasure = {
                 "Response time": getResponseTimeInputValue,
                 "Recovery time": getRecoveryTimeValue
-            })
+            };
         }
 
-        /**
-         * This is probably not necessary for the future...
-         */
-        if (artifact === '') {
-            console.log('Please give the node a proper name that matches the architectural mapping!');
-            return;
-        }
-
-        //TODO: check if this can be simplified with the checkbox state...
-        if (randomizedServiceSelection === true) {
-            randomizedServiceSelection = false;
-        }
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,

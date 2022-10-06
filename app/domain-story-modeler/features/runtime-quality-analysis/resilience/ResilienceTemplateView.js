@@ -3,7 +3,7 @@ import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resili
 import { INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
-import { getNodeRectElementAndSetColor } from '../util';
+import { getNodeName, getNodeRectElementAndSetColor } from '../util';
 
 /**
  * Get Elements
@@ -142,6 +142,14 @@ export function createResilienceTemplateView(selectedID) {
     let resilienceServiceFailureTemplateContentInputContainer = document.createElement('div');
     resilienceServiceFailureTemplateContentInputContainer.id = `resilienceServiceFailureTemplateContentInputContainer_${selectedID}`;
     resilienceServiceFailureTemplateContentInputContainer.classList.add('input__container');
+    
+    let artifactDescriptor = document.createElement('p');
+    artifactDescriptor.classList.add('label-padding');
+    artifactDescriptor.innerText = 'Artifact';
+    
+    let artifactValue = document.createElement('p');
+    artifactValue.classList.add('label-padding');
+    artifactValue.innerText = getNodeName(selectedID);
 
     let resilienceServiceAmount = document.createElement('input');
     resilienceServiceAmount.id = `resilienceServiceAmount_${selectedID}`;
@@ -185,7 +193,7 @@ export function createResilienceTemplateView(selectedID) {
 
     let timeOfServiceFailure = document.createElement('input');
     timeOfServiceFailure.id = `timeOfServiceFailure_${selectedID}`;
-    timeOfServiceFailure.type = 'text';
+    timeOfServiceFailure.type = 'number';
 
     let timeOfServiceFailure__label = document.createElement('label');
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
@@ -336,7 +344,7 @@ export function createResilienceTemplateView(selectedID) {
     faultTypeCheckBoxContainer__label.classList.add('form-check-label');
     faultTypeCheckBoxContainer__label.classList.add('label-padding');
     faultTypeCheckBoxContainer__label.setAttribute('for', 'checkBoxContainerFaultType');
-    faultTypeCheckBoxContainer__label.innerText = 'Type of Failure (*)';
+    faultTypeCheckBoxContainer__label.innerText = 'Stimulus (*)';
 
     let resilienceScenarioName = document.createElement('input');
     resilienceScenarioName.id = `resilienceScenarioName_${selectedID}`;
@@ -400,7 +408,7 @@ export function createResilienceTemplateView(selectedID) {
     }
 
     let resilienceScenarioEnvironment__label = document.createElement('label');
-    resilienceScenarioEnvironment__label.innerText = 'Execution Context (*)';
+    resilienceScenarioEnvironment__label.innerText = 'Environment (*)';
     resilienceScenarioEnvironment__label.setAttribute("for", `resilienceScenarioEnvironmentTypeSelect_${selectedID}`);
     resilienceScenarioEnvironment__label.classList.add('label-padding');
     
@@ -649,6 +657,8 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox__label);
     checkBoxContainerRandom.appendChild(randomServiceSelectionCheckBox);
 
+    resilienceTemplateContentInputContainer.appendChild(artifactDescriptor);
+    resilienceTemplateContentInputContainer.appendChild(artifactValue);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioNameLabelContainer);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName);
     resilienceTemplateContentInputContainer.appendChild(resilienceScenarioName__invalid);
