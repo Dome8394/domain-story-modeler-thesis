@@ -68,19 +68,7 @@ export const createNewSummaryForTemplate = (templateObject) => {
         const json = JSON.stringify(templateObject, null, '\t');
         
         preTag.innerHTML = json;
-        
-        // let newKeyElement = document.createElement('p');
-        // newKeyElement.innerText = key;
-        
-        // let newValueElement = document.createElement('p');
-        // newValueElement.innerText = value;
-        
-        // let row = document.createElement('div');
-        // row.classList.add('row-summary');
-        
-        // row.appendChild(newKeyElement);
-        // row.appendChild(newValueElement);
-        // newInputContainer.appendChild(row);
+
         newInputContainer.appendChild(preTag);
     
     getSummaryViewModalContentItems.appendChild(newInputContainer);
