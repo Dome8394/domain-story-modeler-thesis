@@ -58,20 +58,30 @@ export const createNewSummaryForTemplate = (templateObject) => {
     let newInputContainer = document.createElement('div');
     newInputContainer.classList.add('summary-input-container');
     
-    for (const [key, value] of Object.entries(templateObject)) {
-        let newKeyElement = document.createElement('p');
-        newKeyElement.innerText = key;
         
-        let newValueElement = document.createElement('p');
-        newValueElement.innerText = value;
+        let testContainer = document.createElement('div');
+        let preTag = document.createElement('pre');
+        preTag.style.overflow = 'visible';
         
-        let row = document.createElement('div');
-        row.classList.add('row-summary');
+        testContainer.appendChild(preTag);
         
-        row.appendChild(newKeyElement);
-        row.appendChild(newValueElement);
-        newInputContainer.appendChild(row);
-    }
+        const json = JSON.stringify(templateObject, null, '\t');
+        
+        preTag.innerHTML = json;
+        
+        // let newKeyElement = document.createElement('p');
+        // newKeyElement.innerText = key;
+        
+        // let newValueElement = document.createElement('p');
+        // newValueElement.innerText = value;
+        
+        // let row = document.createElement('div');
+        // row.classList.add('row-summary');
+        
+        // row.appendChild(newKeyElement);
+        // row.appendChild(newValueElement);
+        // newInputContainer.appendChild(row);
+        newInputContainer.appendChild(preTag);
     
     getSummaryViewModalContentItems.appendChild(newInputContainer);
 }

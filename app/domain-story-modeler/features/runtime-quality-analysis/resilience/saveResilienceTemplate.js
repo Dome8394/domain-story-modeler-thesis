@@ -25,10 +25,10 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let getExecutionContextWorkingHoursCheckBox = document.getElementById(`executionContextWorkingHoursCheckBox_${selectedID}`);
     let getExecutionContextWorkingHoursCheckBoxValue = getExecutionContextWorkingHoursCheckBox.checked;
-    
+
     let getExecutionContextOffWorkingHoursCheckBox = document.getElementById(`executionContextOffWorkingHoursCheckBox_${selectedID}`);
     let getExecutionContextOffWorkingHoursCheckBoxValue = getExecutionContextOffWorkingHoursCheckBox.checked;
-    
+
     let getRandomizedServiceSelectionCheckbox = document.getElementById(`randomServiceSelectionCheckBox_${selectedID}`);
     let randomizedServiceSelection = getRandomizedServiceSelectionCheckbox.checked;
 
@@ -37,50 +37,71 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
     let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.checked;
-    
+
     let getResponseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
     let getResponseMeasureResponseTimeCheckBoxValue = getResponseMeasureResponseTimeCheckBoxElement.checked;
-    
+
     let getResponseMeasureRecoveryTimeCheckBoxElement = document.createElement(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
     let getResponseMeasureRecoveryTimeCheckBoxValue = getResponseMeasureRecoveryTimeCheckBoxElement.checked;
-    
-    
+
+
     if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue, selectedID)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
-        
+
+
+        let artifact = getNodeName(selectedID);
         let responseMeasure = [];
         let stimulus = [];
-        
+        let environment = [
+            {
+                "Environment": executionEnvironment,
+                "Additional Information": [
+                    {
+                        "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
+                        "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue
+                    }
+
+                ],
+                "Instances": numberOfInstances,
+                "Random Selection": randomizedServiceSelection
+            }
+        ];
+
+        if (faultTypeCheckBoxElementValue) {
+            stimulus.push({
+                "Service Failure": true,
+                "Time to Failure": timeOfServiceFailure
+            })
+        }
+
         if (getResponseMeasureResponseTimeCheckBoxValue) {
             let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
             let getResponseTimeInputValue = getResponseTimeInputElement.value;
-            
+
             responseMeasure.push({ "Response time": getResponseTimeInputValue })
-        } 
-        
+        }
+
         if (getResponseMeasureRecoveryTimeCheckBoxValue) {
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
-            
+
             responseMeasure.push({ "Recovery time": getRecoveryTimeValue });
         }
-        
+
         if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
             let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
             let getResponseTimeInputValue = getResponseTimeInputElement.value;
-            
+
             let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
             let getRecoveryTimeValue = getRecoveryTimeElement.value;
-            
+
             responseMeasure.push({
                 "Response time": getResponseTimeInputValue,
                 "Recovery time": getRecoveryTimeValue
             })
         }
-
-        let artifact = getNodeName(selectedID);
 
         /**
          * This is probably not necessary for the future...
@@ -94,31 +115,23 @@ export const saveResilienceTemplate = (selectedID) => {
         if (randomizedServiceSelection === true) {
             randomizedServiceSelection = false;
         }
-        
-        if (faultTypeCheckBoxElementValue) {
-            stimulus.push({ 
-                "Service Failure": true
-            })
-        }
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
-            scenarioDescription,
-            executionEnvironment,
-            getExecutionContextWorkingHoursCheckBoxValue,
-            getExecutionContextOffWorkingHoursCheckBoxValue,
-            responseMeasure,
             artifact,
             stimulus,
-            timeOfServiceFailure, numberOfInstances, randomizedServiceSelection);
+            environment,
+            responseMeasure,
+            scenarioDescription,
+        );
 
         setupTemplateObject(newResilienceScenarioTemplate, 'RESILIENCE');
-        
+
         if (!getSummaryView) {
             createSummaryView(newResilienceScenarioTemplate);
         } else {
             createNewSummaryForTemplate(newResilienceScenarioTemplate);
         }
-        
+
         getNodeRectElementAndSetColor(selectedID, true);
 
         resilienceTemplateModal.style.display = 'none';
