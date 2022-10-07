@@ -41,15 +41,30 @@ export const saveResilienceTemplate = (selectedID) => {
     let getResponseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
     let getResponseMeasureResponseTimeCheckBoxValue = getResponseMeasureResponseTimeCheckBoxElement.checked;
 
-    let getResponseMeasureRecoveryTimeCheckBoxElement = document.createElement(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
+    let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
+    let getResponseMeasureResponseTimeInputValue = getResponseMeasureResponseTimeInputElement.value;
+
+    let getResponseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
     let getResponseMeasureRecoveryTimeCheckBoxValue = getResponseMeasureRecoveryTimeCheckBoxElement.checked;
 
+    let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
+    let getResponseMeasureRecoveryTimeInputValue = getResponseMeasureRecoveryTimeInputElement.value;
+    
+    console.log("Recovery time checkbox element: ", getResponseMeasureRecoveryTimeCheckBoxElement);
+    console.log("Recovery time checkbox element value prior to verification: ", getResponseMeasureRecoveryTimeCheckBoxValue);
 
-    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, stimulusCheckBoxElementValue, selectedID)) {
+    if (verifyResilienceTemplate(numberOfInstances,
+        timeOfServiceFailure,
+        stimulusCheckBoxElementValue,
+        getResponseMeasureResponseTimeCheckBoxValue,
+        getResponseMeasureResponseTimeInputValue,
+        getResponseMeasureRecoveryTimeCheckBoxValue,
+        getResponseMeasureRecoveryTimeInputValue,
+        selectedID)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
-        
+
         /**
          * This is probably not necessary for the future...
          */
@@ -57,7 +72,7 @@ export const saveResilienceTemplate = (selectedID) => {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
         }
-    
+
         //TODO: check if this can be simplified with the checkbox state...
         if (randomizedServiceSelection === true) {
             randomizedServiceSelection = false;
@@ -85,30 +100,20 @@ export const saveResilienceTemplate = (selectedID) => {
             };
         }
 
-        if (getResponseMeasureResponseTimeCheckBoxValue) {
-            let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
-            let getResponseTimeInputValue = getResponseTimeInputElement.value;
+        if (getResponseMeasureResponseTimeInputValue) {
 
-            responseMeasure = { "Response time": getResponseTimeInputValue };
+            responseMeasure = { "Response time": getResponseMeasureResponseTimeInputValue };
         }
 
-        if (getResponseMeasureRecoveryTimeCheckBoxValue) {
-            let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
-            let getRecoveryTimeValue = getRecoveryTimeElement.value;
+        if (getResponseMeasureRecoveryTimeInputValue) {
 
-            responseMeasure = { "Recovery time": getRecoveryTimeValue };
+            responseMeasure = { "Recovery time": getResponseMeasureRecoveryTimeInputValue };
         }
 
-        if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
-            let getResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
-            let getResponseTimeInputValue = getResponseTimeInputElement.value;
-
-            let getRecoveryTimeElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
-            let getRecoveryTimeValue = getRecoveryTimeElement.value;
-
+        if (getResponseMeasureResponseTimeInputValue && getResponseMeasureRecoveryTimeInputValue) {
             responseMeasure = {
-                "Response time": getResponseTimeInputValue,
-                "Recovery time": getRecoveryTimeValue
+                "Response time": getResponseMeasureResponseTimeInputValue,
+                "Recovery time": getResponseMeasureRecoveryTimeInputValue
             };
         }
 
@@ -137,7 +142,19 @@ export const saveResilienceTemplate = (selectedID) => {
 }
 
 
-export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure, serviceFails, selectedID) => {
+export const verifyResilienceTemplate = (
+    amountOfFailingInstances,
+    timeToFailure,
+    serviceFails,
+    getResponseMeasureResponseTimeCheckBoxValue,
+    getResponseTime,
+    getResponseMeasureRecoveryTimeCheckBoxValue,
+    getRecoveryTime,
+    selectedID) => {
+
+    console.log("Response time checkbox value: ", getResponseMeasureResponseTimeCheckBoxValue);
+    console.log("Recovery time checkbox value: ", getResponseMeasureRecoveryTimeCheckBoxValue);
+    
     /**
      * Get HTML elements and their values
      */
@@ -145,14 +162,18 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
     let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
 
+    let responseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
+    let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
 
+    let responseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
+    let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
     /**
      * Get error msg elements
      */
     let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
     let timeOfServiceFailure__invalidElement = document.getElementById(`timeOfServiceFailure__invalid_${selectedID}`);
     let stimulusCheckBox__invalid = document.getElementById(`stimulusCheckBox__invalid_${selectedID}`);
-
+    let responseMeasure__invalidElement = document.getElementById(`responseMeasure__invalid_${selectedID}`);
 
     if (!amountOfFailingInstances) {
         resilienceServiceAmount__invalidElement.style.display = 'block';
@@ -170,14 +191,59 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
         timeOfServiceFailureElement.style.borderColor = 'springgreen';
     }
 
+    if (getResponseMeasureResponseTimeCheckBoxValue === false && getResponseMeasureRecoveryTimeCheckBoxValue === false) {
+        responseMeasure__invalidElement.style.display = 'block';
+        responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'red';
+        responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'red';
+    } else {
+        if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
+            responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
+            responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
+
+            if (getResponseTime) {
+                getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
+            } else {
+                getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
+            }
+
+            if (getRecoveryTime) {
+                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
+            } else {
+                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
+            }
+        }
+
+        if (getResponseMeasureResponseTimeCheckBoxValue) {
+            console.log("Testing...");
+            responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
+            if (getResponseTime) {
+                getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
+            } else {
+                getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
+            }
+        } else if (getResponseMeasureRecoveryTimeCheckBoxValue) {
+            responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
+            if (getRecoveryTime) {
+                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
+            } else {
+                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
+            }
+        }
+        
+        responseMeasure__invalidElement.style.display = 'none';
+    }
+
     if (!serviceFails) {
         stimulusCheckBox__invalid.style.display = 'block';
         stimulusCheckBoxElement.style.borderColor = 'red';
-        return false;
     } else {
         stimulusCheckBox__invalid.style.display = 'none';
         stimulusCheckBoxElement.style.borderColor = 'springgreen';
     }
 
-    return true;
+    if (serviceFails && timeToFailure && amountOfFailingInstances && (getResponseTime || getRecoveryTime)) {
+        return true;
+    }
+
+    return false;
 }

@@ -16,6 +16,11 @@ export const LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO = 'Please provide a vali
 export const VERIFICATION_MODAL_NOTIFICATION = 'Wollen Sie wirklich dieses Template als Test erzeugen?';
 
 /**
+ * Invalid input for resiliencetest
+ */
+export const INVALID_RESPONSE_MEASURE = 'Please provide at least one response measure!';
+
+/**
  * Invalid input for loadtests
  */
 export const INVALID_RAMP_UP_TIME = 'Please provide a valid number!';

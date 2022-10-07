@@ -1,6 +1,6 @@
 // 'use-strict';
 import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
-import { INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
+import { INVALID_RESPONSE_MEASURE, INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
@@ -470,6 +470,12 @@ export function createResilienceTemplateView(selectedID) {
     let responseMeasureCheckboxContainer = document.createElement('div');
     responseMeasureCheckboxContainer.classList.add('checkbox-parent');
     
+    let responseMeasure__invalid = document.createElement('p');
+    responseMeasure__invalid.id = `responseMeasure__invalid_${selectedID}`;
+    responseMeasure__invalid.innerText = INVALID_RESPONSE_MEASURE;
+    responseMeasure__invalid.classList.add('error-info');
+    responseMeasure__invalid.style.display = 'none';
+    
     let responseMeasureCheckBoxLabelContainer = document.createElement('div');
     responseMeasureCheckBoxLabelContainer.classList.add('label-container');
     
@@ -657,6 +663,7 @@ export function createResilienceTemplateView(selectedID) {
     
     resilienceTemplateViewContainer__right.appendChild(responseMeasureCheckBoxLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(responseMeasureCheckboxContainer);
+    resilienceTemplateViewContainer__right.appendChild(responseMeasure__invalid);
     
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateViewContainer__left);
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateViewContainer__right);
