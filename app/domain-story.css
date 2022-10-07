@@ -40,6 +40,10 @@ input {
  }
 }
 
+.toolTip {
+  margin: 0 0 0 2%;
+}
+
 .toolTip:hover .tooltipText {
   visibility: visible;
   opacity: 1;
