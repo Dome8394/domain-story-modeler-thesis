@@ -1,5 +1,5 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
-import { getNodeRectElementAndSetColor } from '../util';
+import { getNodeRectElementAndSetColor } from '../util/util';
 import {
     INVALID_RAMP_UP_TIME,
     INFO_DESCRIPTION,

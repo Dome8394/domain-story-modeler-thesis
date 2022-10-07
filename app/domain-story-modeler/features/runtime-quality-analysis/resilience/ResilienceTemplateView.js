@@ -3,7 +3,7 @@ import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resili
 import { INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
-import { getNodeName, getNodeRectElementAndSetColor } from '../util';
+import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
 
 /**
  * Get Elements
@@ -22,61 +22,16 @@ const clearRemovedRuntimeAnalysisViews = () => {
     }
 }
 
-const confirmGenerationOfResilienceTemplate = (getConfirmation) => {
-    let topLevelModal = document.getElementById('modal_resilience_content');
-
-    let confirmationModal = document.createElement('div');
-
-    confirmationModal.id = 'confirmationModal';
-    confirmationModal.classList.add('confirmation-modal');
-
-    let confirmationModalContent = document.createElement('div');
-
-    confirmationModalContent.id = 'confirmationModalContent';
-    confirmationModalContent.classList.add('confirmation-modal-content');
-
-    let confirmationModalContentButtonContainer = document.createElement('div');
-    confirmationModalContentButtonContainer.id = 'confirmationModalContentButtonContainer';
-    confirmationModalContentButtonContainer.classList.add('btn-container-parent');
-
-    let confirmation__btn = document.createElement('div');
-    let abort__btn = document.createElement('div');
-
-    let information_text = document.createElement('p');
-    information_text.innerText = VERIFICATION_MODAL_NOTIFICATION;
-    information_text.classList.add('info-text');
-
-    confirmation__btn.id = 'verification_btn';
-    abort__btn.id = 'abort_btn';
-
-    confirmation__btn.classList.add('btn');
-    confirmation__btn.classList.add('btn-primary');
-
-    abort__btn.classList.add('btn');
-    abort__btn.classList.add('btn-secondary');
-
-    confirmation__btn.innerText = 'Bestätigen';
-    abort__btn.innerText = 'Abbrechen';
-
-    confirmation__btn.addEventListener('click', () => {
-        console.log('Waiting for approvement...');
-        getConfirmation();
-    });
-
-    abort__btn.addEventListener('click', () => {
-        console.log('User does not approve to generation!');
-        confirmationModal.style.display = 'none';
-    })
-
-    confirmationModalContent.appendChild(information_text);
-    confirmationModalContent.appendChild(confirmationModalContentButtonContainer);
-    confirmationModalContentButtonContainer.appendChild(confirmation__btn);
-    confirmationModalContentButtonContainer.appendChild(abort__btn);
-    confirmationModal.appendChild(confirmationModalContent);
-
-    topLevelModal.appendChild(confirmationModal);
-    confirmationModal.style.display = 'block';
-
+const checkIfTemplateComplete = (selectedID) => { 
+    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
+    let timeOfServiceFailure = timeOfServiceFailureElement.value;
+    
+    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
+    let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
+    
+    if (!timeOfServiceFailure || !stimulusCheckBoxElementValue) {
+        getNodeRectElementAndSetColor(selectedID, false, 'Resilience Template');
+    }
 }
 
 const createButtonContainer = (selectedID) => {
@@ -109,6 +64,7 @@ const createButtonContainer = (selectedID) => {
      */
     resilienceTemplateView__btn__close.addEventListener('click', () => {
         resilienceTemplateModal.style.display = 'none';
+        checkIfTemplateComplete(selectedID);
     })
 
     resilienceTemplateView__btn__save.addEventListener('click', () => {
@@ -716,8 +672,6 @@ export function createResilienceTemplateView(selectedID) {
     if (!getGenerateAndPush__btn) {
         createDisabledGenerateBtn();
     }
-    
-    getNodeRectElementAndSetColor(selectedID, false);
 }
 
 const removeResilienceTemplateForNode = (selectedID) => {

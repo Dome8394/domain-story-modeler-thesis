@@ -1,8 +1,8 @@
 import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
-import { getNodeName } from '../util';
+import { getNodeName } from '../util/util';
 import { setupTemplateObject } from '../classes/setupTemplateObject';
-import { getNodeRectElementAndSetColor } from '../util';
+import { getNodeRectElementAndSetColor } from '../util/util';
 
 export const saveResilienceTemplate = (selectedID) => {
     /**

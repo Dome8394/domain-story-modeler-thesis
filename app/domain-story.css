@@ -14,6 +14,17 @@ input {
 
 /* THESIS-Start */
 
+#notification__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+}
+
 .label-container {
   position: relative;
 }
