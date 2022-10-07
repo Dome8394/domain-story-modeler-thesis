@@ -8,20 +8,20 @@ export const setupTemplateObject = (templateObject, type) => {
         console.log("Object does not exists");
         
         let runtimeQualityAnalysisObj = {
-            resilience: [],
+            resiliencetest: [],
             loadtest: [],
-            monitoring: []
+            monitoringspec: []
         }
         
         switch(type) {
             case 'RESILIENCE':
-                runtimeQualityAnalysisObj.resilience.push(templateObject);
+                runtimeQualityAnalysisObj.resiliencetest.push(templateObject);
                 break;
             case 'LOADTEST':
                 runtimeQualityAnalysisObj.loadtest.push(templateObject);
                 break;
             case 'MONITORING':
-                runtimeQualityAnalysisObj.monitoring.push(templateObject);
+                runtimeQualityAnalysisObj.monitoringspec.push(templateObject);
                 break;
             default:
                 console.log("No matching category!");
@@ -32,13 +32,13 @@ export const setupTemplateObject = (templateObject, type) => {
     } else {
         switch (type) {
             case 'RESILIENCE':
-                parsedExistingRuntimeQualityAnalysis.resilience.push(templateObject);
+                parsedExistingRuntimeQualityAnalysis.resiliencetest.push(templateObject);
                 break;
             case 'LOADTEST':
                 parsedExistingRuntimeQualityAnalysis.loadtest.push(templateObject);
                 break;
             case 'MONITORING':
-                parsedExistingRuntimeQualityAnalysis.monitoring.push(templateObject);
+                parsedExistingRuntimeQualityAnalysis.monitoringspec.push(templateObject);
                 break;
             default:
                 console.log("No matching category!");

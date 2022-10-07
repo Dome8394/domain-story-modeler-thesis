@@ -17,7 +17,7 @@ export const saveResilienceTemplate = (selectedID) => {
     let numberOfInstancesElement = document.getElementById(`resilienceServiceAmount_${selectedID}`);
     let numberOfInstances = numberOfInstancesElement.value;
 
-    let getResilienceScenarioDescriptionElement = document.getElementById(`resilienceScenarioName_${selectedID}`);
+    let getResilienceScenarioDescriptionElement = document.getElementById(`resilienceScenarioDescription_${selectedID}`);
     let scenarioDescription = getResilienceScenarioDescriptionElement.value;
 
     let getResilienceScenarioExecutionEnvironmentElement = document.getElementById(`resilienceScenarioEnvironmentTypeSelect_${selectedID}`);
@@ -35,8 +35,8 @@ export const saveResilienceTemplate = (selectedID) => {
     let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
     let timeOfServiceFailure = timeOfServiceFailureElement.value;
 
-    let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
-    let faultTypeCheckBoxElementValue = faultTypeCheckBoxElement.checked;
+    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
+    let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
 
     let getResponseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
     let getResponseMeasureResponseTimeCheckBoxValue = getResponseMeasureResponseTimeCheckBoxElement.checked;
@@ -45,7 +45,7 @@ export const saveResilienceTemplate = (selectedID) => {
     let getResponseMeasureRecoveryTimeCheckBoxValue = getResponseMeasureRecoveryTimeCheckBoxElement.checked;
 
 
-    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, faultTypeCheckBoxElementValue, selectedID)) {
+    if (verifyResilienceTemplate(numberOfInstances, timeOfServiceFailure, stimulusCheckBoxElementValue, selectedID)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
@@ -78,7 +78,7 @@ export const saveResilienceTemplate = (selectedID) => {
             "Random Selection": randomizedServiceSelection
         };
 
-        if (faultTypeCheckBoxElementValue) {
+        if (stimulusCheckBoxElementValue) {
             stimulus = {
                 "Service Failure": true,
                 "Time to Failure": timeOfServiceFailure
@@ -143,7 +143,7 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
      */
     let numberOfInstances = document.getElementById(`resilienceServiceAmount_${selectedID}`);
     let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
-    let faultTypeCheckBoxElement = document.getElementById(`faultTypeCheckBox_${selectedID}`);
+    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
 
 
     /**
@@ -151,7 +151,7 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
      */
     let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
     let timeOfServiceFailure__invalidElement = document.getElementById(`timeOfServiceFailure__invalid_${selectedID}`);
-    let faultTypeCheckBox__invalid = document.getElementById(`faultTypeCheckBox__invalid_${selectedID}`);
+    let stimulusCheckBox__invalid = document.getElementById(`stimulusCheckBox__invalid_${selectedID}`);
 
 
     if (!amountOfFailingInstances) {
@@ -171,12 +171,12 @@ export const verifyResilienceTemplate = (amountOfFailingInstances, timeToFailure
     }
 
     if (!serviceFails) {
-        faultTypeCheckBox__invalid.style.display = 'block';
-        faultTypeCheckBoxElement.style.borderColor = 'red';
+        stimulusCheckBox__invalid.style.display = 'block';
+        stimulusCheckBoxElement.style.borderColor = 'red';
         return false;
     } else {
-        faultTypeCheckBox__invalid.style.display = 'none';
-        faultTypeCheckBoxElement.style.borderColor = 'springgreen';
+        stimulusCheckBox__invalid.style.display = 'none';
+        stimulusCheckBoxElement.style.borderColor = 'springgreen';
     }
 
     return true;

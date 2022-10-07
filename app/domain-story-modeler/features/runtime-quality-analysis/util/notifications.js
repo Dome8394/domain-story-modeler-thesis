@@ -31,6 +31,7 @@ export const createToastNotification = (message, type, selectedID) => {
     toastHeaderButtonClose__icon.innerHTML = '&times';
     
     let toastBody__container = document.createElement('div');
+    toastBody__container.classList.add('toast-body');
     toastBody__container.innerText = message;
     
     toastHeader__container.appendChild(toastHeader__text);
