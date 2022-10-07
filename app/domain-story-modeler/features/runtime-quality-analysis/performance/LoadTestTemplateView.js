@@ -40,10 +40,10 @@ const createLoadTestTemplateView = (selectedID) => {
     loadTestTemplateModalContent.appendChild(header);
     loadTestTemplateModalContent.appendChild(ruler);
 
-    // loadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer);
     createAndAppendLoadTestInputFields(selectedID);
+    loadTestTemplateModalContent.appendChild(ruler);
+    createAndAppendResultViewMetrics(selectedID);
     createButtonContainer(selectedID);
-    // loadTestTemplateModal.style.display = 'block';
 }
 
 const createButtonContainer = (selectedID) => {
@@ -83,8 +83,6 @@ const createButtonContainer = (selectedID) => {
 }
 
 const createAndAppendLoadTestInputFields = (selectedID) => {
-
-    console.log("Adding input fields...");
 
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
@@ -236,6 +234,83 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     getLoadTestTemplateModal.style.display = 'block';
     getNodeRectElementAndSetColor(selectedID, false);
+}
+
+const createAndAppendResultViewMetrics = (selectedID) => {
+    let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
+    
+    let resultViewTopContainer = document.createElement('div');
+    resultViewTopContainer.classList.add('input__container');
+    
+    let resultViewMetricsContainer = document.createElement('div');
+    resultViewMetricsContainer.id = `resultViewMetricsContainer_${selectedID}`;
+    resultViewMetricsContainer.classList.add('checkbox-parent');
+    resultViewMetricsContainer.classList.add('result-view-container');
+    
+    let resultViewMetrics__label = document.createElement('label');
+    resultViewMetrics__label.setAttribute('for', `resultViewMetricsContainer_${selectedID}`);
+    resultViewMetrics__label.innerText = 'Metrics you would like to include in the Result (*)';
+    resultViewMetrics__label.classList.add('form-check-label');
+    resultViewMetrics__label.classList.add('label-padding');
+    
+    let responseTimeChildContainer = document.createElement('div');
+    responseTimeChildContainer.classList.add('checkbox-child');
+    
+    let responseTimeLabelContainer = document.createElement('div');
+    responseTimeLabelContainer.classList.add('label-container');
+    
+    let responseTime__input = document.createElement('input');
+    responseTime__input.type = 'checkbox';
+    responseTime__input.classList.add('form-check-input');
+    responseTime__input.id = `responseTime__input_${selectedID}`;
+    
+    let responseTimeInput__label = document.createElement('label');
+    responseTimeInput__label.setAttribute('for', `responseTime__input_${selectedID}`);
+    responseTimeInput__label.innerText = 'Response Times';
+    responseTimeInput__label.classList.add('form-check-label');
+    
+    responseTimeChildContainer.appendChild(responseTimeInput__label);
+    responseTimeChildContainer.appendChild(responseTime__input);
+    
+    let percentileNinetyChildContainer = document.createElement('div');
+    percentileNinetyChildContainer.classList.add('checkbox-child');
+    
+    let percentileNinety__input = document.createElement('input');
+    percentileNinety__input.id = `percentileNinety__input_${selectedID}`;
+    percentileNinety__input.type = 'checkbox';
+    percentileNinety__input.classList.add('form-check-input');
+    
+    let percentileNinety__label = document.createElement('label');
+    percentileNinety__label.setAttribute('for', `percentileNinety__input_${selectedID}`);
+    percentileNinety__label.innerText = '90th Percentile';
+    percentileNinety__label.classList.add('form-check-label');
+    
+    let percentileNinetyFiveChildContainer = document.createElement('div');
+    percentileNinetyFiveChildContainer.classList.add('checkbox-child');
+    
+    let percentileNinetyFive__input = document.createElement('input');
+    percentileNinetyFive__input.id = `percentileNinetyFive__input_${selectedID}`;
+    percentileNinetyFive__input.type = 'checkbox';
+    percentileNinetyFive__input.classList.add('form-check-input');
+    
+    let percentileNinetyFive__label = document.createElement('label');
+    percentileNinetyFive__label.setAttribute('for', `percentileNinetyFive__input_${selectedID}`);
+    percentileNinetyFive__label.innerText = '95th Percentile';
+    percentileNinetyFive__label.classList.add('form-check-label');
+    
+    percentileNinetyFiveChildContainer.appendChild(percentileNinetyFive__label);
+    percentileNinetyFiveChildContainer.appendChild(percentileNinetyFive__input);
+    
+    percentileNinetyChildContainer.appendChild(percentileNinety__label);
+    percentileNinetyChildContainer.appendChild(percentileNinety__input);
+    
+    resultViewMetricsContainer.appendChild(responseTimeChildContainer);
+    resultViewMetricsContainer.appendChild(percentileNinetyChildContainer);
+    resultViewMetricsContainer.appendChild(percentileNinetyFiveChildContainer);
+    resultViewTopContainer.appendChild(resultViewMetrics__label)
+    resultViewTopContainer.appendChild(resultViewMetricsContainer)
+    
+    getLoadTestTemplateModalContent.appendChild(resultViewTopContainer);
 }
 
 /**
