@@ -1,5 +1,5 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
-import { getNodeRectElementAndSetColor } from '../util/util';
+import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
 import {
     INFO_DESCRIPTION,
     INFO_DURATION,
@@ -123,11 +123,83 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let loadTestTemplatInputContainer__right = document.createElement('div');
     loadTestTemplatInputContainer__right.classList.add('input__container');
+    
+    let artifactDescriptor = document.createElement('p');
+    artifactDescriptor.classList.add('label-padding');
+    artifactDescriptor.innerText = 'Artifact';
 
+    let artifactValue = document.createElement('p');
+    artifactValue.classList.add('label-padding');
+    artifactValue.innerText = getNodeName(selectedID);
+
+    let artifactValueContainer = document.createElement('div');
+    artifactValueContainer.classList.add('checkbox-child');
+    
+    let stimulusLabelContainer = document.createElement('div');
+    stimulusLabelContainer.classList.add('label-container');
+    stimulusLabelContainer.id = `stimulusLabelContainer_${selectedID}`;
+    
+    let stimulusContainer__label = document.createElement('label');
+    stimulusContainer__label.setAttribute('for', `stimulusLabelContainer_${selectedID}`);
+    stimulusContainer__label.classList.add('label-padding');
+    stimulusContainer__label.innerText = 'Stimulus (*)';
+    
+    let stimulusParentContainer = document.createElement('div');
+    stimulusParentContainer.classList.add('checkbox-parent');
+    
+    let stimulusLoadPeakChildContainer = document.createElement('div');
+    stimulusLoadPeakChildContainer.classList.add('checkbox-child');
+    
+    let stimulusLoadPeak__checkbox = document.createElement('input');
+    stimulusLoadPeak__checkbox.type = 'checkbox';
+    stimulusLoadPeak__checkbox.classList.add('form-check-input');
+    stimulusLoadPeak__checkbox.id = `stimulusLoadPeak__checkbox_${selectedID}`;
+    
+    let stimulusLoadPeak__label = document.createElement('label');
+    stimulusLoadPeak__label.setAttribute('for', `stimulusLoadPeak__checkbox_${selectedID}`);
+    stimulusLoadPeak__label.classList.add('form-check-label');
+    stimulusLoadPeak__label.innerText = 'Load Peak';
+    
+    let stimulusContinuousLoadChildContainer = document.createElement('div');
+    stimulusContinuousLoadChildContainer.classList.add('checkbox-child');
+    
+    let stimulusContinuous__checkbox = document.createElement('input');
+    stimulusContinuous__checkbox.type = 'checkbox';
+    stimulusContinuous__checkbox.classList.add('form-check-input');
+    stimulusContinuous__checkbox.id = `stimulusContinuous__checkbox_${selectedID}`;
+
+    let stimulusContinuous__label = document.createElement('label');
+    stimulusContinuous__label.setAttribute('for', `stimulusContinuous__checkbox_${selectedID}`);
+    stimulusContinuous__label.classList.add('form-check-label');
+    stimulusContinuous__label.innerText = 'Continuous Load';
+    
+    let stimulusResponseTimesChildContainer = document.createElement('div');
+    stimulusResponseTimesChildContainer.classList.add('checkbox-child');
+    
+    let stimulusResponseTimes__input = document.createElement('input');
+    stimulusResponseTimes__input.id = `stimulusResponseTimes__input_${selectedID}`;
+    stimulusResponseTimes__input.placeholder = 'E.g., 3000 ms';
+    stimulusResponseTimes__input.type = 'number';
+    stimulusResponseTimes__input.style.height = '20px';
+    stimulusResponseTimes__input.style.width = '135px';
+    
+    let stimulusResponseTimes__label = document.createElement('label');
+    stimulusResponseTimes__label.setAttribute('for', `stimulusResponseTimes__input_${selectedID}`);
+    stimulusResponseTimes__label.classList.add('form-check-label');
+    stimulusResponseTimes__label.innerText = "Response Time's below (*)";
+    
+    let stimulusResponseTimesReferenceValue__label = document.createElement('p');
+    stimulusResponseTimesReferenceValue__label.classList.add('reference-values');
+    stimulusResponseTimesReferenceValue__label.innerText = 'approx. < 4000 ms';
+    
+    let durationChildContainer = document.createElement('div');
+    durationChildContainer.classList.add('checkbox-child');
+    
     let loadTestDescription__input = document.createElement('input');
     loadTestDescription__input.id = `loadTestDescription__input_${selectedID}`;
     loadTestDescription__input.placeholder = 'Give a short description...';
     loadTestDescription__input.type = 'text';
+    loadTestDescription__input.style.width = '250px';
     
     let loadTestDescriptionLabelContainer = document.createElement('div');
     loadTestDescriptionLabelContainer.classList.add('label-container');
@@ -159,8 +231,11 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let duration__input = document.createElement('input');
     duration__input.id = `duration__input_${selectedID}`;
-    duration__input.placeholder = 'Please give a duration in minutes';
+    duration__input.placeholder = 'E.g., 25';
     duration__input.type = 'number';
+    duration__input.style.height = '20px';
+    duration__input.style.width = '135px';
+    
 
     let duration__input__invalid = document.createElement('p');
     duration__input__invalid.id = `duration__input__invalid_${selectedID}`;
@@ -169,8 +244,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let duration__label = document.createElement('label');
     duration__label.setAttribute('for', `duration__input_${selectedID}`);
-    duration__label.classList.add('label-padding');
-    duration__label.innerText = 'Duration of the Loadtest (*)';
+    duration__label.innerText = 'Duration in Minutes (*)';
     
     let duration__label_info = document.createElement('i');
     duration__label_info.classList.add('bi');
@@ -236,18 +310,47 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     numberOfSimulatedRequestsLabelContainer.appendChild(numberOfSimulatedRequests__label_info);
     numberOfSimulatedRequestsLabelContainer.appendChild(numberOfSimulatedRequests__label_info_text);
     
+    artifactValueContainer.appendChild(artifactDescriptor);
+    artifactValueContainer.appendChild(artifactValue);
+    
+    stimulusLabelContainer.appendChild(stimulusContainer__label);
+    
+    stimulusLoadPeakChildContainer.appendChild(stimulusLoadPeak__label);
+    stimulusLoadPeakChildContainer.appendChild(stimulusLoadPeak__checkbox);
+    
+    stimulusContinuousLoadChildContainer.appendChild(stimulusContinuous__label);
+    stimulusContinuousLoadChildContainer.appendChild(stimulusContinuous__checkbox);
+    
+    stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__label);
+    stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__input);
+    
+    durationChildContainer.appendChild(duration__label);
+    durationChildContainer.appendChild(duration__input);
+    durationChildContainer.appendChild(duration__input__invalid);
+    
+    stimulusParentContainer.appendChild(stimulusLoadPeakChildContainer);
+    stimulusParentContainer.appendChild(stimulusContinuousLoadChildContainer);
+    stimulusParentContainer.appendChild(durationChildContainer);
+    stimulusParentContainer.appendChild(stimulusResponseTimesChildContainer);
+    stimulusParentContainer.appendChild(stimulusResponseTimesReferenceValue__label);
+    
+    loadTestTemplatInputContainer__left.appendChild(artifactValueContainer);
     loadTestTemplatInputContainer__left.appendChild(loadTestDescriptionLabelContainer);
     loadTestTemplatInputContainer__left.appendChild(loadTestDescription__input);
     
-    loadTestTemplatInputContainer__right.appendChild(durationLabelContainer);
-    loadTestTemplatInputContainer__right.appendChild(duration__input);
-    loadTestTemplatInputContainer__right.appendChild(duration__input__invalid);
+    loadTestTemplatInputContainer__left.appendChild(stimulusLabelContainer);
+    loadTestTemplatInputContainer__left.appendChild(stimulusParentContainer);
+    
+    
+    // loadTestTemplatInputContainer__right.appendChild(durationLabelContainer);
+    // loadTestTemplatInputContainer__right.appendChild(duration__input);
+    // loadTestTemplatInputContainer__right.appendChild(duration__input__invalid);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequestsLabelContainer);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input);
     loadTestTemplatInputContainer__right.appendChild(numberOfSimulatedRequests__input__invalid);
 
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
-    loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
+    // loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer)
     console.log(getLoadTestTemplateModalContent);
 

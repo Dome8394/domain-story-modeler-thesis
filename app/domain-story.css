@@ -14,6 +14,10 @@ input {
 
 /* THESIS-Start */
 
+#loadTestTemplatInputContainer__left {
+  width: 65%;
+}
+
 .result-view-container {
   margin: 0 0 5% 0;
   width: 50%;
