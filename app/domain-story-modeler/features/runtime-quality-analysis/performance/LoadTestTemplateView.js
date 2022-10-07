@@ -1,11 +1,10 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
 import { getNodeRectElementAndSetColor } from '../util/util';
 import {
-    INVALID_RAMP_UP_TIME,
     INFO_DESCRIPTION,
     INFO_DURATION,
     INFO_NUMBER_USERS,
-    INFO_RAMP_UP_TIME, LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO
+    LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO
 } from '../RuntimeAnalysisConstants';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 
@@ -202,41 +201,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let numberOfSimulatedRequests__label_info_text = document.createElement('span');
     numberOfSimulatedRequests__label_info_text.classList.add('tooltipText');
     numberOfSimulatedRequests__label_info_text.innerText = INFO_NUMBER_USERS;
-    
-    let rampUpTimeLabelContainer = document.createElement('div');
-    rampUpTimeLabelContainer.classList.add('label-container');
-    
-    let rampUpTime__input = document.createElement('input');
-    rampUpTime__input.id = `rampUpTime__input_${selectedID}`;
-    rampUpTime__input.placeholder = 'Please give a time in minutes';
-    rampUpTime__input.type = 'number';
-    
-    let rampUpTime__input__label = document.createElement('label');
-    rampUpTime__input__label.setAttribute('for', `rampUpTime__input_${selectedID}`);
-    rampUpTime__input__label.classList.add('label-padding');
-    rampUpTime__input__label.innerText = 'Ramp up time of user requests (*)';
-    
-    let rampUpTime__input__label_info = document.createElement('i');
-    rampUpTime__input__label_info.classList.add('bi');
-    rampUpTime__input__label_info.classList.add('bi-info-circle');
-    rampUpTime__input__label_info.classList.add('toolTip');
-    
-    rampUpTime__input__label_info.addEventListener('mouseover', () => {
-        rampUpTime__input__label_info_text.style.display = 'block';
-    });
-    
-    rampUpTime__input__label_info.addEventListener('mouseleave', () => {
-        rampUpTime__input__label_info_text.style.display = 'none';
-    });
-    
-    let rampUpTime__input__label_info_text = document.createElement('span');
-    rampUpTime__input__label_info_text.classList.add('tooltipText');
-    rampUpTime__input__label_info_text.innerText = INFO_RAMP_UP_TIME;
-    
-    let rampUpTime__input__invalid = document.createElement('p');
-    rampUpTime__input__invalid.id = `rampUpTime__input__invalid_${selectedID}`;
-    rampUpTime__input__invalid.innerText = INVALID_RAMP_UP_TIME;
-    rampUpTime__input__invalid.classList.add('error-info');
     
     
     loadTestDescriptionLabelContainer.appendChild(loadTestDescription__label);
