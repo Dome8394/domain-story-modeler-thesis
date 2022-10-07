@@ -46,6 +46,29 @@ const createLoadTestTemplateView = (selectedID) => {
     createButtonContainer(selectedID);
 }
 
+const checkIfTemplateComplete = (selectedID) => {
+    
+    let getDuration__input = document.getElementById(`duration__input_${selectedID}`);
+    let getDurationValue = getDuration__input.value;
+    
+    console.log(getDurationValue);
+    
+    let getResponseTime__input = document.getElementById(`responseTime__input_${selectedID}`);
+    let getResponseTimeValue = getResponseTime__input.checked;
+    
+    let getPercentileNinety__input = document.getElementById(`percentileNinety__input_${selectedID}`);
+    let getNinetyPercentileValue = getPercentileNinety__input.checked;
+    
+    let getPercentileNinetyFive__input = document.getElementById(`percentileNinetyFive__input_${selectedID}`);
+    let getNinetyFivePercentileValue = getPercentileNinetyFive__input.checked;
+    
+    if (!getDurationValue || (!getResponseTimeValue && !getNinetyPercentileValue && !getNinetyFivePercentileValue)) {
+        console.log("Test...");
+        getNodeRectElementAndSetColor(selectedID, false, 'Loadtest Template');
+    }
+    
+} 
+
 const createButtonContainer = (selectedID) => {
 
     console.log("Appending button container...");
@@ -74,6 +97,7 @@ const createButtonContainer = (selectedID) => {
 
     loadTestTemplate__close_btn.addEventListener('click', () => {
         getLoadTestTemplateModal.style.display = 'none';
+        checkIfTemplateComplete(selectedID);
     });
 
     loadTestTemplateButtonContainer.appendChild(loadTestTemplate__save_btn);
@@ -200,7 +224,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     numberOfSimulatedRequests__label_info_text.classList.add('tooltipText');
     numberOfSimulatedRequests__label_info_text.innerText = INFO_NUMBER_USERS;
     
-    
     loadTestDescriptionLabelContainer.appendChild(loadTestDescription__label);
     loadTestDescriptionLabelContainer.appendChild(loadTestDescription__label_info);
     loadTestDescriptionLabelContainer.appendChild(loadTestDescription__label_info_text);
@@ -233,7 +256,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     }
 
     getLoadTestTemplateModal.style.display = 'block';
-    getNodeRectElementAndSetColor(selectedID, false);
 }
 
 const createAndAppendResultViewMetrics = (selectedID) => {

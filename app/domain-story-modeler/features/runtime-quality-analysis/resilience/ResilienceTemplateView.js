@@ -28,7 +28,7 @@ const checkIfTemplateComplete = (selectedID) => {
     
     let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
     let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
-    
+    console.log(timeOfServiceFailure);
     if (!timeOfServiceFailure || !stimulusCheckBoxElementValue) {
         getNodeRectElementAndSetColor(selectedID, false, 'Resilience Template');
     }
