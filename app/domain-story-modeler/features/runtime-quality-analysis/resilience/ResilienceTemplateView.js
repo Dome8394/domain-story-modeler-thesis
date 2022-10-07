@@ -514,6 +514,10 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureResponseTimeCheckbox__label.setAttribute('for', `responseMeasureCheckbox_${selectedID}`)
     responseMeasureResponseTimeCheckbox__label.innerText = 'Response time';
     
+    let responseTimeReferenceValue = document.createElement('p');
+    responseTimeReferenceValue.classList.add('reference-values');
+    responseTimeReferenceValue.innerText = '(approx. < 3000 ms)'
+    
     let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
     
@@ -539,6 +543,10 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureRecoveryTimeCheckbox__label.classList.add('form-check-label');
     responseMeasureRecoveryTimeCheckbox__label.setAttribute('for', `responseMeasureRecoveryTimeCheckbox_${selectedID}`);
     responseMeasureRecoveryTimeCheckbox__label.innerText = 'Recovery Time';
+    
+    let recoverTimeReferenceValue = document.createElement('p');
+    recoverTimeReferenceValue.classList.add('reference-values');
+    recoverTimeReferenceValue.innerText = '(approx. < 5 min)';
 
     /**
      * This is probably going to be the summary view for all resilience scenarios
@@ -596,7 +604,9 @@ export function createResilienceTemplateView(selectedID) {
     // TODO info text element
     
     responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
+    responseMeasureCheckboxContainer.appendChild(responseTimeReferenceValue);
     responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
+    responseMeasureCheckboxContainer.appendChild(recoverTimeReferenceValue);
     
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox__label);
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox);

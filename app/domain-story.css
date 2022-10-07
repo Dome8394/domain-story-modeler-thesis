@@ -14,6 +14,10 @@ input {
 
 /* THESIS-Start */
 
+.reference-values {
+  color: lightblue;
+}
+
 #notification__container {
   display: flex;
   flex-direction: column;
@@ -186,7 +190,7 @@ input {
   display: flex;
   flex-direction: column;
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 6% auto; /* 15% from the top and centered */
   padding: 15px;
   border: 1px solid #888;
   width: 100%; /* Could be more or less, depending on screen size */
