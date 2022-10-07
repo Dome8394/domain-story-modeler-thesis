@@ -251,17 +251,9 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     numberOfSimulatedRequestsLabelContainer.appendChild(numberOfSimulatedRequests__label_info);
     numberOfSimulatedRequestsLabelContainer.appendChild(numberOfSimulatedRequests__label_info_text);
     
-    rampUpTimeLabelContainer.appendChild(rampUpTime__input__label);
-    rampUpTimeLabelContainer.appendChild(rampUpTime__input__label_info);
-    rampUpTimeLabelContainer.appendChild(rampUpTime__input__label_info_text);
-
     loadTestTemplatInputContainer__left.appendChild(loadTestDescriptionLabelContainer);
     loadTestTemplatInputContainer__left.appendChild(loadTestDescription__input);
     
-    loadTestTemplatInputContainer__left.appendChild(rampUpTimeLabelContainer);
-    loadTestTemplatInputContainer__left.appendChild(rampUpTime__input);
-    loadTestTemplatInputContainer__left.appendChild(rampUpTime__input__invalid);
-
     loadTestTemplatInputContainer__right.appendChild(durationLabelContainer);
     loadTestTemplatInputContainer__right.appendChild(duration__input);
     loadTestTemplatInputContainer__right.appendChild(duration__input__invalid);
