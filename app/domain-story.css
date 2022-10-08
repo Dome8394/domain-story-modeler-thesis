@@ -15,7 +15,7 @@ input {
 /* THESIS-Start */
 
 #loadTestTemplatInputContainer__left {
-  width: 65%;
+  width: 50%;
 }
 
 .result-view-container {
@@ -138,8 +138,8 @@ input {
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin: 1% 5% 5% 2%;
-  /* justify-content: center; */
+  margin: 1% 2% 5% 2%;
+  justify-content: center;
 }
 
 #input__top__container {
