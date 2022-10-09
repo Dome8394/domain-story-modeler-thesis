@@ -298,7 +298,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       'experiment': {
         group: 'type',
         className: 'icon-domain-story-chaosexperiment',
-        title: translate('Give a test type'),
+        title: translate('Resilience Test'),
         action: {
           click: function (event, element) {
             selectedID = element.id;
@@ -314,7 +314,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       'analysis': {
         group: 'type',
         className: 'icon-domain-story-loadtest',
-        title: translate('Give a test type'),
+        title: translate('Load Test'),
         action: {
           click: function (event, element) {
             selectedID = element.id;
@@ -330,7 +330,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       'monitoring': {
         group: 'type',
         className: 'icon-domain-story-monitoring',
-        title: translate('Give a test type'),
+        title: translate('Monitoring'),
         action: {
           click: function (element) {
             console.log("Create Monitoring");
