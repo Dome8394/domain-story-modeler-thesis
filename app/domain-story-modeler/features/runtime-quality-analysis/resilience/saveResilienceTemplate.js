@@ -96,23 +96,23 @@ export const saveResilienceTemplate = (selectedID) => {
         
         if(getNoResponse) {
             stimulus = {
-                "No response": true
+                "Type": "No response"
             }
             responseMeasure = {
-                "Recovery Time below": getRecoveryTime
+                "Recovery Time below": getRecoveryTime + 'milliseconds'
             }
         } else if(getDifferentResponse) {
             stimulus = {
-                "Different response": true,
+                "Type": "Different response object",
                 "Fault object": { "Test": "XXXXX" },
                 "Expected Status Code": 400
             }
         } else if(getLaterResponse) {
             stimulus = {
-                "Response arrives late": true
+                "Type": "Response arrives late"
             }
             responseMeasure = {
-                "Response Time below": getResponseTime
+                "Response Time below": getResponseTime + 'milliseconds'
             }
         }
         
@@ -253,7 +253,6 @@ export const verifyResilienceTemplate = (
 const verifyMandatory = (noResponseChecked, differentResponseChecked, laterResponseChecked, durationProvided) => {
     
     if ((noResponseChecked || differentResponseChecked || laterResponseChecked) && durationProvided) {
-        console.log("Mandatory fields are missing!");
         return true;
     }
     

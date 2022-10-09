@@ -12,39 +12,79 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
 
-    let getDescriptionInputElement = document.getElementById(`loadTestDescription__input_${selectedID}`);
-    let getDescriptionValue = getDescriptionInputElement.value;
+    let getLoadPeakCheckbox = document.getElementById(`stimulusLoadPeak__checkbox_${selectedID}`);
+    let getLoadPeakChecked = getLoadPeakCheckbox.checked;
+
+    let getContinuousLoadCheckbox = document.getElementById(`stimulusContinuous__checkbox_${selectedID}`);
+    let getContinuousLoadChecked = getContinuousLoadCheckbox.checked;
+
+    let getResponseTimeElement = document.getElementById(`stimulusResponseTimes__input_${selectedID}`);
+    let getResponseTime = getResponseTimeElement.value;
 
     let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
     let getDurationValue = getDurationInputElement.value;
 
-    let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
-    let getNumberOfSimulatedRequestsValue = getNumberOfSimulatedRequestsInputElement.value;
-    
-    if (verifyLoadTestTemplate(getDurationValue, getNumberOfSimulatedRequestsValue, selectedID)) {
-        
+    let getNumberActiveUsersElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
+    let getNumberActiveUsers = getNumberActiveUsersElement.value;
+
+
+    if (verifyMandatory(
+        getLoadPeakChecked,
+        getContinuousLoadChecked,
+        getDurationValue,
+        getResponseTime,
+        getNumberActiveUsers)) {
+
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
-        
-        let serviceName = getNodeName(selectedID);
-        
+
+        let artifact = getNodeName(selectedID);
+        let stimulus;
+
+        let responseMeasure = {
+            "Response times below": getResponseTime + 'milliseconds'
+        };
+
+        let environment = {
+            "Duration": getDurationValue + 'minutes'
+        };
+
+        if (getLoadPeakChecked) {
+            let getLoadPeakInput = document.getElementById(`peakLoad__input_${selectedID}`);
+            let getLoadPeak = getLoadPeakInput.value;
+            stimulus = {
+                "Type": "Peak load",
+                "Number active users": getNumberActiveUsers,
+                "Peak Load at": getLoadPeak + 'requests/hour'
+            }
+        } else if (getContinuousLoadChecked) {
+            let getContinuousLoadInput = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
+            let getContinuousLoad = getContinuousLoadInput.value;
+            stimulus = {
+                "Type": "Continuous Load",
+                "Number active users": getNumberActiveUsers,
+                "Duration of Increase": getContinuousLoad + 'minutes'
+            }
+        }
+
         /**
          * This is probably not necessary for the future...
          */
-        if (serviceName === '') {
+        if (artifact === '') {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
         }
-        
+
         const newLoadTestTemplateObj = new LoadTestTemplate(
-            getDescriptionValue,
-            serviceName,
-            getDurationValue,
-            getNumberOfSimulatedRequestsValue);
-            
+            artifact,
+            stimulus,
+            environment,
+            responseMeasure
+        );
+
         setupTemplateObject(newLoadTestTemplateObj, 'LOADTEST');
-        
+
         if (!getSummaryView) {
             createSummaryView(newLoadTestTemplateObj);
         } else {
@@ -59,12 +99,26 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
 }
 
+const verifyMandatory = (
+    loadPeakChecked,
+    continuousLoadChecked,
+    duration,
+    responseTime,
+    numberActiveUsers) => {
+
+
+    if ((loadPeakChecked || continuousLoadChecked) && duration && responseTime && numberActiveUsers) {
+        return true;
+    }
+
+    return false;
+}
 
 const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, selectedID) => {
     let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
-    
+
     let getLoadTestDuration__invalid = document.getElementById(`duration__input__invalid_${selectedID}`);
-    
+
     let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
     let getNumberOfSimulatedRequests__input__invalid = document.getElementById(`numberOfSimulatedRequests__input__invalid_${selectedID}`);
 
