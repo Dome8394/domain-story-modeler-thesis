@@ -5,18 +5,11 @@ export class ResilienceTemplate {
         artifact,
         stimulus = [],
         environment = [],
-        responseMeasure = [],
-        scenarioDescription,
+        responseMeasure
     ) {
-        if (scenarioDescription === '') {
-            console.log(scenarioDescription);
-            this.scenarioDescription = 'Very basic resilience scenario';
-        } else {
-            this.scenarioDescription = scenarioDescription;
-        }
-        this.environment = environment;
         this.artifact = artifact;
         this.stimulus = stimulus;
+        this.environment = environment;
         this.responseMeasure = responseMeasure;
     }
 

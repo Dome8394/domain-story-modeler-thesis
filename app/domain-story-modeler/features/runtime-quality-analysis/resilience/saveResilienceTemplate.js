@@ -14,11 +14,9 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 
-    let numberOfInstancesElement = document.getElementById(`resilienceServiceAmount_${selectedID}`);
-    let numberOfInstances = numberOfInstancesElement.value;
-
-    let getResilienceScenarioDescriptionElement = document.getElementById(`resilienceScenarioDescription_${selectedID}`);
-    let scenarioDescription = getResilienceScenarioDescriptionElement.value;
+    // stimulusRepetition
+    let stimulusRepetitionSelectElement = document.getElementById(`stimulusOccurrence__select_${selectedID}`);
+    let getStimulusRepetition = stimulusRepetitionSelectElement.value;
 
     let getResilienceScenarioExecutionEnvironmentElement = document.getElementById(`resilienceScenarioEnvironmentTypeSelect_${selectedID}`);
     let executionEnvironment = getResilienceScenarioExecutionEnvironmentElement.value;
@@ -29,38 +27,32 @@ export const saveResilienceTemplate = (selectedID) => {
     let getExecutionContextOffWorkingHoursCheckBox = document.getElementById(`executionContextOffWorkingHoursCheckBox_${selectedID}`);
     let getExecutionContextOffWorkingHoursCheckBoxValue = getExecutionContextOffWorkingHoursCheckBox.checked;
 
-    let getRandomizedServiceSelectionCheckbox = document.getElementById(`randomServiceSelectionCheckBox_${selectedID}`);
-    let randomizedServiceSelection = getRandomizedServiceSelectionCheckbox.checked;
-
+    // Duration
     let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
-    let timeOfServiceFailure = timeOfServiceFailureElement.value;
+    let getDuration = timeOfServiceFailureElement.value;
 
-    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
-    let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
-
-    let getResponseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
-    let getResponseMeasureResponseTimeCheckBoxValue = getResponseMeasureResponseTimeCheckBoxElement.checked;
-
+    // no response
+    let getNoResponseCheckbox = document.getElementById(`stimulusCheckBox_${selectedID}`);
+    let getNoResponse = getNoResponseCheckbox.checked;
+    
+    let getDifferentResponseCheckbox = document.getElementById(`stimulusOtherThanCheckbox_${selectedID}`);
+    let getDifferentResponse = getDifferentResponseCheckbox.checked;
+    
+    let getLaterResponseCheckbox = document.getElementById(`stimulusLaterThanCheckbox_${selectedID}`);
+    let getLaterResponse = getLaterResponseCheckbox.checked;
+    
     let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
-    let getResponseMeasureResponseTimeInputValue = getResponseMeasureResponseTimeInputElement.value;
-
-    let getResponseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
-    let getResponseMeasureRecoveryTimeCheckBoxValue = getResponseMeasureRecoveryTimeCheckBoxElement.checked;
+    let getResponseTime = getResponseMeasureResponseTimeInputElement.value;
 
     let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
-    let getResponseMeasureRecoveryTimeInputValue = getResponseMeasureRecoveryTimeInputElement.value;
+    let getRecoveryTime = getResponseMeasureRecoveryTimeInputElement.value;
     
-    console.log("Recovery time checkbox element: ", getResponseMeasureRecoveryTimeCheckBoxElement);
-    console.log("Recovery time checkbox element value prior to verification: ", getResponseMeasureRecoveryTimeCheckBoxValue);
 
-    if (verifyResilienceTemplate(numberOfInstances,
-        timeOfServiceFailure,
-        stimulusCheckBoxElementValue,
-        getResponseMeasureResponseTimeCheckBoxValue,
-        getResponseMeasureResponseTimeInputValue,
-        getResponseMeasureRecoveryTimeCheckBoxValue,
-        getResponseMeasureRecoveryTimeInputValue,
-        selectedID)) {
+    if (verifyMandatory(
+        getNoResponse,
+        getDifferentResponse, 
+        getLaterResponse,
+        getDuration)) {
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
@@ -72,58 +64,72 @@ export const saveResilienceTemplate = (selectedID) => {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
         }
-
-        //TODO: check if this can be simplified with the checkbox state...
-        if (randomizedServiceSelection === true) {
-            randomizedServiceSelection = false;
-        } else {
-            randomizedServiceSelection = true;
-        }
-
-
+        
+        let scenarioEnvironment;
+        let environmentContext;
         let artifact = getNodeName(selectedID);
         let responseMeasure;
         let stimulus;
+        
+        if (executionEnvironment == 'Yes') {
+            scenarioEnvironment = 'PROD';
+            environmentContext = { "NO_CONTEXT_INFORMATION": "NO_CONTEXT_INFORMATION" };
+        } else {
+            scenarioEnvironment = 'TESTING';
+            if (getExecutionContextWorkingHoursCheckBoxValue && getExecutionContextOffWorkingHoursCheckBoxValue) {
+                environmentContext = {
+                    "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
+                };
+            } else if (getExecutionContextOffWorkingHoursCheckBoxValue) {
+                environmentContext = {
+                    "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
+                };
+            } else if (getExecutionContextWorkingHoursCheckBoxValue) {
+                environmentContext = {
+                    "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
+                    "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
+                };
+            } else {
+                console.log("Please provide additional environment information");
+            }
+        }
+        
+        if(getNoResponse) {
+            stimulus = {
+                "No response": true
+            }
+            responseMeasure = {
+                "Recovery Time below": getRecoveryTime
+            }
+        } else if(getDifferentResponse) {
+            stimulus = {
+                "Different response": true,
+                "Fault object": { "Test": "XXXXX" },
+                "Expected Status Code": 400
+            }
+        } else if(getLaterResponse) {
+            stimulus = {
+                "Response arrives late": true
+            }
+            responseMeasure = {
+                "Response Time below": getResponseTime
+            }
+        }
+        
         let environment =
         {
-            "Environment": executionEnvironment,
-            "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
-            "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
-            "Instances": numberOfInstances,
-            "Random Selection": randomizedServiceSelection
+            "Environment": scenarioEnvironment,
+            "Stimulus repetition": getStimulusRepetition,
+            "Context": environmentContext
         };
-
-        if (stimulusCheckBoxElementValue) {
-            stimulus = {
-                "Service Failure": true,
-                "Time to Failure": timeOfServiceFailure
-            };
-        }
-
-        if (getResponseMeasureResponseTimeInputValue) {
-
-            responseMeasure = { "Response time": getResponseMeasureResponseTimeInputValue };
-        }
-
-        if (getResponseMeasureRecoveryTimeInputValue) {
-
-            responseMeasure = { "Recovery time": getResponseMeasureRecoveryTimeInputValue };
-        }
-
-        if (getResponseMeasureResponseTimeInputValue && getResponseMeasureRecoveryTimeInputValue) {
-            responseMeasure = {
-                "Response time": getResponseMeasureResponseTimeInputValue,
-                "Recovery time": getResponseMeasureRecoveryTimeInputValue
-            };
-        }
-
+        
+        stimulus["Duration"] = getDuration;
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,
             stimulus,
             environment,
-            responseMeasure,
-            scenarioDescription,
+            responseMeasure
         );
 
         setupTemplateObject(newResilienceScenarioTemplate, 'RESILIENCE');
@@ -146,15 +152,11 @@ export const verifyResilienceTemplate = (
     amountOfFailingInstances,
     timeToFailure,
     serviceFails,
-    getResponseMeasureResponseTimeCheckBoxValue,
+    // getResponseMeasureResponseTimeCheckBoxValue,
     getResponseTime,
-    getResponseMeasureRecoveryTimeCheckBoxValue,
+    // getResponseMeasureRecoveryTimeCheckBoxValue,
     getRecoveryTime,
     selectedID) => {
-
-    console.log("Response time checkbox value: ", getResponseMeasureResponseTimeCheckBoxValue);
-    console.log("Recovery time checkbox value: ", getResponseMeasureRecoveryTimeCheckBoxValue);
-    
     /**
      * Get HTML elements and their values
      */
@@ -162,88 +164,98 @@ export const verifyResilienceTemplate = (
     let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
     let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
 
-    let responseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
+    // let responseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
     let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
 
-    let responseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
+    // let responseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
     let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
     /**
      * Get error msg elements
      */
-    let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
+    // let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
     let timeOfServiceFailure__invalidElement = document.getElementById(`timeOfServiceFailure__invalid_${selectedID}`);
     let stimulusCheckBox__invalid = document.getElementById(`stimulusCheckBox__invalid_${selectedID}`);
     let responseMeasure__invalidElement = document.getElementById(`responseMeasure__invalid_${selectedID}`);
 
-    if (!amountOfFailingInstances) {
-        resilienceServiceAmount__invalidElement.style.display = 'block';
-        numberOfInstances.style.borderColor = 'red';
-    } else {
-        resilienceServiceAmount__invalidElement.style.display = 'none';
-        numberOfInstances.style.borderColor = 'springgreen';
-    }
+    // if (!amountOfFailingInstances) {
+    //     resilienceServiceAmount__invalidElement.style.display = 'block';
+    //     numberOfInstances.style.borderColor = 'red';
+    // } else {
+    //     resilienceServiceAmount__invalidElement.style.display = 'none';
+    //     numberOfInstances.style.borderColor = 'springgreen';
+    // }
 
-    if (!timeToFailure) {
-        timeOfServiceFailure__invalidElement.style.display = 'block';
-        timeOfServiceFailureElement.style.borderColor = 'red';
-    } else {
-        timeOfServiceFailure__invalidElement.style.display = 'none';
-        timeOfServiceFailureElement.style.borderColor = 'springgreen';
-    }
+    // if (!timeToFailure) {
+    //     timeOfServiceFailure__invalidElement.style.display = 'block';
+    //     timeOfServiceFailureElement.style.borderColor = 'red';
+    // } else {
+    //     timeOfServiceFailure__invalidElement.style.display = 'none';
+    //     timeOfServiceFailureElement.style.borderColor = 'springgreen';
+    // }
 
-    if (getResponseMeasureResponseTimeCheckBoxValue === false && getResponseMeasureRecoveryTimeCheckBoxValue === false) {
-        responseMeasure__invalidElement.style.display = 'block';
-        responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'red';
-        responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'red';
-    } else {
-        if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
-            responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
-            responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
+    // if (getResponseMeasureResponseTimeCheckBoxValue === false && getResponseMeasureRecoveryTimeCheckBoxValue === false) {
+    //     responseMeasure__invalidElement.style.display = 'block';
+    //     responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'red';
+    //     responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'red';
+    // } else {
+    //     if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
+    //         responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
+    //         responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
 
-            if (getResponseTime) {
-                getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
-            } else {
-                getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
-            }
+    //         if (getResponseTime) {
+    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
+    //         } else {
+    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
+    //         }
 
-            if (getRecoveryTime) {
-                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
-            } else {
-                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
-            }
-        }
+    //         if (getRecoveryTime) {
+    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
+    //         } else {
+    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
+    //         }
+    //     }
 
-        if (getResponseMeasureResponseTimeCheckBoxValue) {
-            console.log("Testing...");
-            responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
-            if (getResponseTime) {
-                getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
-            } else {
-                getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
-            }
-        } else if (getResponseMeasureRecoveryTimeCheckBoxValue) {
-            responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
-            if (getRecoveryTime) {
-                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
-            } else {
-                getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
-            }
-        }
+    //     if (getResponseMeasureResponseTimeCheckBoxValue) {
+    //         console.log("Testing...");
+    //         responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
+    //         if (getResponseTime) {
+    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
+    //         } else {
+    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
+    //         }
+    //     } else if (getResponseMeasureRecoveryTimeCheckBoxValue) {
+    //         responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
+    //         if (getRecoveryTime) {
+    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
+    //         } else {
+    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
+    //         }
+    //     }
         
-        responseMeasure__invalidElement.style.display = 'none';
-    }
+    //     responseMeasure__invalidElement.style.display = 'none';
+    // }
 
-    if (!serviceFails) {
-        stimulusCheckBox__invalid.style.display = 'block';
-        stimulusCheckBoxElement.style.borderColor = 'red';
-    } else {
-        stimulusCheckBox__invalid.style.display = 'none';
-        stimulusCheckBoxElement.style.borderColor = 'springgreen';
-    }
+    // if (!serviceFails) {
+    //     stimulusCheckBox__invalid.style.display = 'block';
+    //     stimulusCheckBoxElement.style.borderColor = 'red';
+    // } else {
+    //     stimulusCheckBox__invalid.style.display = 'none';
+    //     stimulusCheckBoxElement.style.borderColor = 'springgreen';
+    // }
 
-    if (serviceFails && timeToFailure && amountOfFailingInstances && (getResponseTime || getRecoveryTime)) {
+    // if (serviceFails && timeToFailure && amountOfFailingInstances && (getResponseTime || getRecoveryTime)) {
+    //     return true;
+    // }
+
+    return true;
+}
+
+const verifyMandatory = (noResponseChecked, differentResponseChecked, laterResponseChecked, durationProvided) => {
+    
+    if ((noResponseChecked || differentResponseChecked || laterResponseChecked) && durationProvided) {
+        console.log("Mandatory fields are missing!");
         return true;
     }
-
+    
     return false;
 }
