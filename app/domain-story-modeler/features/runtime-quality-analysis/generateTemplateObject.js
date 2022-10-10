@@ -1,4 +1,4 @@
-
+import { createAnalysisResultsView } from './analysis-results/analysisResultsView';
 let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
 
 export const createDisabledGenerateBtn = () => {
@@ -15,8 +15,16 @@ export const createDisabledGenerateBtn = () => {
     generateAndPush__btn.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
         // generateResilienceScenarioTemplate();
+        createAnalysisResultsView();
     });
     
     generateButtonContainer.appendChild(generateAndPush__btn)
     elementContainer.appendChild(generateButtonContainer);
+}
+
+export const pushToQueue = () => {
+    setTimeout(() => {
+        console.log("Pushing to queue...");
+        
+    }, 5000);
 }
