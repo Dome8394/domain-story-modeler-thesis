@@ -4,11 +4,13 @@ let modal__container = document.getElementById('modal__container');
 
 export const createSummaryView = (templateObject) => {
     
+    let summary__btn__container = document.createElement('div');
+    
     let summaryView__btn__open = document.createElement('button');
     summaryView__btn__open.innerText = 'Summary';
     summaryView__btn__open.classList.add('btn');
     summaryView__btn__open.classList.add('btn-primary');
-    summaryView__btn__open.classList.add('custom-btn');
+    summaryView__btn__open.classList.add('custom-button');
     
     /**
      * Opens the summary view
@@ -47,7 +49,8 @@ export const createSummaryView = (templateObject) => {
     summaryViewModalContent.appendChild(summaryViewModalHeader);
     summaryViewModalContent.appendChild(summaryViewModalContentItems);
     summaryViewModalContent.appendChild(summaryView__btn__close);
-    elementContainer.appendChild(summaryView__btn__open);
+    summary__btn__container.appendChild(summaryView__btn__open);
+    elementContainer.appendChild(summary__btn__container);
     
     createNewSummaryForTemplate(templateObject);
 }
