@@ -43,11 +43,11 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         let stimulus;
 
         let responseMeasure = {
-            "Response times below": getResponseTime + 'milliseconds'
+            "Response times below": getResponseTime + ' milliseconds'
         };
 
         let environment = {
-            "Duration": getDurationValue + 'minutes'
+            "Duration": getDurationValue + ' minutes'
         };
 
         if (getLoadPeakChecked) {
@@ -56,7 +56,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             stimulus = {
                 "Type": "Peak load",
                 "Number active users": getNumberActiveUsers,
-                "Peak Load at": getLoadPeak + 'requests/hour'
+                "Peak Load at": getLoadPeak + ' requests/hour'
             }
         } else if (getContinuousLoadChecked) {
             let getContinuousLoadInput = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
@@ -64,7 +64,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             stimulus = {
                 "Type": "Continuous Load",
                 "Number active users": getNumberActiveUsers,
-                "Duration of Increase": getContinuousLoad + 'minutes'
+                "Duration of Increase": getContinuousLoad + ' minutes'
             }
         }
 
