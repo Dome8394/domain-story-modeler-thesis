@@ -55,15 +55,13 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             let getLoadPeak = getLoadPeakInput.value;
             stimulus = {
                 "Type": "Peak load",
-                "Number active users": getNumberActiveUsers,
-                "Peak Load at": getLoadPeak + ' requests/hour'
+                "Load profile": getLoadPeak + ' requests/hour'
             }
         } else if (getContinuousLoadChecked) {
             let getContinuousLoadInput = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
             let getContinuousLoad = getContinuousLoadInput.value;
             stimulus = {
                 "Type": "Continuous Load",
-                "Number active users": getNumberActiveUsers,
                 "Duration of Increase": getContinuousLoad + ' minutes'
             }
         }

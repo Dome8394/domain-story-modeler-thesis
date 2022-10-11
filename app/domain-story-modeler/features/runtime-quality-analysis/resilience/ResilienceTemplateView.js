@@ -4,6 +4,7 @@ import { INVALID_RESPONSE_MEASURE, INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
+import { existingLoadTestsView } from '../performance/ExistingLoadTestsView';
 
 /**
  * Get Elements
@@ -87,6 +88,8 @@ const createButtonContainer = (selectedID) => {
  * @param {} selectedID 
  */
 export function createResilienceTemplateView(selectedID) {
+
+    let getModalContainer = document.getElementById('existingLoadTests__modal__container');
 
     /**
      * Create html elements
@@ -401,7 +404,7 @@ export function createResilienceTemplateView(selectedID) {
     option_no.key = 'No';
     option_no.text = 'No';
     option_no.selected = 'true';
-    
+
     let option_yes = document.createElement('option');
     option_yes.key = 'Yes';
     option_yes.text = 'Yes';
@@ -457,6 +460,50 @@ export function createResilienceTemplateView(selectedID) {
     resilienceScenarioEnvironmentType__invalid.innerText = RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO;
     resilienceScenarioEnvironmentType__invalid.classList.add('error-info');
     resilienceScenarioEnvironmentType__invalid.style.display = 'none';
+
+    let existingLoadTests__container = document.createElement('div');
+    existingLoadTests__container.id = `existingLoadTests__container_${selectedID}`;
+    existingLoadTests__container.style.display = 'block';
+    existingLoadTests__container.classList.add('checkbox-parent');
+
+    let existingLoadTests__label__container = document.createElement('div');
+    existingLoadTests__label__container.classList.add('label-container');
+
+    let existingLoadTests__child__container = document.createElement('div');
+    existingLoadTests__child__container.classList.add('checkbox-child');
+
+    let existingLoadTests__button__container = document.createElement('div');
+    existingLoadTests__button__container.classList.add('checkbox-child');
+
+    let existingLoadTests__button = document.createElement('button');
+    existingLoadTests__button.id = `existingLoadTests__button_${selectedID}`;
+    existingLoadTests__button.classList.add('btn');
+    existingLoadTests__button.classList.add('btn-primary');
+    existingLoadTests__button.innerText = 'Show loadtests';
+    existingLoadTests__button.disabled = true;
+
+    existingLoadTests__button.addEventListener('click', () => {
+        console.log("Open existing load tests...");
+        getModalContainer.style.display = 'block';
+    })
+
+    let existingLoadTests__input = document.createElement('input');
+    existingLoadTests__input.id = `existingLoadTests__input_${selectedID}`;
+    existingLoadTests__input.type = 'checkbox';
+    existingLoadTests__input.classList.add('form-check-input');
+    
+    existingLoadTests__input.addEventListener('click', () => {
+        if (existingLoadTests__input.checked) {
+            existingLoadTests__button.disabled = false;
+        } else {
+            existingLoadTests__button.disabled = true;
+        }
+    })
+
+    let existingLoadTests__input__label = document.createElement('label');
+    existingLoadTests__input__label.setAttribute('for', `existingLoadTests__input_${selectedID}`);
+    existingLoadTests__input__label.classList.add('form-check-label');
+    existingLoadTests__input__label.innerText = 'Use existing loadtests';
 
     let executionContextInformation_container = document.createElement('div');
     executionContextInformation_container.id = `executionContextInformation_container_${selectedID}`;
@@ -637,6 +684,11 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContent.appendChild(header);
     resilienceTemplateContent.appendChild(resilienceTemplateContentInputTopLevelContainer);
 
+    existingLoadTests__button__container.appendChild(existingLoadTests__button);
+
+    existingLoadTests__child__container.appendChild(existingLoadTests__input__label);
+    existingLoadTests__child__container.appendChild(existingLoadTests__input);
+
     environment_select_information_container.appendChild(user_information);
 
     resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__label);
@@ -706,6 +758,8 @@ export function createResilienceTemplateView(selectedID) {
 
     executionContextScheduleParentContainer.appendChild(executionContextScheduleContainerOfficeHours);
     executionContextScheduleParentContainer.appendChild(executionContextScheduleContainerOffHours);
+    executionContextScheduleParentContainer.appendChild(existingLoadTests__child__container);
+    executionContextScheduleParentContainer.appendChild(existingLoadTests__button__container);
 
     executionContextInformation_container.appendChild(executionContextLabelContainer);
     executionContextInformation_container.appendChild(executionContextScheduleParentContainer);
@@ -738,6 +792,7 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateViewContainer__left);
     resilienceTemplateContentInputTopLevelContainer.appendChild(resilienceTemplateViewContainer__right);
 
+    existingLoadTestsView(selectedID);
     createButtonContainer(selectedID);
     resilienceTemplateModal.style.display = 'block';
 
