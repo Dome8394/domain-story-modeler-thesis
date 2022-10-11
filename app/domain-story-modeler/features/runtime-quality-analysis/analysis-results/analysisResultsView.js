@@ -12,7 +12,7 @@ export const createAnalysisResultsView = () => {
     let results__btn__container = document.createElement('div');
 
     let breakEle = document.createElement('br');
-
+    
     let results__btn = document.createElement('button');
     results__btn.id = 'results__btn';
     results__btn.classList.add('btn');
@@ -45,6 +45,9 @@ export const createAnalysisResultsView = () => {
      * Resilience related HTML elements
      */
     
+    let summary__header__resilience__container = document.createElement('div');
+    summary__header__resilience__container.classList.add('label-container');
+    
     let summary__header__resilience__text = document.createElement('p');
     summary__header__resilience__text.innerText = 'Resilience Results';
     
@@ -58,11 +61,14 @@ export const createAnalysisResultsView = () => {
     let stimulus__resilience__type;
     let stimulus__resilience__faultObject;
     let stimulus__resilience__expectedStatus;
+    let stimulus__resilience__duration;
     let environment__resilience__environment;
     let environment__resilience__stimuliRepetition;
     let environment__resilience__context;
     let responseMeasure__resilience__recoveryTime;
+    let responseMeasure__recoveryTime__keyValue;
     let responseMeasure__resilience__responseTime;
+    let responseMeasure__responseTime__keyValue;
     
     
     
@@ -152,7 +158,7 @@ export const createAnalysisResultsView = () => {
         }
 
         if (parsedResults.resiliencetest) {
-            const resilienceTest = parsedResults.resilience[0];
+            const resilienceTest = parsedResults.resiliencetest[0];
             
             for(const [key, value] of Object.entries(resilienceTest)) {
                 console.log(`${key}: ${value}`);
@@ -162,27 +168,45 @@ export const createAnalysisResultsView = () => {
                 if(key === 'stimulus') {
                     for(const [innerKey, innerValue] of Object.entries(resilienceTest.stimulus)) {
                         console.log(`${innerKey}: ${innerValue}`);
-                        if(innerKey === 'Type') {}
-                        if(innerKey === 'Fault object') {}
-                        if(innerKey === 'Expected Status Code') {}
-                        if(innerKey === 'Duration') {}
+                        if(innerKey === 'Type') {
+                            stimulus__resilience__type = innerValue;
+                        }
+                        if(innerKey === 'Fault object') {
+                            stimulus__resilience__faultObject = innerValue;
+                        }
+                        if(innerKey === 'Expected Status Code') {
+                            stimulus__resilience__expectedStatus = innerValue;
+                        }
+                        if(innerKey === 'Duration') {
+                            stimulus__resilience__duration = innerValue;
+                        }
                     }
                 }
                 if(key === 'environment') {
                     for (const [innerKey, innerValue] of Object.entries(resilienceTest.environment)) {
                         console.log(`${innerKey}: ${innerValue}`);
-                        if (innerKey === 'Environment') { }
-                        if (innerKey === 'Stimulus repetition') { }
+                        if (innerKey === 'Environment') {
+                            environment__resilience__environment = innerValue;
+                         }
+                        if (innerKey === 'Stimulus repetition') { 
+                            environment__resilience__stimuliRepetition = innerValue;
+                        }
                         if (innerKey === 'Context') { 
-                            // TODO: There is another level included here!
+                            console.log(JSON.stringify(innerValue));
                         }
                     }
                 }
                 if(key === 'responseMeasure') {
                     for (const [innerKey, innerValue] of Object.entries(resilienceTest.responseMeasure)) {
                         console.log(`${innerKey}: ${innerValue}`);
-                        if (innerKey === 'Response Time below') { }
-                        if (innerKey === 'Recovery Time below') { }
+                        if (innerKey === 'Response Time below') {
+                            responseMeasure__resilience__recoveryTime = innerValue;
+                            responseMeasure__recoveryTime__keyValue = innerKey;
+                         }
+                        if (innerKey === 'Recovery Time below') {
+                            responseMeasure__resilience__responseTime = innerValue;
+                            responseMeasure__responseTime__keyValue = innerKey;
+                         }
                     }
                 }
             }
@@ -202,23 +226,40 @@ export const createAnalysisResultsView = () => {
             The load increased for <strong>${stimulus__loadtests__durationIncrease}</strong> and remained at this value for
             the residiual test time. The test took <strong>${stimulus__loadtests__duration}</strong>.`;
     }
+    
+    let summary__loadtests__results = document.createElement('span');
 
-    let summar__loadtests__results = document.createElement('span');
-
-    summar__loadtests__results.innerHTML = `The threshold of expected response times was defined to be below <strong>${stimulus__loadtests__responseMeasure}</strong>. 
+    summary__loadtests__results.innerHTML = `The threshold of expected response times was defined to be below <strong>${stimulus__loadtests__responseMeasure}</strong>. 
    <u class="underline"> The calculated average response time of the loadtests was 2x faster than the specified threshold!
     Therefore, your system responded within the specified threshold!</u>`;
-
+    
+    let summary__resilience__results = document.createElement('span');
+    
+    summary__resilience.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> resilience test 
+    with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__loadtests__duration}</strong>.
+    The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
+    As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
+    `;
+    
+    summary__resilience__results.innerHTML = `Your experiment was <u class="underline">not successfull</u>!`;
+    
 
     summary__header__container.appendChild(summary__header__loadtests__text);
     summary__loadtests__container.appendChild(summary__loadtests);
     summary__loadtests__container.appendChild(breakEle);
     summary__loadtests__container.appendChild(breakEle);
     summary__loadtests__container.appendChild(breakEle);
-    summary__loadtests__container.appendChild(summar__loadtests__results);
+    summary__loadtests__container.appendChild(summary__loadtests__results);
     resultsView__container.appendChild(summary__header__container);
     resultsView__container.appendChild(summary__loadtests__container);
-
+    
+    summary__header__resilience__container.appendChild(summary__header__resilience__text);
+    summary__resilience__container.appendChild(summary__resilience);
+    summary__resilience__container.appendChild(breakEle);
+    summary__resilience__container.appendChild(summary__resilience__results);
+    resultsView__container.appendChild(summary__header__resilience__container);
+    resultsView__container.appendChild(summary__resilience__container);
+    
     results__modal__content.appendChild(resultsView__container);
     results__modal__content.appendChild(results__close__btn);
     results__btn__container.appendChild(results__btn);
