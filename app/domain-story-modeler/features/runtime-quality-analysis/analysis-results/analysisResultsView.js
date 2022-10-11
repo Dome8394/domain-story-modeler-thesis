@@ -44,8 +44,28 @@ export const createAnalysisResultsView = () => {
     /**
      * Resilience related HTML elements
      */
-    // TODO
-
+    
+    let summary__header__resilience__text = document.createElement('p');
+    summary__header__resilience__text.innerText = 'Resilience Results';
+    
+    let summary__resilience = document.createElement('span');
+    
+    let summary__resilience__container = document.createElement('div');
+    summary__resilience__container.id = 'summary__resilience__container';
+    
+    let resilience__artifact;
+    
+    let stimulus__resilience__type;
+    let stimulus__resilience__faultObject;
+    let stimulus__resilience__expectedStatus;
+    let environment__resilience__environment;
+    let environment__resilience__stimuliRepetition;
+    let environment__resilience__context;
+    let responseMeasure__resilience__recoveryTime;
+    let responseMeasure__resilience__responseTime;
+    
+    
+    
     /**
      * Loadtests related HTML elements
      */
@@ -89,7 +109,6 @@ export const createAnalysisResultsView = () => {
             const loadtest = parsedResults.loadtest[0];
 
             for (const [key, value] of Object.entries(loadtest)) {
-                console.log(`${key}: ${value}`);
                 if (key === 'artifact') {
                     stimulus__loadtests__artifact = value;
                 }
@@ -133,7 +152,40 @@ export const createAnalysisResultsView = () => {
         }
 
         if (parsedResults.resiliencetest) {
-            //TODO 
+            const resilienceTest = parsedResults.resilience[0];
+            
+            for(const [key, value] of Object.entries(resilienceTest)) {
+                console.log(`${key}: ${value}`);
+                if(key === 'artifact') {
+                    resilience__artifact = value;
+                }
+                if(key === 'stimulus') {
+                    for(const [innerKey, innerValue] of Object.entries(resilienceTest.stimulus)) {
+                        console.log(`${innerKey}: ${innerValue}`);
+                        if(innerKey === 'Type') {}
+                        if(innerKey === 'Fault object') {}
+                        if(innerKey === 'Expected Status Code') {}
+                        if(innerKey === 'Duration') {}
+                    }
+                }
+                if(key === 'environment') {
+                    for (const [innerKey, innerValue] of Object.entries(resilienceTest.environment)) {
+                        console.log(`${innerKey}: ${innerValue}`);
+                        if (innerKey === 'Environment') { }
+                        if (innerKey === 'Stimulus repetition') { }
+                        if (innerKey === 'Context') { 
+                            // TODO: There is another level included here!
+                        }
+                    }
+                }
+                if(key === 'responseMeasure') {
+                    for (const [innerKey, innerValue] of Object.entries(resilienceTest.responseMeasure)) {
+                        console.log(`${innerKey}: ${innerValue}`);
+                        if (innerKey === 'Response Time below') { }
+                        if (innerKey === 'Recovery Time below') { }
+                    }
+                }
+            }
         }
     }
 
@@ -164,6 +216,7 @@ export const createAnalysisResultsView = () => {
     summary__loadtests__container.appendChild(breakEle);
     summary__loadtests__container.appendChild(breakEle);
     summary__loadtests__container.appendChild(summar__loadtests__results);
+    resultsView__container.appendChild(summary__header__container);
     resultsView__container.appendChild(summary__loadtests__container);
 
     results__modal__content.appendChild(resultsView__container);
