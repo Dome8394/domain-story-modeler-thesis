@@ -96,6 +96,12 @@ export const createAnalysisResultsView = () => {
     let stimulus__loadtests__peakload;
 
     let stimulus__loadtests__durationIncrease;
+    
+    let resultMetric__loadtests__responseTimes;
+    
+    let resultMetric__loadtests__ninetyPercentile;
+    
+    let resultMetric__loadtests__ninetyFivePercentile;
 
     /**
      * CAUTION: This block of code is only necessary for the prototype. 
@@ -152,6 +158,24 @@ export const createAnalysisResultsView = () => {
                 if (key === 'responseMeasure') {
                     for (const [innerKey, innerValue] of Object.entries(loadtest.responseMeasure)) {
                         stimulus__loadtests__responseMeasure = innerValue;
+                    }
+                }
+                
+                if (key === 'resultMetrics') {
+                    let metrics = key[0];
+                    for (const [metricKey, metricValue] of Object.entries(metrics)) {
+                        console.log(`${metricKey}: ${metricValue}`);
+                        if(metricValue === "Response Times") {
+                            resultMetric__loadtests__responseTimes = metricValue;
+                        }
+                        
+                        if(metricValue === "90th Percentile") {
+                            resultMetric__loadtests__ninetyPercentile = metricValue;
+                        }
+                        
+                        if(metricKey === "95th Percentile") {
+                            resultMetric__loadtests__ninetyFivePercentile = metricValue;
+                        }
                     }
                 }
             }
@@ -235,8 +259,8 @@ export const createAnalysisResultsView = () => {
     
     let summary__resilience__results = document.createElement('span');
     
-    summary__resilience.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> resilience test 
-    with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__loadtests__duration}</strong>.
+    summary__resilience.innerHTML = `We executed the <strong>${stimulus__resilience__type}</strong> resilience test 
+    with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__resilience__duration}</strong>.
     The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
     As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
     `;

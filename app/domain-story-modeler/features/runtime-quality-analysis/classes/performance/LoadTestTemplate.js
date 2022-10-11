@@ -11,11 +11,13 @@ export class LoadTestTemplate {
         artifact,
         stimulus,
         environment,
-        responseMeasure
+        responseMeasure,
+        resultMetrics
     ) {
         this.artifact = artifact;
         this.stimulus = stimulus;
         this.environment = environment;
         this.responseMeasure = responseMeasure;
+        this.resultMetrics = resultMetrics;
     }
 }

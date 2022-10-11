@@ -17,23 +17,35 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
     let getContinuousLoadCheckbox = document.getElementById(`stimulusContinuous__checkbox_${selectedID}`);
     let getContinuousLoadChecked = getContinuousLoadCheckbox.checked;
+    
+    let getConstantLoadCheckbox = document.getElementById(`stimulusConstant__checkbox_${selectedID}`);
+    let getConstantLoadChecked = getConstantLoadCheckbox.checked;
 
     let getResponseTimeElement = document.getElementById(`stimulusResponseTimes__input_${selectedID}`);
     let getResponseTime = getResponseTimeElement.value;
 
-    let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
-    let getDurationValue = getDurationInputElement.value;
+    let getResultResponseTimesElement = document.getElementById(`responseTime__input_${selectedID}`);
+    let getResultResponseTimes = getResultResponseTimesElement.checked;
+    
+    let getNinetyPercentileElement = document.getElementById(`percentileNinety__input_${selectedID}`);
+    let getNinetPercentile = getNinetyPercentileElement.checked;
+    
+    let getNinetyFivePercentileElement = document.getElementById(`percentileNinetyFive__input_${selectedID}`);
+    let getNinetyFivePercentile = getNinetyFivePercentileElement.checked;
 
-    let getNumberActiveUsersElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
-    let getNumberActiveUsers = getNumberActiveUsersElement.value;
-
+    let getDurationElement = document.getElementById(`duration__input_${selectedID}`);
+    let getDuration = getDurationElement.value;
 
     if (verifyMandatory(
         getLoadPeakChecked,
         getContinuousLoadChecked,
-        getDurationValue,
+        getConstantLoadChecked,
+        getDuration,
         getResponseTime,
-        getNumberActiveUsers)) {
+        getNumberActiveUsers,
+        getResultResponseTimes,
+        getNinetPercentile,
+        getNinetyFivePercentile)) {
 
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
@@ -47,7 +59,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         };
 
         let environment = {
-            "Duration": getDurationValue + ' minutes'
+            "Duration": getDuration + ' minutes'
         };
 
         if (getLoadPeakChecked) {
@@ -65,6 +77,51 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                 "Duration of Increase": getContinuousLoad + ' minutes'
             }
         }
+        
+        let resultMetrics;
+        
+        if (getResultResponseTimes && getNinetPercentile && getNinetyFivePercentile) {
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "Response Times" },
+                    { "Metric": "90th Percentile" },
+                    { "Metric": "95th Percentile" }
+                ]
+            }
+        } else if (getResultResponseTimes && getNinetPercentile) {
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "Response Times" },
+                    { "Metric": "90th Percentile"}
+                ]
+            }
+        } else if (getResultResponseTimes && getNinetyFivePercentile) {
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "Response Times" },
+                    { "Metric": "95th Percentile" }
+                ]
+            }
+        } else if (getNinetPercentile && getNinetyFivePercentile) {
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "90th Percentile" },
+                    { "Metric": "95th Percentile" }
+                ]
+            }
+        } else if (getNinetPercentile) {
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "90th Percentile" },
+                ]
+            }
+        } else if (getNinetyFivePercentile){
+            resultMetrics = {
+                "Result Metric includes": [
+                    { "Metric": "90th Percentile" },
+                ]
+            }
+        }
 
         /**
          * This is probably not necessary for the future...
@@ -78,7 +135,8 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             artifact,
             stimulus,
             environment,
-            responseMeasure
+            responseMeasure,
+            resultMetrics
         );
 
         setupTemplateObject(newLoadTestTemplateObj, 'LOADTEST');
@@ -100,12 +158,46 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 const verifyMandatory = (
     loadPeakChecked,
     continuousLoadChecked,
+    constantLoadChecked,
     duration,
     responseTime,
-    numberActiveUsers) => {
+    numberActiveUsers,
+    resultResponseTimesChecked,
+    resultNinetyPercentileChecked,
+    resultNinetyFivePercentileChecked) => {
 
 
-    if ((loadPeakChecked || continuousLoadChecked) && duration && responseTime && numberActiveUsers) {
+    if ((loadPeakChecked || continuousLoadChecked || constantLoadChecked) && duration && responseTime && numberActiveUsers && (resultResponseTimesChecked || resultNinetyPercentileChecked || resultNinetyFivePercentileChecked)) {
+        
+        if (loadPeakChecked) {
+            let getPeakLoadInput = document.getElementById(`peakLoad__input_${selectedID}`);
+            let getPeakLoad = getPeakLoadInput.value;
+            
+            let getTimeToPeakInput = document.getElementById(`timeToPeakLoad__input_${selectedID}`);
+            let getTimeToPeak = getTimeToPeakInput.value;
+            
+            if (getPeakLoad && getTimeToPeak) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } else if (continuousLoadChecked) {
+            let getContinousIncreaseDurationElement = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
+            let getContinousIncrease = getContinousIncreaseDurationElement.value;
+            
+            if (!getContinousIncrease) {
+                return false;
+            }
+            
+        } else if (constantLoadChecked) {
+            let getSimulatedLoadElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
+            let getSimulatedLoad = getSimulatedLoadElement.value;
+            
+            if (!getSimulatedLoad) {
+                return false;
+            }
+        }
         return true;
     }
 
