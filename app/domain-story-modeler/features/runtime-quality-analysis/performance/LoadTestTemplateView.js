@@ -345,19 +345,17 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     
     loadTestTemplatInputContainer__left.appendChild(stimulusLabelContainer);
     loadTestTemplatInputContainer__left.appendChild(stimulusParentContainer);
-    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimeChildContainer__label__container);
-    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesChildContainer);
-    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesReferenceValue__label);
     
-    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesReferenceValue__label);
-    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesReferenceValue__label);
+    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimeChildContainer__label__container);
+    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimesChildContainer);
+    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimesReferenceValue__label);
     
-    loadTestTemplatInputContainer__right.appendChild(numberActiveUsers__label__container);
-    loadTestTemplatInputContainer__right.appendChild(numberActiveUsers__child__container);
-    loadTestTemplatInputContainer__right.appendChild(numberActiveUsers__reference__value);
+    loadTestTemplatInputContainer__left.appendChild(numberActiveUsers__label__container);
+    loadTestTemplatInputContainer__left.appendChild(numberActiveUsers__child__container);
+    loadTestTemplatInputContainer__left.appendChild(numberActiveUsers__reference__value);
     
-    loadTestTemplatInputContainer__right.appendChild(durationLabelContainer);
-    loadTestTemplatInputContainer__right.appendChild(durationChildContainer);
+    loadTestTemplatInputContainer__left.appendChild(durationLabelContainer);
+    loadTestTemplatInputContainer__left.appendChild(durationChildContainer);
 
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
