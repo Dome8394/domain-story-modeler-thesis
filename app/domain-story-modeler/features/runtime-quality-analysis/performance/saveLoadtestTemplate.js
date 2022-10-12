@@ -37,12 +37,12 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
     let getDuration = getDurationElement.value;
 
     if (verifyMandatory(
+        selectedID,
         getLoadPeakChecked,
         getContinuousLoadChecked,
         getConstantLoadChecked,
         getDuration,
         getResponseTime,
-        getNumberActiveUsers,
         getResultResponseTimes,
         getNinetPercentile,
         getNinetyFivePercentile)) {
@@ -66,15 +66,27 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             let getLoadPeakInput = document.getElementById(`peakLoad__input_${selectedID}`);
             let getLoadPeak = getLoadPeakInput.value;
             stimulus = {
-                "Type": "Peak load",
+                "Type": "Peak Load",
                 "Load profile": getLoadPeak + ' requests/hour'
             }
         } else if (getContinuousLoadChecked) {
-            let getContinuousLoadInput = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
-            let getContinuousLoad = getContinuousLoadInput.value;
+            let getContinuousLoadDurationElement = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
+            let getContinuousLoadDuration = getContinuousLoadDurationElement.value;
+            
+            let getContinuousLoadProfileElement = document.getElementById(`continuousLoadProfile__input_${selectedID}`);
+            let getContinuousLoadProfile = getContinuousLoadProfileElement.value;
+            
             stimulus = {
                 "Type": "Continuous Load",
-                "Duration of Increase": getContinuousLoad + ' minutes'
+                "Load profile": getContinuousLoadProfile + ' requests/hour',
+                "Duration of Increase": getContinuousLoadDuration + ' minutes'
+            }
+        } else if(getConstantLoadChecked) {
+            let getConstantLoadElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
+            let getConstantLoad = getConstantLoadElement.value;
+            stimulus = {
+                "Type": "Constant Load",
+                "Load profile": getConstantLoad + ' requests/hour'
             }
         }
         
@@ -156,18 +168,18 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 }
 
 const verifyMandatory = (
+    selectedID,
     loadPeakChecked,
     continuousLoadChecked,
     constantLoadChecked,
     duration,
     responseTime,
-    numberActiveUsers,
     resultResponseTimesChecked,
     resultNinetyPercentileChecked,
     resultNinetyFivePercentileChecked) => {
 
 
-    if ((loadPeakChecked || continuousLoadChecked || constantLoadChecked) && duration && responseTime && numberActiveUsers && (resultResponseTimesChecked || resultNinetyPercentileChecked || resultNinetyFivePercentileChecked)) {
+    if ((loadPeakChecked || continuousLoadChecked || constantLoadChecked) && duration && responseTime && (resultResponseTimesChecked || resultNinetyPercentileChecked || resultNinetyFivePercentileChecked)) {
         
         if (loadPeakChecked) {
             let getPeakLoadInput = document.getElementById(`peakLoad__input_${selectedID}`);
@@ -200,7 +212,8 @@ const verifyMandatory = (
         }
         return true;
     }
-
+    
+    console.log("Mandatory fields are missing!");
     return false;
 }
 

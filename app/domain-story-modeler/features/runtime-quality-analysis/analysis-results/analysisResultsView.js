@@ -12,7 +12,7 @@ export const createAnalysisResultsView = () => {
     let results__btn__container = document.createElement('div');
 
     let breakEle = document.createElement('br');
-    
+
     let results__btn = document.createElement('button');
     results__btn.id = 'results__btn';
     results__btn.classList.add('btn');
@@ -44,20 +44,20 @@ export const createAnalysisResultsView = () => {
     /**
      * Resilience related HTML elements
      */
-    
+
     let summary__header__resilience__container = document.createElement('div');
     summary__header__resilience__container.classList.add('label-container');
-    
+
     let summary__header__resilience__text = document.createElement('p');
     summary__header__resilience__text.innerText = 'Resilience Results';
-    
+
     let summary__resilience = document.createElement('span');
-    
+
     let summary__resilience__container = document.createElement('div');
     summary__resilience__container.id = 'summary__resilience__container';
-    
+
     let resilience__artifact;
-    
+
     let stimulus__resilience__type;
     let stimulus__resilience__faultObject;
     let stimulus__resilience__expectedStatus;
@@ -69,9 +69,9 @@ export const createAnalysisResultsView = () => {
     let responseMeasure__recoveryTime__keyValue;
     let responseMeasure__resilience__responseTime;
     let responseMeasure__responseTime__keyValue;
-    
-    
-    
+
+
+
     /**
      * Loadtests related HTML elements
      */
@@ -85,7 +85,7 @@ export const createAnalysisResultsView = () => {
 
     let stimulus__loadtests__type;
 
-    let stimulus__loadtests__activeUsers;
+    let stimulus__loadtests__loadProfile;
 
     let stimulus__loadtests__artifact;
 
@@ -95,12 +95,16 @@ export const createAnalysisResultsView = () => {
 
     let stimulus__loadtests__peakload;
 
+    let stimulus__loadtests__constantLoad;
+
+    let stimulus__loadtests__continuousLoad;
+
     let stimulus__loadtests__durationIncrease;
-    
+
     let resultMetric__loadtests__responseTimes;
-    
+
     let resultMetric__loadtests__ninetyPercentile;
-    
+
     let resultMetric__loadtests__ninetyFivePercentile;
 
     /**
@@ -120,61 +124,61 @@ export const createAnalysisResultsView = () => {
         if (parsedResults.loadtest) {
             const loadtest = parsedResults.loadtest[0];
 
-            for (const [key, value] of Object.entries(loadtest)) {
-                if (key === 'artifact') {
-                    stimulus__loadtests__artifact = value;
-                }
-                if (key === 'stimulus') {
-                    for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
-                        console.log(`${innerKey}: ${innerValue}`);
-                        if (innerKey === 'Type') {
-                            console.log(innerValue);
-                            stimulus__loadtests__type = innerValue;
-                        }
+            if (loadtest) {
 
-                        if (innerKey === 'Peak Load at') {
-                            stimulus__loadtests__peakload = innerValue;
-                        }
+                for (const [key, value] of Object.entries(loadtest)) {
+                    if (key === 'artifact') {
+                        stimulus__loadtests__artifact = value;
+                    }
+                    if (key === 'stimulus') {
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
+                            if (innerKey === 'Type') {
+                                stimulus__loadtests__type = innerValue;
+                            }
 
-                        if (innerKey === 'Duration of Increase') {
-                            stimulus__loadtests__durationIncrease = innerValue;
-                        }
+                            if (innerKey === 'Peak Load at') {
+                                stimulus__loadtests__peakload = innerValue;
+                                console.log("There is a peak load!!");
+                            }
 
-                        if (innerKey === 'Number active users') {
-                            console.log(innerValue);
-                            stimulus__loadtests__activeUsers = innerValue;
+                            if (innerKey === 'Duration of Increase') {
+                                stimulus__loadtests__durationIncrease = innerValue;
+                            }
+                            
+                            if (innerKey === 'Load profile') {
+                                stimulus__loadtests__loadProfile = innerValue;
+                            }
                         }
                     }
-                }
 
-                if (key === 'environment') {
-                    for (const [innerKey, innerValue] of Object.entries(loadtest.environment)) {
-                        if (innerKey === 'Duration') {
-                            stimulus__loadtests__duration = innerValue;
+                    if (key === 'environment') {
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.environment)) {
+                            if (innerKey === 'Duration') {
+                                stimulus__loadtests__duration = innerValue;
+                            }
                         }
                     }
-                }
 
-                if (key === 'responseMeasure') {
-                    for (const [innerKey, innerValue] of Object.entries(loadtest.responseMeasure)) {
-                        stimulus__loadtests__responseMeasure = innerValue;
+                    if (key === 'responseMeasure') {
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.responseMeasure)) {
+                            stimulus__loadtests__responseMeasure = innerValue;
+                        }
                     }
-                }
-                
-                if (key === 'resultMetrics') {
-                    let metrics = key[0];
-                    for (const [metricKey, metricValue] of Object.entries(metrics)) {
-                        console.log(`${metricKey}: ${metricValue}`);
-                        if(metricValue === "Response Times") {
-                            resultMetric__loadtests__responseTimes = metricValue;
-                        }
-                        
-                        if(metricValue === "90th Percentile") {
-                            resultMetric__loadtests__ninetyPercentile = metricValue;
-                        }
-                        
-                        if(metricKey === "95th Percentile") {
-                            resultMetric__loadtests__ninetyFivePercentile = metricValue;
+
+                    if (key === 'resultMetrics') {
+                        let metrics = key[0];
+                        for (const [metricKey, metricValue] of Object.entries(metrics)) {
+                            if (metricValue === "Response Times") {
+                                resultMetric__loadtests__responseTimes = metricValue;
+                            }
+
+                            if (metricValue === "90th Percentile") {
+                                resultMetric__loadtests__ninetyPercentile = metricValue;
+                            }
+
+                            if (metricKey === "95th Percentile") {
+                                resultMetric__loadtests__ninetyFivePercentile = metricValue;
+                            }
                         }
                     }
                 }
@@ -183,107 +187,125 @@ export const createAnalysisResultsView = () => {
 
         if (parsedResults.resiliencetest) {
             const resilienceTest = parsedResults.resiliencetest[0];
-            
-            for(const [key, value] of Object.entries(resilienceTest)) {
-                console.log(`${key}: ${value}`);
-                if(key === 'artifact') {
-                    resilience__artifact = value;
-                }
-                if(key === 'stimulus') {
-                    for(const [innerKey, innerValue] of Object.entries(resilienceTest.stimulus)) {
-                        console.log(`${innerKey}: ${innerValue}`);
-                        if(innerKey === 'Type') {
-                            stimulus__resilience__type = innerValue;
-                        }
-                        if(innerKey === 'Fault object') {
-                            stimulus__resilience__faultObject = innerValue;
-                        }
-                        if(innerKey === 'Expected Status Code') {
-                            stimulus__resilience__expectedStatus = innerValue;
-                        }
-                        if(innerKey === 'Duration') {
-                            stimulus__resilience__duration = innerValue;
+            if (resilienceTest) {
+
+                for (const [key, value] of Object.entries(resilienceTest)) {
+                    console.log(`${key}: ${value}`);
+                    if (key === 'artifact') {
+                        resilience__artifact = value;
+                    }
+                    if (key === 'stimulus') {
+                        for (const [innerKey, innerValue] of Object.entries(resilienceTest.stimulus)) {
+                            console.log(`${innerKey}: ${innerValue}`);
+                            if (innerKey === 'Type') {
+                                stimulus__resilience__type = innerValue;
+                            }
+                            if (innerKey === 'Fault object') {
+                                stimulus__resilience__faultObject = innerValue;
+                            }
+                            if (innerKey === 'Expected Status Code') {
+                                stimulus__resilience__expectedStatus = innerValue;
+                            }
+                            if (innerKey === 'Duration') {
+                                stimulus__resilience__duration = innerValue;
+                            }
                         }
                     }
-                }
-                if(key === 'environment') {
-                    for (const [innerKey, innerValue] of Object.entries(resilienceTest.environment)) {
-                        console.log(`${innerKey}: ${innerValue}`);
-                        if (innerKey === 'Environment') {
-                            environment__resilience__environment = innerValue;
-                         }
-                        if (innerKey === 'Stimulus repetition') { 
-                            environment__resilience__stimuliRepetition = innerValue;
-                        }
-                        if (innerKey === 'Context') { 
-                            console.log(JSON.stringify(innerValue));
+                    if (key === 'environment') {
+                        for (const [innerKey, innerValue] of Object.entries(resilienceTest.environment)) {
+                            if (innerKey === 'Environment') {
+                                environment__resilience__environment = innerValue;
+                            }
+                            if (innerKey === 'Stimulus repetition') {
+                                environment__resilience__stimuliRepetition = innerValue;
+                            }
+                            if (innerKey === 'Context') {
+                                console.log(JSON.stringify(innerValue));
+                            }
                         }
                     }
-                }
-                if(key === 'responseMeasure') {
-                    for (const [innerKey, innerValue] of Object.entries(resilienceTest.responseMeasure)) {
-                        console.log(`${innerKey}: ${innerValue}`);
-                        if (innerKey === 'Response Time below') {
-                            responseMeasure__resilience__recoveryTime = innerValue;
-                            responseMeasure__recoveryTime__keyValue = innerKey;
-                         }
-                        if (innerKey === 'Recovery Time below') {
-                            responseMeasure__resilience__responseTime = innerValue;
-                            responseMeasure__responseTime__keyValue = innerKey;
-                         }
+                    if (key === 'responseMeasure') {
+                        for (const [innerKey, innerValue] of Object.entries(resilienceTest.responseMeasure)) {
+                            if (innerKey === 'Response Time below') {
+                                responseMeasure__resilience__recoveryTime = innerValue;
+                                responseMeasure__recoveryTime__keyValue = innerKey;
+                            }
+                            if (innerKey === 'Recovery Time below') {
+                                responseMeasure__resilience__responseTime = innerValue;
+                                responseMeasure__responseTime__keyValue = innerKey;
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    if (stimulus__loadtests__peakload) {
+    if (stimulus__loadtests__type === 'Peak Load') {
         summary__loadtests.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> test for the artifact
-            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n You specified the load to be
-            <strong>${stimulus__loadtests__activeUsers}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
-            The load has reached its peaked at <strong>${stimulus__loadtests__peakload}</strong>.
-            The test took <strong>${stimulus__loadtests__duration}</strong>.`;
-    } else {
+            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n The load has reached its peaked at
+            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
+            The requests should respond within ${stimulus__loadtests__responseMeasure} during the loadtest in order to be succesful.
+            The test took <strong>${stimulus__loadtests__duration}</strong>.
+            </br>`;
+        console.log(stimulus__loadtests__type);
+        console.log("This is correct!");
+    } else if (stimulus__loadtests__type === 'Continuous Load') {
         summary__loadtests.innerHTML = `We executed the <u class="underline">${stimulus__loadtests__type}</u> test for the artifact
             <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n You specified the load to be
-            <strong>${stimulus__loadtests__activeUsers}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
+            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
             The load increased for <strong>${stimulus__loadtests__durationIncrease}</strong> and remained at this value for
-            the residiual test time. The test took <strong>${stimulus__loadtests__duration}</strong>.`;
+            the residiual test time. The test took <strong>${stimulus__loadtests__duration}</strong>.
+            </br>`;
+        console.log(stimulus__loadtests__type);
+    } else {
+        summary__loadtests.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> test for the artifact
+            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n You specified the load to be
+            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
+            The load test increased slowly over the period of <strong>${stimulus__loadtests__duration}</strong> up to the load profile you specified. 
+            </br>`
+        console.log(stimulus__loadtests__type);
     }
     
-    let summary__loadtests__results = document.createElement('span');
+    if (stimulus__loadtests__type) {
+        summary__header__container.appendChild(summary__header__loadtests__text);
+        summary__loadtests__container.appendChild(summary__loadtests);
+        summary__loadtests__container.appendChild(breakEle);
+        summary__loadtests__container.appendChild(breakEle);
+        summary__loadtests__container.appendChild(breakEle);
+        
+        let summary__loadtests__results = document.createElement('span');
+        
+        summary__loadtests__results.innerHTML = `The threshold of expected response times was defined to be below <strong>${stimulus__loadtests__responseMeasure}</strong>. 
+        <u class="underline"> The calculated average response time of the loadtests was 2x faster than the specified threshold!
+        Therefore, your system responded within the specified threshold!</u>`;
+       
+        summary__loadtests__container.appendChild(summary__loadtests__results);
+        resultsView__container.appendChild(summary__header__container);
+        resultsView__container.appendChild(summary__loadtests__container);
+    }
 
-    summary__loadtests__results.innerHTML = `The threshold of expected response times was defined to be below <strong>${stimulus__loadtests__responseMeasure}</strong>. 
-   <u class="underline"> The calculated average response time of the loadtests was 2x faster than the specified threshold!
-    Therefore, your system responded within the specified threshold!</u>`;
-    
-    let summary__resilience__results = document.createElement('span');
-    
-    summary__resilience.innerHTML = `We executed the <strong>${stimulus__resilience__type}</strong> resilience test 
-    with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__resilience__duration}</strong>.
-    The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
-    As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
-    `;
-    
-    summary__resilience__results.innerHTML = `Your experiment was <u class="underline">not successfull</u>!`;
-    
 
-    summary__header__container.appendChild(summary__header__loadtests__text);
-    summary__loadtests__container.appendChild(summary__loadtests);
-    summary__loadtests__container.appendChild(breakEle);
-    summary__loadtests__container.appendChild(breakEle);
-    summary__loadtests__container.appendChild(breakEle);
-    summary__loadtests__container.appendChild(summary__loadtests__results);
-    resultsView__container.appendChild(summary__header__container);
-    resultsView__container.appendChild(summary__loadtests__container);
     
-    summary__header__resilience__container.appendChild(summary__header__resilience__text);
-    summary__resilience__container.appendChild(summary__resilience);
-    summary__resilience__container.appendChild(breakEle);
-    summary__resilience__container.appendChild(summary__resilience__results);
-    resultsView__container.appendChild(summary__header__resilience__container);
-    resultsView__container.appendChild(summary__resilience__container);
+    if (stimulus__resilience__type) {
+        let summary__resilience__results = document.createElement('span');
+        
+        summary__resilience.innerHTML = `We executed the <strong>${stimulus__resilience__type}</strong> resilience test 
+        with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__resilience__duration}</strong>.
+        The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
+        As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
+        `;
     
+        summary__resilience__results.innerHTML = `Your experiment was <u class="underline">not successfull</u>!`;
+        
+        summary__header__resilience__container.appendChild(summary__header__resilience__text);
+        summary__resilience__container.appendChild(summary__resilience);
+        summary__resilience__container.appendChild(breakEle);
+        summary__resilience__container.appendChild(summary__resilience__results);
+        resultsView__container.appendChild(summary__header__resilience__container);
+        resultsView__container.appendChild(summary__resilience__container);
+    }
+
     results__modal__content.appendChild(resultsView__container);
     results__modal__content.appendChild(results__close__btn);
     results__btn__container.appendChild(results__btn);

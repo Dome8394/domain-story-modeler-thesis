@@ -4,7 +4,43 @@ import { getNodeName } from '../util/util';
 import { setupTemplateObject } from '../classes/setupTemplateObject';
 import { getNodeRectElementAndSetColor } from '../util/util';
 
+
 export const saveResilienceTemplate = (selectedID) => {
+    
+    const preparedLoadTestPeakLoadOne = {
+        "artifact": getNodeName(selectedID),
+        "stimulus":
+        {
+            "Type": "Peak Load",
+            "Load profile": "Medium (4x reference value)"
+        },
+        "environment": {
+            "Context": "During office hours between 08:00 am and 16:00 pm",
+            "Duration": "5 hours"
+        },
+        "Response Measure": {
+            "Response times below": "5 milliseconds"
+        }
+    
+    };
+    
+    const preparedLoadTestPeakLoadTwo = {
+        "artifact": getNodeName(selectedID),
+        "stimulus":
+        {
+            "Type": "Constant Load",
+            "Load profile": "High (6x reference value)"
+        },
+        "environment": {
+            "Context": "After office hours between 16:00 pm and 08:00 am",
+            "Duration": "14 hours"
+        },
+        "Response Measure": {
+            "Response times below": "2 milliseconds"
+        }
+    
+    };
+    
     /**
     * Get HTML elements and their values
     */
@@ -34,25 +70,28 @@ export const saveResilienceTemplate = (selectedID) => {
     // no response
     let getNoResponseCheckbox = document.getElementById(`stimulusCheckBox_${selectedID}`);
     let getNoResponse = getNoResponseCheckbox.checked;
-    
+
     let getDifferentResponseCheckbox = document.getElementById(`stimulusOtherThanCheckbox_${selectedID}`);
     let getDifferentResponse = getDifferentResponseCheckbox.checked;
-    
+
     let getLaterResponseCheckbox = document.getElementById(`stimulusLaterThanCheckbox_${selectedID}`);
     let getLaterResponse = getLaterResponseCheckbox.checked;
-    
+
     let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
     let getResponseTime = getResponseMeasureResponseTimeInputElement.value;
 
     let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
     let getRecoveryTime = getResponseMeasureRecoveryTimeInputElement.value;
-    
+
 
     if (verifyMandatory(
+        selectedID,
         getNoResponse,
-        getDifferentResponse, 
+        getDifferentResponse,
         getLaterResponse,
-        getDuration)) {
+        getDuration,
+        executionEnvironment)) {
+
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
@@ -64,13 +103,13 @@ export const saveResilienceTemplate = (selectedID) => {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
         }
-        
+
         let scenarioEnvironment;
         let environmentContext;
         let artifact = getNodeName(selectedID);
         let responseMeasure;
         let stimulus;
-        
+
         if (executionEnvironment == 'Yes') {
             scenarioEnvironment = 'PROD';
             environmentContext = { "NO_CONTEXT_INFORMATION": "NO_CONTEXT_INFORMATION" };
@@ -92,38 +131,67 @@ export const saveResilienceTemplate = (selectedID) => {
             } else {
                 console.log("Please provide additional environment information");
             }
+
+            let getLoadTestCheckboxOneElement = document.getElementById(`loadTestOneCheckbox__input_${selectedID}`);
+            let getLoadTestCheckboxOneChecked = getLoadTestCheckboxOneElement.checked;
+
+            let getLoadTestCheckBoxTwoElement = document.getElementById(`loadTestTwoCheckbox__input_${selectedID}`);
+            let getLoadTestCheckboxTwoChecked = getLoadTestCheckBoxTwoElement.checked;
+
+            if (getLoadTestCheckboxOneChecked && getLoadTestCheckboxTwoChecked) {
+                environmentContext['Load Test'] = [
+                    {
+                        "Load Test One": preparedLoadTestPeakLoadOne
+                    },
+                    {
+                        "Load Test Two": preparedLoadTestPeakLoadTwo
+                    }
+                ]
+            } else if (getLoadTestCheckboxOneChecked) {
+                environmentContext['Load Test'] = [
+                    {
+                        "Load Test One": preparedLoadTestPeakLoadOne
+                    }
+                ]
+            } else {
+                environmentContext['Load Test'] = [
+                    {
+                        "Load Test Two": preparedLoadTestPeakLoadTwo
+                    }
+                ]
+            }
         }
-        
-        if(getNoResponse) {
+
+        if (getNoResponse) {
             stimulus = {
                 "Type": "No response"
             }
             responseMeasure = {
-                "Recovery Time below": getRecoveryTime + 'milliseconds'
+                "Recovery Time below": getRecoveryTime + ' milliseconds'
             }
-        } else if(getDifferentResponse) {
+        } else if (getDifferentResponse) {
             stimulus = {
                 "Type": "Different response object",
                 "Fault object": { "Test": "XXXXX" },
                 "Expected Status Code": 400
             }
-        } else if(getLaterResponse) {
+        } else if (getLaterResponse) {
             stimulus = {
                 "Type": "Response arrives late"
             }
             responseMeasure = {
-                "Response Time below": getResponseTime + 'milliseconds'
+                "Response Time below": getResponseTime + ' milliseconds'
             }
         }
-        
+
         let environment =
         {
             "Environment": scenarioEnvironment,
             "Stimulus repetition": getStimulusRepetition,
             "Context": environmentContext
         };
-        
-        stimulus["Duration"] = getDuration;
+
+        stimulus["Duration"] = getDuration + ' minutes';
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,
@@ -145,6 +213,44 @@ export const saveResilienceTemplate = (selectedID) => {
         resilienceTemplateModal.style.display = 'none';
     }
 
+}
+
+
+const verifyMandatory = (
+    selectedID,
+    noResponseChecked,
+    differentResponseChecked,
+    laterResponseChecked,
+    durationProvided,
+    environmentSelected
+) => {
+
+    if ((noResponseChecked || differentResponseChecked || laterResponseChecked) && durationProvided && environmentSelected) {
+        if (environmentSelected === 'No') {
+            let getExistingLoadTestsCheckboxElement = document.getElementById(`existingLoadTests__input_${selectedID}`);
+            let getExistingLoadTestsChecked = getExistingLoadTestsCheckboxElement.checked;
+
+            if (getExistingLoadTestsChecked) {
+                
+                let getLoadTestCheckboxOneElement = document.getElementById(`loadTestOneCheckbox__input_${selectedID}`);
+                let getLoadTestCheckboxOneChecked = getLoadTestCheckboxOneElement.checked;
+
+                let getLoadTestCheckBoxTwoElement = document.getElementById(`loadTestTwoCheckbox__input_${selectedID}`);
+                let getLoadTestCheckboxTwoChecked = getLoadTestCheckBoxTwoElement.checked;
+                
+                if (getLoadTestCheckboxOneChecked || getLoadTestCheckboxTwoChecked) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    console.log("Mandatory fields are missing");
+    return false;
 }
 
 
@@ -231,7 +337,7 @@ export const verifyResilienceTemplate = (
     //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
     //         }
     //     }
-        
+
     //     responseMeasure__invalidElement.style.display = 'none';
     // }
 
@@ -248,13 +354,4 @@ export const verifyResilienceTemplate = (
     // }
 
     return true;
-}
-
-const verifyMandatory = (noResponseChecked, differentResponseChecked, laterResponseChecked, durationProvided) => {
-    
-    if ((noResponseChecked || differentResponseChecked || laterResponseChecked) && durationProvided) {
-        return true;
-    }
-    
-    return false;
 }

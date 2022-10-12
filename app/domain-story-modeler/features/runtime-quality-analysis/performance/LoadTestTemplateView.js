@@ -265,7 +265,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let duration__input = document.createElement('input');
     duration__input.id = `duration__input_${selectedID}`;
-    duration__input.placeholder = 'E.g., 25';
+    duration__input.placeholder = 'E.g., 25 (minutes)';
     duration__input.type = 'number';
     duration__input.style.height = '20px';
 
@@ -276,7 +276,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let duration__label = document.createElement('label');
     duration__label.setAttribute('for', `duration__input_${selectedID}`);
-    duration__label.innerText = 'How long do you want the loadtest to run? (*)';
+    duration__label.innerText = 'How long do you want the loadtest to run (in minutes)? (*)';
     duration__label.style.marginTop = '5%';
 
     let duration__label_info = document.createElement('i');
@@ -479,6 +479,40 @@ const createContinuousLoadInformationTemplate = (selectedID) => {
     let continousLoad__label__container = document.createElement('div');
     continousLoad__label__container.classList.add('label-container');
     
+    let continuousLoadProfile__child__container = document.createElement('div');
+    continuousLoadProfile__child__container.classList.add('checkbox-child');
+
+    let continuousLoadProfile__label__container = document.createElement('div');
+    continuousLoadProfile__label__container.classList.add('label-container');
+
+    let continuousLoadProfile__input = document.createElement('select');
+    continuousLoadProfile__input.id = `continuousLoadProfile__input_${selectedID}`;
+
+    let option_medium = document.createElement('option');
+    option_medium.key = 'medium';
+    option_medium.text = 'Medium (2x reference value)';
+
+    let option_high = document.createElement('option');
+    option_high.key = 'high';
+    option_high.text = 'High (4x reference value)';
+
+    let option_veryHigh = document.createElement('option');
+    option_veryHigh.key = 'veryHigh';
+    option_veryHigh.text = 'Very High (6x reference value)';
+
+    continuousLoadProfile__input.appendChild(option_medium);
+    continuousLoadProfile__input.appendChild(option_high);
+    continuousLoadProfile__input.appendChild(option_veryHigh);
+
+    let continuousLoadProfile__label = document.createElement('label');
+    continuousLoadProfile__label.setAttribute('for', `continuousLoadProfile__input_${selectedID}`);
+    continuousLoadProfile__label.innerText = 'How much load would you like to simulate?';
+
+    let continuousLoadProfile__reference__value = document.createElement('p');
+    continuousLoadProfile__reference__value.classList.add('reference-values');
+    continuousLoadProfile__reference__value.innerText = 'approx. < 5000 requests/hour';
+
+    
     let continuousLoadDuration__input = document.createElement('input');
     continuousLoadDuration__input.id = `continuousLoadDuration__input_${selectedID}`;
     continuousLoadDuration__input.type = 'number';
@@ -492,12 +526,18 @@ const createContinuousLoadInformationTemplate = (selectedID) => {
     /**
      * Appending child nodes
      */
+    
+    continuousLoadProfile__label__container.appendChild(continuousLoadProfile__label);
+    continuousLoadProfile__child__container.appendChild(continuousLoadProfile__input);
+    
     containerContinuousLoad__label__container.appendChild(containerContinuousLoad__label);
     
     continousLoad__label__container.appendChild(continousLoad__label);
     
     continousLoadChild__container.appendChild(continousLoad__label__container);
     continousLoadChild__container.appendChild(continuousLoadDuration__input);
+    continousLoadChild__container.appendChild(continuousLoadProfile__label__container);
+    continousLoadChild__container.appendChild(continuousLoadProfile__child__container);
     
     containerContinuousLoad.appendChild(continousLoadChild__container);
     
@@ -576,7 +616,7 @@ const createLoadPeakInformationTemplate = (selectedID) => {
     
     let timeToPeakLoad__label = document.createElement('label');
     timeToPeakLoad__label.setAttribute('for', `timeToPeakLoad__input_${selectedID}`);
-    timeToPeakLoad__label.innerText = 'Time until Peak (*)';
+    timeToPeakLoad__label.innerText = 'Time until Peak (in minutes) (*)';
     
     /**
      * Appending child nodes

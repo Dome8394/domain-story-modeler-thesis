@@ -12,23 +12,36 @@ export const existingLoadTestsView = (selectedID) => {
     let preTagOne = document.createElement('pre');
     preTagOne.style.overflow = 'visible';
     
-    let loadTestOneConfirm__btn = document.createElement('button');
-    loadTestOneConfirm__btn.classList.add('btn');
-    loadTestOneConfirm__btn.classList.add('btn-primary');
-    loadTestOneConfirm__btn.classList.add('custom-btn');
-    loadTestOneConfirm__btn.innerText = 'Use Loadtest 1';
+    let loadTestOneCheckbox__input = document.createElement('input');
+    loadTestOneCheckbox__input.id = `loadTestOneCheckbox__input_${selectedID}`;
+    loadTestOneCheckbox__input.type = 'checkbox';
+    loadTestOneCheckbox__input.classList.add('form-check-input');
     
-    let loadTestTwoConfirm__btn = document.createElement('button');
-    loadTestTwoConfirm__btn.classList.add('btn');
-    loadTestTwoConfirm__btn.classList.add('btn-primary');
-    loadTestTwoConfirm__btn.classList.add('custom-btn');
-    loadTestTwoConfirm__btn.innerText = 'Use Loadtest 2';
+    let loadTestOneCheckbox__label = document.createElement('label');
+    loadTestOneCheckbox__label.setAttribute('for', `loadTestOneCheckbox__input_${selectedID}`);
+    loadTestOneCheckbox__label.classList.add('label-padding');
+    loadTestOneCheckbox__label.innerText = 'Use Load Test 1';
+    
+    let loadTestTwoCheckbox__input = document.createElement('input');
+    loadTestTwoCheckbox__input.id = `loadTestTwoCheckbox__input_${selectedID}`;
+    loadTestTwoCheckbox__input.type = 'checkbox';
+    loadTestTwoCheckbox__input.classList.add('form-check-input');
+    
+    let loadTestTwoCheckbox__label = document.createElement('label');
+    loadTestTwoCheckbox__label.setAttribute('for', `loadTestTwoCheckbox__input_${selectedID}`);
+    loadTestTwoCheckbox__label.classList.add('label-padding');
+    loadTestTwoCheckbox__label.innerText = 'Use Load Test 2';
     
     let useBothConfirm__btn = document.createElement('button');
     useBothConfirm__btn.classList.add('btn');
     useBothConfirm__btn.classList.add('btn-primary');
     useBothConfirm__btn.classList.add('custom-btn');
     useBothConfirm__btn.innerText = 'Use both';
+    
+    useBothConfirm__btn.addEventListener('click', () => {
+        loadTestOneCheckbox__input.checked = true;
+        loadTestTwoCheckbox__input.checked = true;
+    });
     
     let button__container = document.createElement('div');
     button__container.classList.add('btn-container-parent');
@@ -52,7 +65,7 @@ export const existingLoadTestsView = (selectedID) => {
      * of testing this concept, we will prepare two loadtests that can be
      * used.
      */
-    let preparedLoadTestPeakLoadOne = {
+    const preparedLoadTestPeakLoadOne = {
         "artifact": getNodeName(selectedID),
         "stimulus":
         {
@@ -69,7 +82,7 @@ export const existingLoadTestsView = (selectedID) => {
 
     };
 
-    let preparedLoadTestPeakLoadTwo = {
+    const preparedLoadTestPeakLoadTwo = {
         "artifact": getNodeName(selectedID),
         "stimulus":
         {
@@ -85,6 +98,7 @@ export const existingLoadTestsView = (selectedID) => {
         }
 
     };
+    
 
     let preparedLoadtestPeakString = JSON.stringify(preparedLoadTestPeakLoadOne, null, '\t');
     let preparedLoadtestConstantString = JSON.stringify(preparedLoadTestPeakLoadTwo, null, '\t');
@@ -96,12 +110,17 @@ export const existingLoadTestsView = (selectedID) => {
     button__container.appendChild(close__btn);
     
     parentContainer.appendChild(preTagOne);
-    parentContainer.appendChild(loadTestOneConfirm__btn);
+    parentContainer.appendChild(loadTestOneCheckbox__label);
+    parentContainer.appendChild(loadTestOneCheckbox__input);
     parentContainer.appendChild(preTagTwo);
-    parentContainer.appendChild(loadTestTwoConfirm__btn);
+    parentContainer.appendChild(loadTestTwoCheckbox__label);
+    parentContainer.appendChild(loadTestTwoCheckbox__input);
     existingLoadTests__modal__content.appendChild(parentContainer);
     existingLoadTests__modal__content.appendChild(button__container);
     getModalContainer.appendChild(existingLoadTests__modal__content);
+    
+    // module.exports.preparedLoadTestPeakLoadOne;
+    // module.exports.preparedLoadTestPeakLoadTwo;
 
     // getModalContainer.style.display = 'block';
 }
