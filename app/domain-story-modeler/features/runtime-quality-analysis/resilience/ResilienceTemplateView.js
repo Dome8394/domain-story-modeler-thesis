@@ -24,13 +24,12 @@ const clearRemovedRuntimeAnalysisViews = () => {
 }
 
 const checkIfTemplateComplete = (selectedID) => {
-    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
-    let timeOfServiceFailure = timeOfServiceFailureElement.value;
+    let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
+    let accuracy = accuracyElement.value;
 
     let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
     let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
-    console.log(timeOfServiceFailure);
-    if (!timeOfServiceFailure || !stimulusCheckBoxElementValue) {
+    if (!accuracy || !stimulusCheckBoxElementValue) {
         getNodeRectElementAndSetColor(selectedID, false, 'Resilience Template');
     }
 }
@@ -128,13 +127,6 @@ export function createResilienceTemplateView(selectedID) {
     let artifactValueContainer = document.createElement('div');
     artifactValueContainer.classList.add('checkbox-child');
 
-    let resilienceServiceAmount = document.createElement('input');
-    resilienceServiceAmount.id = `resilienceServiceAmount_${selectedID}`;
-    resilienceServiceAmount.type = 'number';
-    resilienceServiceAmount.placeholder = 'Give a number for total failing services (min. 1)...';
-    resilienceServiceAmount.disabled = true;
-    resilienceServiceAmount.value = 1;
-
     let stimulusOccurrence__select = document.createElement('select');
     stimulusOccurrence__select.id = `stimulusOccurrence__select_${selectedID}`;
 
@@ -154,38 +146,38 @@ export function createResilienceTemplateView(selectedID) {
     stimulusOccurrence__select.appendChild(option_stimulus_twice_an_hour);
     stimulusOccurrence__select.appendChild(option_randomly);
 
-    let resilienceServiceAmount__info = document.createElement('i');
-    resilienceServiceAmount__info.classList.add('bi');
-    resilienceServiceAmount__info.classList.add('bi-info-circle');
-    resilienceServiceAmount__info.classList.add('toolTip');
+    let stimulusRepitition__info = document.createElement('i');
+    stimulusRepitition__info.classList.add('bi');
+    stimulusRepitition__info.classList.add('bi-info-circle');
+    stimulusRepitition__info.classList.add('toolTip');
 
-    resilienceServiceAmount__info.addEventListener('mouseover', () => {
-        resilienceServiceAmount__info_text.style.display = 'block';
+    stimulusRepitition__info.addEventListener('mouseover', () => {
+        stimulusRepitition__info_text.style.display = 'block';
     });
 
-    resilienceServiceAmount__info.addEventListener('mouseleave', () => {
-        resilienceServiceAmount__info_text.style.display = 'none';
+    stimulusRepitition__info.addEventListener('mouseleave', () => {
+        stimulusRepitition__info_text.style.display = 'none';
     })
 
-    let resilienceServiceAmount__info_text = document.createElement('span');
-    resilienceServiceAmount__info_text.classList.add('tooltipText');
-    resilienceServiceAmount__info_text.id = `resilienceServiceAmount_${selectedID}_info_text`
-    resilienceServiceAmount__info_text.innerText = INFO_FAILING_INSTANCES;
+    let stimulusRepitition__info_text = document.createElement('span');
+    stimulusRepitition__info_text.classList.add('tooltipText');
+    stimulusRepitition__info_text.id = `stimulusRepitition_${selectedID}_info_text`
+    stimulusRepitition__info_text.innerText = INFO_FAILING_INSTANCES;
 
-    let resilienceServiceAmountLabelContainer = document.createElement('div');
-    resilienceServiceAmountLabelContainer.classList.add('label-container');
+    let stimulusRepititionLabelContainer = document.createElement('div');
+    stimulusRepititionLabelContainer.classList.add('label-container');
 
-    let resilienceServiceAmount__label = document.createElement('label');
-    resilienceServiceAmount__label.classList.add('label-padding');
-    resilienceServiceAmount__label.id = 'resilienceServiceAmount__label';
-    resilienceServiceAmount__label.setAttribute('for', `resilienceServiceAmount_${selectedID}`);
-    resilienceServiceAmount__label.innerText = 'How often does the stimulus occur? (*)';
+    let stimulusRepitition__label = document.createElement('label');
+    stimulusRepitition__label.classList.add('label-padding');
+    stimulusRepitition__label.id = 'stimulusRepitition__label';
+    stimulusRepitition__label.setAttribute('for', `stimulusRepitition_${selectedID}`);
+    stimulusRepitition__label.innerText = 'How often does the stimulus occur? (*)';
 
-    let resilienceServiceAmount__invalid = document.createElement('p');
-    resilienceServiceAmount__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
-    resilienceServiceAmount__invalid.id = `resilienceServiceAmount__invalid_${selectedID}`;
-    resilienceServiceAmount__invalid.classList.add('error-info');
-    resilienceServiceAmount__invalid.style.display = 'none';
+    let stimulusRepitition__invalid = document.createElement('p');
+    stimulusRepitition__invalid.innerText = SERVICE_FAILURE_AMOUNT_INFO;
+    stimulusRepitition__invalid.id = `stimulusRepitition__invalid_${selectedID}`;
+    stimulusRepitition__invalid.classList.add('error-info');
+    stimulusRepitition__invalid.style.display = 'none';
 
     // <div class="form-group">
     //     <label for="formControlRange">Example Range input</label>
@@ -199,53 +191,50 @@ export function createResilienceTemplateView(selectedID) {
     accuracyLabelContainer.classList.add('label-container');
     
     
-    let timeOfServiceFailure = document.createElement('input');
-    timeOfServiceFailure.id = `timeOfServiceFailure_${selectedID}`;
-    timeOfServiceFailure.type = 'range';
-    timeOfServiceFailure.min = '0';
-    timeOfServiceFailure.max = '100';
-    timeOfServiceFailure.value = '0';
-    timeOfServiceFailure.step = '1';
+    let accuracy = document.createElement('input');
+    accuracy.id = `accuracy_${selectedID}`;
+    accuracy.type = 'range';
+    accuracy.min = '0';
+    accuracy.max = '100';
+    accuracy.value = '0';
+    accuracy.step = '1';
    
     let accuracyCurrentValue = document.createElement('span');
     accuracyCurrentValue.classList.add('accuracy');
-    accuracyCurrentValue.innerText = timeOfServiceFailure.value + '%';
+    accuracyCurrentValue.innerText = accuracy.value + '%';
     
-    timeOfServiceFailure.addEventListener('change', () => {
-        accuracyCurrentValue.innerText = timeOfServiceFailure.value + '%';
+    accuracy.addEventListener('change', () => {
+        accuracyCurrentValue.innerText = accuracy.value + '%';
     })
 
-    let timeOfServiceFailure__label = document.createElement('label');
-    timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
-    timeOfServiceFailure__label.setAttribute('for', `timeOfServiceFailure_${selectedID}`);
-    timeOfServiceFailure__label.innerText = 'Accuracy of Results (*)';
+    let accuracy__label = document.createElement('label');
+    accuracy__label.id = 'accuracy__label';
+    accuracy__label.setAttribute('for', `accuracy_${selectedID}`);
+    accuracy__label.innerText = 'Accuracy of Results (*)';
 
-    let timeOfServiceFailure__label_info = document.createElement('i');
-    timeOfServiceFailure__label_info.classList.add('bi');
-    timeOfServiceFailure__label_info.classList.add('bi-info-circle');
-    timeOfServiceFailure__label_info.classList.add('toolTip');
+    let accuracy__label_info = document.createElement('i');
+    accuracy__label_info.classList.add('bi');
+    accuracy__label_info.classList.add('bi-info-circle');
+    accuracy__label_info.classList.add('toolTip');
 
-    timeOfServiceFailure__label_info.addEventListener('mouseover', () => {
-        timeOfServiceFailure__label_info_text.style.display = 'block';
+    accuracy__label_info.addEventListener('mouseover', () => {
+        accuracy__label_info_text.style.display = 'block';
     });
 
-    timeOfServiceFailure__label_info.addEventListener('mouseleave', () => {
-        timeOfServiceFailure__label_info_text.style.display = 'none';
+    accuracy__label_info.addEventListener('mouseleave', () => {
+        accuracy__label_info_text.style.display = 'none';
     })
 
-    let timeOfServiceFailure__label_info_text = document.createElement('span');
-    timeOfServiceFailure__label_info_text.classList.add('tooltipText');
-    timeOfServiceFailure__label_info_text.id = `timeOfServiceFailure__label_info_text_${selectedID}_info_text`
-    timeOfServiceFailure__label_info_text.innerText = INFO_TIME_OF_SHUTDOWN;
+    let accuracy__label_info_text = document.createElement('span');
+    accuracy__label_info_text.classList.add('tooltipText');
+    accuracy__label_info_text.id = `accuracy__label_info_text_${selectedID}_info_text`
+    accuracy__label_info_text.innerText = INFO_TIME_OF_SHUTDOWN;
 
-    let timeOfServiceFailureLabelContainer = document.createElement('div');
-    timeOfServiceFailureLabelContainer.classList.add('label-container');
-
-    let timeOfServiceFailure__invalid = document.createElement('p');
-    timeOfServiceFailure__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
-    timeOfServiceFailure__invalid.id = `timeOfServiceFailure__invalid_${selectedID}`;
-    timeOfServiceFailure__invalid.classList.add('error-info');
-    timeOfServiceFailure__invalid.style.display = 'none';
+    let accuracy__invalid = document.createElement('p');
+    accuracy__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
+    accuracy__invalid.id = `accuracy__invalid_${selectedID}`;
+    accuracy__invalid.classList.add('error-info');
+    accuracy__invalid.style.display = 'none';
 
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerstimulus';
@@ -508,14 +497,15 @@ export function createResilienceTemplateView(selectedID) {
     let satisfied__input = document.createElement('button');
     satisfied__input.type = 'button';
     satisfied__input.name = 'options';
+    satisfied__input.setAttribute('aria-pressed', 'false');
     satisfied__input.id = `satisfied__option__key_${selectedID}`;
-    satisfied__input.innerText = 'Active';
+    satisfied__input.innerText = 'Satisfied';
     satisfied__input.classList.add('btn');
     satisfied__input.classList.add('btn-outline-primary');
     satisfied__input.classList.add('btn-group-btn');
     
     satisfied__input.addEventListener('click', () => {
-        console.log(satisfied__input.clicked == true);
+        console.log(satisfied__input.ariaPressed);
         tolerated__input.classList.remove('active');
         frustrated__input.classList.remove('active');
     })
@@ -523,6 +513,7 @@ export function createResilienceTemplateView(selectedID) {
     let tolerated__input = document.createElement('button');
     tolerated__input.type = 'button';
     tolerated__input.name = 'options';
+    tolerated__input.setAttribute('aria-pressed', 'false');
     tolerated__input.id = `tolerated__input__option__key_${selectedID}`;
     tolerated__input.innerText = 'Tolerated';
     tolerated__input.classList.add('btn');
@@ -537,6 +528,7 @@ export function createResilienceTemplateView(selectedID) {
     let frustrated__input = document.createElement('button');
     frustrated__input.type = 'button';
     frustrated__input.name = 'options';
+    frustrated__input.setAttribute('aria-pressed', 'false');
     frustrated__input.id = `frustrated__input__option__key_${selectedID}`;
     frustrated__input.innerText = 'Frustrated';
     frustrated__input.classList.add('btn');
@@ -569,8 +561,9 @@ export function createResilienceTemplateView(selectedID) {
     let satisfied__input__recovery = document.createElement('button');
     satisfied__input__recovery.type = 'button';
     satisfied__input__recovery.name = 'options';
+    satisfied__input__recovery.setAttribute('aria-pressed', 'false');
     satisfied__input__recovery.id = `satisfied__recovery__option__key_${selectedID}`;
-    satisfied__input__recovery.innerText = 'Active';
+    satisfied__input__recovery.innerText = 'Satisfied';
     satisfied__input__recovery.classList.add('btn');
     satisfied__input__recovery.classList.add('btn-outline-primary');
     satisfied__input__recovery.classList.add('btn-group-btn');
@@ -583,6 +576,7 @@ export function createResilienceTemplateView(selectedID) {
     let tolerated__input__recovery = document.createElement('button');
     tolerated__input__recovery.type = 'button';
     tolerated__input__recovery.name = 'options';
+    tolerated__input__recovery.setAttribute('aria-pressed', 'false');
     tolerated__input__recovery.id = `tolerate__recovery__option__key_${selectedID}`;
     tolerated__input__recovery.innerText = 'Tolerated';
     tolerated__input__recovery.classList.add('btn');
@@ -597,6 +591,7 @@ export function createResilienceTemplateView(selectedID) {
     let frustrated__input__recovery = document.createElement('button');
     frustrated__input__recovery.type = 'button';
     frustrated__input__recovery.name = 'options';
+    frustrated__input__recovery.setAttribute('aria-pressed', 'false');
     frustrated__input__recovery.id = `frustrated__recovery__option__key_${selectedID}`;
     frustrated__input__recovery.innerText = 'Frustrated';
     frustrated__input__recovery.classList.add('btn');
@@ -620,6 +615,51 @@ export function createResilienceTemplateView(selectedID) {
 
     let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
+    
+    let errorRatesChildContainer = document.createElement('div');
+    errorRatesChildContainer.classList.add('checkbox-child');
+    
+    let errorRates__btn__group = document.createElement('div');
+    errorRates__btn__group.setAttribute('data-toggle', 'buttons');
+    errorRates__btn__group.classList.add('btn-group');
+    errorRates__btn__group.classList.add('btn-group-toggle');
+    
+    let errorRates__input__low = document.createElement('button');
+    errorRates__input__low.type = 'button';
+    errorRates__input__low.name = 'options';
+    errorRates__input__low.id = `errorRates__input_${selectedID}`;
+    errorRates__input__low.innerText = 'Low';
+    errorRates__input__low.classList.add('btn');
+    errorRates__input__low.classList.add('btn-outline-primary');
+    errorRates__input__low.classList.add('btn-group-btn');
+    
+    let errorRates__input__medium = document.createElement('button');
+    errorRates__input__medium.type = 'button';
+    errorRates__input__medium.name = 'options';
+    errorRates__input__medium.id = `errorRates__input_${selectedID}`;
+    errorRates__input__medium.innerText = 'Medium';
+    errorRates__input__medium.classList.add('btn');
+    errorRates__input__medium.classList.add('btn-outline-primary');
+    errorRates__input__medium.classList.add('btn-group-btn');
+    
+    let errorRates__input__high = document.createElement('button');
+    errorRates__input__high.type = 'button';
+    errorRates__input__high.name = 'options';
+    errorRates__input__high.id = `errorRates__input_${selectedID}`;
+    errorRates__input__high.innerText = 'High';
+    errorRates__input__high.classList.add('btn');
+    errorRates__input__high.classList.add('btn-outline-primary');
+    errorRates__input__high.classList.add('btn-group-btn');
+    
+    let errorRates__input__label = document.createElement('label');
+    errorRates__input__label.classList.add('form-check-label');
+    errorRates__input__label.setAttribute('for', `satisfied__input__recovery__${selectedID}`)
+    errorRates__input__label.innerText = 'Error rates';
+    errorRates__input__label.classList.add('text-disabled');
+    
+    errorRates__btn__group.appendChild(errorRates__input__low);
+    errorRates__btn__group.appendChild(errorRates__input__medium);
+    errorRates__btn__group.appendChild(errorRates__input__high);
 
     /**
      * This is probably going to be the summary view for all resilience scenarios
@@ -651,21 +691,20 @@ export function createResilienceTemplateView(selectedID) {
 
     environment_select_information_container.appendChild(user_information);
 
-    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__label);
-    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info);
-    resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info_text);
+    stimulusRepititionLabelContainer.appendChild(stimulusRepitition__label);
+    stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info);
+    stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info_text);
 
-    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label);
-    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info);
-    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
-    
-    accuracyLabelContainer.appendChild(timeOfServiceFailure__label);
-    accuracyLabelContainer.appendChild(timeOfServiceFailure__label_info);
+    accuracyLabelContainer.appendChild(accuracy__label);
+    accuracyLabelContainer.appendChild(accuracy__label_info);
     accuracyLabelContainer.appendChild(accuracyCurrentValue);
-    accuracyLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
+    accuracyLabelContainer.appendChild(accuracy__label_info_text);
 
     accuracyChildContainer.appendChild(accuracyLabelContainer);
-    accuracyChildContainer.appendChild(timeOfServiceFailure);
+    accuracyChildContainer.appendChild(accuracy);
+    
+    errorRatesChildContainer.appendChild(errorRates__input__label);
+    errorRatesChildContainer.appendChild(errorRates__btn__group);
 
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label_info);
@@ -684,9 +723,10 @@ export function createResilienceTemplateView(selectedID) {
     
     responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryTime__label);
     responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryBtn__group);
-
+    
     responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
     responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
+    responseMeasureCheckboxContainer.appendChild(errorRatesChildContainer);
     
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
@@ -711,9 +751,9 @@ export function createResilienceTemplateView(selectedID) {
     executionContextInformation_container.appendChild(executionContextScheduleParentContainer);
 
     // this goes right
-    resilienceTemplateViewContainer__right.appendChild(resilienceServiceAmountLabelContainer);
+    resilienceTemplateViewContainer__right.appendChild(stimulusRepititionLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(stimulusOccurrence__select);
-    resilienceTemplateViewContainer__right.appendChild(resilienceServiceAmount__invalid);
+    resilienceTemplateViewContainer__right.appendChild(stimulusRepitition__invalid);
     
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentSelect);
@@ -727,11 +767,6 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateViewContainer__left.appendChild(stimulusCheckBox__invalid);
     
     resilienceTemplateViewContainer__left.appendChild(accuracyChildContainer);
-    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure);
-    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure__invalid);
-    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailureLabelContainer);
-    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure);
-    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure__invalid);
     
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckBoxLabelContainer);
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckboxContainer);

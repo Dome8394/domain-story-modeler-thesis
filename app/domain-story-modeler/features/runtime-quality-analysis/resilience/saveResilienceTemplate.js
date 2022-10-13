@@ -41,7 +41,7 @@ export const saveResilienceTemplate = (selectedID) => {
         }
     
     };
-    
+
     /**
     * Get HTML elements and their values
     */
@@ -65,28 +65,46 @@ export const saveResilienceTemplate = (selectedID) => {
     let getExecutionContextOffWorkingHoursCheckBoxValue = getExecutionContextOffWorkingHoursCheckBox.checked;
 
     // Duration
-    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
-    let getDuration = timeOfServiceFailureElement.value;
+    let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
+    let getDuration = accuracyElement.value;
 
-    // no response
-    let getNoResponseCheckbox = document.getElementById(`stimulusCheckBox_${selectedID}`);
-    let getNoResponse = getNoResponseCheckbox.checked;
-
-    let getDifferentResponseCheckbox = document.getElementById(`stimulusOtherThanCheckbox_${selectedID}`);
-    let getDifferentResponse = getDifferentResponseCheckbox.checked;
-
-    let getLaterResponseCheckbox = document.getElementById(`stimulusLaterThanCheckbox_${selectedID}`);
-    let getLaterResponse = getLaterResponseCheckbox.checked;
+    let getStimulusSelectElement = document.getElementById(`stimulusSelectionElement_${selectedID}`);
+    let getStimulus = getStimulusSelectElement.value;
+    
+    let getAccuracySlider = document.getElementById(`accuracy_${selectedID}`);
+    let getAccuracy = getAccuracySlider.value;
     
     // TODO add verification for button group
+    let getRecoveryTime__satisfiedBtn = document.getElementById(`satisfied__recovery__option__key_${selectedID}`);
+    let getRecoveryTime__satisfied = getRecoveryTime__satisfiedBtn.ariaPressed;
+    console.log(getRecoveryTime__satisfied);
+    
+    let getRecoveryTime__toleratedBtn = document.getElementById(`tolerate__recovery__option__key_${selectedID}`);
+    let getRecoveryTime__tolerated = getRecoveryTime__toleratedBtn.ariaPressed;
+    console.log(getRecoveryTime__tolerated);
+    
+    let getRecoveryTime__frustratedBtn = document.getElementById(`frustrated__recovery__option__key_${selectedID}`);
+    let getRecoveryTime__frustrated = getRecoveryTime__frustratedBtn.ariaPressed;
+    console.log(getRecoveryTime__frustrated);
+    
+    let getResponseTime__satisfiedBtn = document.getElementById(`satisfied__option__key_${selectedID}`);
+    let getResponseTime__satisfied = getResponseTime__satisfiedBtn.ariaPressed;
+    console.log("Saving: ", getResponseTime__satisfied);
+    
+    let getResponseTime__toleratedBtn = document.getElementById(`tolerated__input__option__key_${selectedID}`);
+    let getResponseTime__tolerated = getResponseTime__toleratedBtn.ariaPressed;
+    console.log(getResponseTime__tolerated);
+    
+    let getResponseTime__frustratedBtn = document.getElementById(`frustrated__input__option__key_${selectedID}`);
+    let getResponseTime__frustrated = getResponseTime__frustratedBtn.ariaPressed;
+    console.log(getResponseTime__frustrated);
 
 
     if (verifyMandatory(
         selectedID,
-        getNoResponse,
-        getDifferentResponse,
-        getLaterResponse,
+        getStimulus,
         getDuration,
+        getAccuracy,
         executionEnvironment)) {
 
         if (getGenerateAndPush__btn.disabled) {
@@ -215,14 +233,14 @@ export const saveResilienceTemplate = (selectedID) => {
 
 const verifyMandatory = (
     selectedID,
-    noResponseChecked,
-    differentResponseChecked,
-    laterResponseChecked,
+    getStimulus,
     durationProvided,
+    getAccuracy,
     environmentSelected
 ) => {
 
-    if ((noResponseChecked || differentResponseChecked || laterResponseChecked) && durationProvided && environmentSelected) {
+    if (getStimulus && durationProvided && environmentSelected && (getAccuracy > 0)) {
+        
         if (environmentSelected === 'No') {
             let getExistingLoadTestsCheckboxElement = document.getElementById(`existingLoadTests__input_${selectedID}`);
             let getExistingLoadTestsChecked = getExistingLoadTestsCheckboxElement.checked;
@@ -264,7 +282,7 @@ export const verifyResilienceTemplate = (
      * Get HTML elements and their values
      */
     let numberOfInstances = document.getElementById(`resilienceServiceAmount_${selectedID}`);
-    let timeOfServiceFailureElement = document.getElementById(`timeOfServiceFailure_${selectedID}`);
+    let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
     let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
 
     // let responseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
@@ -276,7 +294,7 @@ export const verifyResilienceTemplate = (
      * Get error msg elements
      */
     // let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
-    let timeOfServiceFailure__invalidElement = document.getElementById(`timeOfServiceFailure__invalid_${selectedID}`);
+    let accuracy__invalidElement = document.getElementById(`accuracy__invalid_${selectedID}`);
     let stimulusCheckBox__invalid = document.getElementById(`stimulusCheckBox__invalid_${selectedID}`);
     let responseMeasure__invalidElement = document.getElementById(`responseMeasure__invalid_${selectedID}`);
 
@@ -289,11 +307,11 @@ export const verifyResilienceTemplate = (
     // }
 
     // if (!timeToFailure) {
-    //     timeOfServiceFailure__invalidElement.style.display = 'block';
-    //     timeOfServiceFailureElement.style.borderColor = 'red';
+    //     accuracy__invalidElement.style.display = 'block';
+    //     accuracyElement.style.borderColor = 'red';
     // } else {
-    //     timeOfServiceFailure__invalidElement.style.display = 'none';
-    //     timeOfServiceFailureElement.style.borderColor = 'springgreen';
+    //     accuracy__invalidElement.style.display = 'none';
+    //     accuracyElement.style.borderColor = 'springgreen';
     // }
 
     // if (getResponseMeasureResponseTimeCheckBoxValue === false && getResponseMeasureRecoveryTimeCheckBoxValue === false) {
