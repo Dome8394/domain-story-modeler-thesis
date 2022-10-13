@@ -80,6 +80,7 @@ input {
 
 .label-container {
   position: relative;
+  width: 450px;
 }
 
 .tooltipText {

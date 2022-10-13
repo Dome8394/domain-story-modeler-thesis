@@ -187,16 +187,38 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceAmount__invalid.classList.add('error-info');
     resilienceServiceAmount__invalid.style.display = 'none';
 
+    // <div class="form-group">
+    //     <label for="formControlRange">Example Range input</label>
+    //     <input type="range" class="form-control-range" id="formControlRange">
+    // </div>
+    
+    let accuracyChildContainer = document.createElement('div');
+    accuracyChildContainer.classList.add('checkbox-child');
+    
+    let accuracyLabelContainer = document.createElement('div');
+    accuracyLabelContainer.classList.add('label-container');
+    
+    
     let timeOfServiceFailure = document.createElement('input');
     timeOfServiceFailure.id = `timeOfServiceFailure_${selectedID}`;
-    timeOfServiceFailure.type = 'number';
-    timeOfServiceFailure.placeholder = 'E.g., 25'
+    timeOfServiceFailure.type = 'range';
+    timeOfServiceFailure.min = '0';
+    timeOfServiceFailure.max = '100';
+    timeOfServiceFailure.value = '0';
+    timeOfServiceFailure.step = '1';
+   
+    let accuracyCurrentValue = document.createElement('span');
+    accuracyCurrentValue.classList.add('accuracy');
+    accuracyCurrentValue.innerText = timeOfServiceFailure.value + '%';
+    
+    timeOfServiceFailure.addEventListener('change', () => {
+        accuracyCurrentValue.innerText = timeOfServiceFailure.value + '%';
+    })
 
     let timeOfServiceFailure__label = document.createElement('label');
     timeOfServiceFailure__label.id = 'timeOfServiceFailure__label';
     timeOfServiceFailure__label.setAttribute('for', `timeOfServiceFailure_${selectedID}`);
-    timeOfServiceFailure__label.innerText = 'How long do you want to run this scenario? (*)';
-    timeOfServiceFailure__label.classList.add('label-padding');
+    timeOfServiceFailure__label.innerText = 'Accuracy of Results (*)';
 
     let timeOfServiceFailure__label_info = document.createElement('i');
     timeOfServiceFailure__label_info.classList.add('bi');
@@ -225,118 +247,36 @@ export function createResilienceTemplateView(selectedID) {
     timeOfServiceFailure__invalid.classList.add('error-info');
     timeOfServiceFailure__invalid.style.display = 'none';
 
-    let checkBoxContainerRandom = document.createElement('div');
-    checkBoxContainerRandom.id = 'checkBoxContainerRandomServiceFailure';
-    checkBoxContainerRandom.classList.add('checkbox-child');
-
-    let checkBoxContainer__label = document.createElement('label');
-    checkBoxContainer__label.classList.add('form-check-label');
-    checkBoxContainer__label.classList.add('label-padding');
-    checkBoxContainer__label.setAttribute('for', 'checkBoxContainerServiceFailure');
-    checkBoxContainer__label.innerText = 'Randomized selection of service instances';
-
-    let randomServiceSelectionCheckBox = document.createElement('input');
-    randomServiceSelectionCheckBox.id = `randomServiceSelectionCheckBox_${selectedID}`;
-    randomServiceSelectionCheckBox.type = 'checkbox';
-    randomServiceSelectionCheckBox.classList.add('form-check-input');
-
-    randomServiceSelectionCheckBox.addEventListener('click', () => {
-        resilienceServiceAmount.disabled = !resilienceServiceAmount.disabled;
-    })
-
-    let randomServiceSelectionCheckBox__label = document.createElement('label');
-    randomServiceSelectionCheckBox__label.classList.add('form-check-label');
-    randomServiceSelectionCheckBox__label.setAttribute('for', `randomServiceSelectionCheckBox_${selectedID}`);
-    randomServiceSelectionCheckBox__label.innerText = 'No';
-
-    let randomizedServiceSelection__label_info = document.createElement('i');
-    randomizedServiceSelection__label_info.classList.add('bi');
-    randomizedServiceSelection__label_info.classList.add('bi-info-circle');
-    randomizedServiceSelection__label_info.classList.add('toolTip');
-
-    randomizedServiceSelection__label_info.addEventListener('mouseover', () => {
-        randomizedServiceSelection__label_info_text.style.display = 'block';
-    });
-
-    randomizedServiceSelection__label_info.addEventListener('mouseleave', () => {
-        randomizedServiceSelection__label_info_text.style.display = 'none';
-    });
-
-
-    let randomizedServiceSelection__label_info_text = document.createElement('span');
-    randomizedServiceSelection__label_info_text.classList.add('tooltipText');
-    randomizedServiceSelection__label_info_text.innerText = INFO_RANDOMIZATION;
-
-    let randomizedServiceSelectionLabelContainer = document.createElement('div');
-    randomizedServiceSelectionLabelContainer.classList.add('label-container');
-
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerstimulus';
     checkBoxContainer.classList.add('checkbox-parent');
-
-    let checkBoxContainerChildstimulusServiceShutdown = document.createElement('div');
-    checkBoxContainerChildstimulusServiceShutdown.classList.add('checkbox-child');
-
-    let checkBoxContainerChildstimulusOtherThan = document.createElement('div');
-    checkBoxContainerChildstimulusOtherThan.classList.add('checkbox-child');
-
-    let checkBoxContainerChildstimulusLaterThan = document.createElement('div');
-    checkBoxContainerChildstimulusLaterThan.classList.add('checkbox-child');
-
-    let stimulusOtherThanCheckbox = document.createElement('input');
-    stimulusOtherThanCheckbox.id = `stimulusOtherThanCheckbox_${selectedID}`;
-    stimulusOtherThanCheckbox.type = 'checkbox';
-    stimulusOtherThanCheckbox.classList.add('form-check-input');
-
-    let stimulusOtherThanCheckbox__label = document.createElement('label');
-    stimulusOtherThanCheckbox__label.classList.add('form-check-label');
-    stimulusOtherThanCheckbox__label.setAttribute('for', `stimulusOtherThanCheckbox_${selectedID}`);
-    stimulusOtherThanCheckbox__label.innerText = 'Different response data';
-
-    let stimulusLaterThanCheckbox = document.createElement('input');
-    stimulusLaterThanCheckbox.id = `stimulusLaterThanCheckbox_${selectedID}`;
-    stimulusLaterThanCheckbox.type = 'checkbox';
-    stimulusLaterThanCheckbox.classList.add('form-check-input');
-
-    stimulusLaterThanCheckbox.addEventListener('click', () => {
-        responseMeasureResponseTimeInput.disabled = !responseMeasureResponseTimeInput.disabled;
-        if (responseMeasureResponseTimeInput.disabled) {
-            responseMeasureResponseTimeCheckbox__label.classList.add('text-disabled');
-            responseMeasureResponseTimeCheckbox__label.classList.remove('text-enabled');
-        } else {
-            responseMeasureResponseTimeCheckbox__label.classList.remove('text-disabled');
-            responseMeasureResponseTimeCheckbox__label.classList.add('text-enabled');
-        }
-    })
-
-    let stimulusLaterThanCheckbox__label = document.createElement('label');
-    stimulusLaterThanCheckbox__label.classList.add('form-check-label');
-    stimulusLaterThanCheckbox__label.setAttribute('for', `stimulusLaterThanCheckbox_${selectedID}`);
-    stimulusLaterThanCheckbox__label.innerText = 'Response arrives later than usual';
-
-    let stimulusCheckBox = document.createElement('input');
-    stimulusCheckBox.id = `stimulusCheckBox_${selectedID}`;
-    stimulusCheckBox.type = 'checkbox';
-    stimulusCheckBox.classList.add('form-check-input');
-
-    stimulusCheckBox.addEventListener('click', () => {
-        responseMeasureRecoveryTimeInput.disabled = !responseMeasureRecoveryTimeInput.disabled;
-        if (responseMeasureRecoveryTimeInput.disabled) {
-            responseMeasureRecoveryTimeCheckbox__label.classList.add('text-disabled');
-            responseMeasureRecoveryTimeCheckbox__label.classList.remove('text-enabled');
-        } else {
-            responseMeasureRecoveryTimeCheckbox__label.classList.remove('text-disabled');
-            responseMeasureRecoveryTimeCheckbox__label.classList.add('text-enabled');
-        }
-    });
-
-    let stimulusCheckBox__label = document.createElement('label');
-    stimulusCheckBox__label.classList.add('form-check-label');
-    stimulusCheckBox__label.setAttribute('for', `stimulusCheckBox_${selectedID}`);
-    stimulusCheckBox__label.innerText = 'No response';
-
-    let stimulusLabelContainer = document.createElement('div');
-    stimulusLabelContainer.classList.add('label-container');
+    
+    let stimulusSelectionChildContainer = document.createElement('div');
+    stimulusSelectionChildContainer.classList.add('checkbox-child');
+    
+    let stimulusSelectionElement = document.createElement('select');
+    stimulusSelectionElement.id = `stimulusSelectionElement_${selectedID}`;
+    
+    let stimulusSelection__label = document.createElement('label');
+    stimulusSelection__label.setAttribute('for', `stimulusSelectionElement_${selectedID}`);
+    stimulusSelection__label.classList.add('form-check-label');
+    stimulusSelection__label.innerText = 'Stimulus (*)';
+    
+    let selection__noResponse = document.createElement('option');
+    selection__noResponse.key = 'no__response';
+    selection__noResponse.text = 'No response';
+    
+    let selection__otherThan = document.createElement('option');
+    selection__otherThan.key = 'other__than';
+    selection__otherThan.text = 'False response';
+    
+    let selection__laterThan = document.createElement('option');
+    selection__laterThan.key = 'later__than';
+    selection__laterThan.text = 'Late response';
+    
+    stimulusSelectionElement.appendChild(selection__noResponse);
+    stimulusSelectionElement.appendChild(selection__otherThan);
+    stimulusSelectionElement.appendChild(selection__laterThan);
 
     let stimulusCheckBox__label_info = document.createElement('i');
     stimulusCheckBox__label_info.classList.add('bi');
@@ -354,12 +294,6 @@ export function createResilienceTemplateView(selectedID) {
     let stimulusCheckBox__label_info_text = document.createElement('span');
     stimulusCheckBox__label_info_text.classList.add('tooltipText');
     stimulusCheckBox__label_info_text.innerText = INFO_TYPE_OF_FAILURE;
-
-    let stimulusCheckBoxContainer__label = document.createElement('label');
-    stimulusCheckBoxContainer__label.classList.add('form-check-label');
-    stimulusCheckBoxContainer__label.classList.add('label-padding');
-    stimulusCheckBoxContainer__label.setAttribute('for', 'checkBoxContainerstimulus');
-    stimulusCheckBoxContainer__label.innerText = 'Stimulus (*)';
 
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
     resilienceScenarioEnvironmentSelect.id = `resilienceScenarioEnvironmentTypeSelect_${selectedID}`;
@@ -563,18 +497,6 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureCheckboxLabel__info.classList.add('bi-info-circle');
     responseMeasureCheckboxLabel__info.classList.add('toolTip');
     
-    // <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    //     <label class="btn btn-secondary active">
-    //         <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
-    //     </label>
-    //     <label class="btn btn-secondary">
-    //         <input type="radio" name="options" id="option2" autocomplete="off"> Radio
-    //     </label>
-    //     <label class="btn btn-secondary">
-    //         <input type="radio" name="options" id="option3" autocomplete="off"> Radio
-    //     </label>
-    // </div>
-    
     /**
      * Button group for Response Times in Response Measure
      */
@@ -638,28 +560,6 @@ export function createResilienceTemplateView(selectedID) {
     
     let responseMeasureResponseTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureResponseTimeCheckboxContainerChild.classList.add('checkbox-child');
-
-    let responseMeasureResponseTimeCheckbox = document.createElement('input');
-    responseMeasureResponseTimeCheckbox.type = 'checkbox';
-    responseMeasureResponseTimeCheckbox.id = `responseMeasureCheckbox_${selectedID}`;
-    responseMeasureResponseTimeCheckbox.classList.add('form-check-input');
-    responseMeasureResponseTimeCheckbox.classList.add('label-padding');
-
-    responseMeasureResponseTimeCheckbox.addEventListener('click', () => {
-        responseMeasureResponseTimeInput.disabled = !responseMeasureResponseTimeInput.disabled;
-    });
-
-    let responseMeasureResponseTimeInput = document.createElement('input');
-    responseMeasureResponseTimeInput.id = `responseMeasureResponseTimeInput_${selectedID}`;
-    responseMeasureResponseTimeInput.type = 'number';
-    responseMeasureResponseTimeInput.placeholder = 'E.g., 1000 ms...';
-    responseMeasureResponseTimeInput.disabled = true;
-    responseMeasureResponseTimeInput.style.height = '20px';
-    responseMeasureResponseTimeInput.style.width = '135px';
-
-    let responseTimeReferenceValue = document.createElement('p');
-    responseTimeReferenceValue.classList.add('reference-values');
-    responseTimeReferenceValue.innerText = '(approx. < 3000 ms)';
     
     let recoveryBtn__group = document.createElement('div');
     recoveryBtn__group.setAttribute('data-toggle', 'buttons');
@@ -721,34 +621,6 @@ export function createResilienceTemplateView(selectedID) {
     let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
 
-    let responseMeasureRecoveryTimeCheckbox = document.createElement('input');
-    responseMeasureRecoveryTimeCheckbox.type = 'checkbox';
-    responseMeasureRecoveryTimeCheckbox.id = `responseMeasureRecoveryTimeCheckbox_${selectedID}`;
-    responseMeasureRecoveryTimeCheckbox.classList.add('form-check-input');
-    responseMeasureRecoveryTimeCheckbox.classList.add('label-padding');
-
-    responseMeasureRecoveryTimeCheckbox.addEventListener('click', () => {
-        responseMeasureRecoveryTimeInput.disabled = !responseMeasureRecoveryTimeInput.disabled;
-    });
-
-    let responseMeasureRecoveryTimeInput = document.createElement('input');
-    responseMeasureRecoveryTimeInput.id = `responseMeasureRecoveryTimeInput_${selectedID}`;
-    responseMeasureRecoveryTimeInput.type = 'number';
-    responseMeasureRecoveryTimeInput.placeholder = 'E.g., 50000 ms';
-    responseMeasureRecoveryTimeInput.disabled = true;
-    responseMeasureRecoveryTimeInput.style.height = '20px';
-    responseMeasureRecoveryTimeInput.style.width = '135px';
-
-    let responseMeasureRecoveryTimeCheckbox__label = document.createElement('label');
-    responseMeasureRecoveryTimeCheckbox__label.classList.add('form-check-label');
-    responseMeasureRecoveryTimeCheckbox__label.setAttribute('for', `responseMeasureRecoveryTimeCheckbox_${selectedID}`);
-    responseMeasureRecoveryTimeCheckbox__label.innerText = 'Recovery Time';
-    responseMeasureRecoveryTimeCheckbox__label.classList.add('text-disabled');
-
-    let recoverTimeReferenceValue = document.createElement('p');
-    recoverTimeReferenceValue.classList.add('reference-values');
-    recoverTimeReferenceValue.innerText = '(approx. < 5 min)';
-
     /**
      * This is probably going to be the summary view for all resilience scenarios
      */
@@ -783,17 +655,17 @@ export function createResilienceTemplateView(selectedID) {
     resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info);
     resilienceServiceAmountLabelContainer.appendChild(resilienceServiceAmount__info_text);
 
-    timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label);
-    timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info);
-    timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
+    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label);
+    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info);
+    // timeOfServiceFailureLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
+    
+    accuracyLabelContainer.appendChild(timeOfServiceFailure__label);
+    accuracyLabelContainer.appendChild(timeOfServiceFailure__label_info);
+    accuracyLabelContainer.appendChild(accuracyCurrentValue);
+    accuracyLabelContainer.appendChild(timeOfServiceFailure__label_info_text);
 
-    randomizedServiceSelectionLabelContainer.appendChild(checkBoxContainer__label);
-    randomizedServiceSelectionLabelContainer.appendChild(randomizedServiceSelection__label_info);
-    randomizedServiceSelectionLabelContainer.appendChild(randomizedServiceSelection__label_info_text);
-
-    stimulusLabelContainer.appendChild(stimulusCheckBoxContainer__label);
-    stimulusLabelContainer.appendChild(stimulusCheckBox__label_info);
-    stimulusLabelContainer.appendChild(stimulusCheckBox__label_info_text);
+    accuracyChildContainer.appendChild(accuracyLabelContainer);
+    accuracyChildContainer.appendChild(timeOfServiceFailure);
 
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label);
     resilienceScenarioEnvironmentLabelContainer.appendChild(resilienceScenarioEnvironment__label_info);
@@ -814,32 +686,15 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryBtn__group);
 
     responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
-    responseMeasureCheckboxContainer.appendChild(recoverTimeReferenceValue);
     responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
-    responseMeasureCheckboxContainer.appendChild(responseTimeReferenceValue);
     
-
-    // responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox__label);
-    // responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeInput);
-
-    // responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeCheckbox__label);
-    // responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeInput);
-
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
 
-    checkBoxContainerChildstimulusServiceShutdown.appendChild(stimulusCheckBox__label);
-    checkBoxContainerChildstimulusServiceShutdown.appendChild(stimulusCheckBox);
-
-    checkBoxContainerChildstimulusOtherThan.appendChild(stimulusOtherThanCheckbox__label);
-    checkBoxContainerChildstimulusOtherThan.appendChild(stimulusOtherThanCheckbox);
-
-    checkBoxContainerChildstimulusLaterThan.appendChild(stimulusLaterThanCheckbox__label);
-    checkBoxContainerChildstimulusLaterThan.appendChild(stimulusLaterThanCheckbox);
-
-    checkBoxContainer.appendChild(checkBoxContainerChildstimulusServiceShutdown);
-    checkBoxContainer.appendChild(checkBoxContainerChildstimulusOtherThan);
-    checkBoxContainer.appendChild(checkBoxContainerChildstimulusLaterThan);
+    stimulusSelectionChildContainer.appendChild(stimulusSelection__label);
+    stimulusSelectionChildContainer.appendChild(stimulusSelectionElement);
+    
+    checkBoxContainer.appendChild(stimulusSelectionChildContainer);
 
     executionContextScheduleContainerOfficeHours.appendChild(executionContextWorkingHoursCheckBox__label);
     executionContextScheduleContainerOfficeHours.appendChild(executionContextWorkingHoursCheckBox);
@@ -859,23 +714,25 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateViewContainer__right.appendChild(resilienceServiceAmountLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(stimulusOccurrence__select);
     resilienceTemplateViewContainer__right.appendChild(resilienceServiceAmount__invalid);
-    resilienceTemplateViewContainer__right.appendChild(timeOfServiceFailureLabelContainer);
-    resilienceTemplateViewContainer__right.appendChild(timeOfServiceFailure);
-    resilienceTemplateViewContainer__right.appendChild(timeOfServiceFailure__invalid);
-
+    
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentSelect);
     resilienceTemplateViewContainer__right.appendChild(environment_select_information_container);
     resilienceTemplateViewContainer__right.appendChild(executionContextInformation_container);
-    // resilienceTemplateViewContainer__right.appendChild(executionContextScheduleParentContainer);
-
-
-
+    
+    
     // this goes left
     resilienceTemplateViewContainer__left.appendChild(artifactValueContainer);
-    resilienceTemplateViewContainer__left.appendChild(stimulusLabelContainer);
     resilienceTemplateViewContainer__left.appendChild(checkBoxContainer);
     resilienceTemplateViewContainer__left.appendChild(stimulusCheckBox__invalid);
+    
+    resilienceTemplateViewContainer__left.appendChild(accuracyChildContainer);
+    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure);
+    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure__invalid);
+    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailureLabelContainer);
+    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure);
+    // resilienceTemplateViewContainer__left.appendChild(timeOfServiceFailure__invalid);
+    
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckBoxLabelContainer);
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckboxContainer);
     resilienceTemplateViewContainer__left.appendChild(responseMeasure__invalid);

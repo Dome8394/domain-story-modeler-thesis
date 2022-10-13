@@ -77,12 +77,8 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let getLaterResponseCheckbox = document.getElementById(`stimulusLaterThanCheckbox_${selectedID}`);
     let getLaterResponse = getLaterResponseCheckbox.checked;
-
-    let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
-    let getResponseTime = getResponseMeasureResponseTimeInputElement.value;
-
-    let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
-    let getRecoveryTime = getResponseMeasureRecoveryTimeInputElement.value;
+    
+    // TODO add verification for button group
 
 
     if (verifyMandatory(
