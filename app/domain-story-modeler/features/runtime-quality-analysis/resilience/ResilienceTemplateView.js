@@ -583,11 +583,6 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureBtn__group.classList.add('btn-group');
     responseMeasureBtn__group.classList.add('btn-group-toggle');
     
-    let satisfied__label = document.createElement('label');
-    satisfied__label.classList.add('btn');
-    satisfied__label.classList.add('btn-secondary');
-    satisfied__label.innerText = "Active";
-    
     let satisfied__input = document.createElement('button');
     satisfied__input.type = 'button';
     satisfied__input.name = 'options';
@@ -633,7 +628,7 @@ export function createResilienceTemplateView(selectedID) {
     
     let responseTime__label = document.createElement('label');
     responseTime__label.classList.add('form-check-label');
-    responseTime__label.setAttribute('for', 'satisfied__option__key')
+    responseTime__label.setAttribute('for', `satisfied__option__key_${selectedID}`);
     responseTime__label.innerText = 'Response time';
     responseTime__label.classList.add('text-disabled');
     
@@ -643,8 +638,6 @@ export function createResilienceTemplateView(selectedID) {
     
     let responseMeasureResponseTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureResponseTimeCheckboxContainerChild.classList.add('checkbox-child');
-    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseTime__label);
-    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureBtn__group);
 
     let responseMeasureResponseTimeCheckbox = document.createElement('input');
     responseMeasureResponseTimeCheckbox.type = 'checkbox';
@@ -664,11 +657,66 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureResponseTimeInput.style.height = '20px';
     responseMeasureResponseTimeInput.style.width = '135px';
 
-    
-
     let responseTimeReferenceValue = document.createElement('p');
     responseTimeReferenceValue.classList.add('reference-values');
-    responseTimeReferenceValue.innerText = '(approx. < 3000 ms)'
+    responseTimeReferenceValue.innerText = '(approx. < 3000 ms)';
+    
+    let recoveryBtn__group = document.createElement('div');
+    recoveryBtn__group.setAttribute('data-toggle', 'buttons');
+    recoveryBtn__group.classList.add('btn-group');
+    recoveryBtn__group.classList.add('btn-group-toggle');
+
+    let satisfied__input__recovery = document.createElement('button');
+    satisfied__input__recovery.type = 'button';
+    satisfied__input__recovery.name = 'options';
+    satisfied__input__recovery.id = `satisfied__recovery__option__key_${selectedID}`;
+    satisfied__input__recovery.innerText = 'Active';
+    satisfied__input__recovery.classList.add('btn');
+    satisfied__input__recovery.classList.add('btn-outline-primary');
+    satisfied__input__recovery.classList.add('btn-group-btn');
+
+    satisfied__input__recovery.addEventListener('click', () => {
+        tolerated__input__recovery.classList.remove('active');
+        frustrated__input__recovery.classList.remove('active');
+    })
+
+    let tolerated__input__recovery = document.createElement('button');
+    tolerated__input__recovery.type = 'button';
+    tolerated__input__recovery.name = 'options';
+    tolerated__input__recovery.id = `tolerate__recovery__option__key_${selectedID}`;
+    tolerated__input__recovery.innerText = 'Tolerated';
+    tolerated__input__recovery.classList.add('btn');
+    tolerated__input__recovery.classList.add('btn-outline-primary');
+    tolerated__input__recovery.classList.add('btn-group-btn');
+
+    tolerated__input__recovery.addEventListener('click', () => {
+        satisfied__input__recovery.classList.remove('active');
+        frustrated__input__recovery.classList.remove('active');
+    })
+
+    let frustrated__input__recovery = document.createElement('button');
+    frustrated__input__recovery.type = 'button';
+    frustrated__input__recovery.name = 'options';
+    frustrated__input__recovery.id = `frustrated__recovery__option__key_${selectedID}`;
+    frustrated__input__recovery.innerText = 'Frustrated';
+    frustrated__input__recovery.classList.add('btn');
+    frustrated__input__recovery.classList.add('btn-outline-primary');
+    frustrated__input__recovery.classList.add('btn-group-btn');
+
+    frustrated__input__recovery.addEventListener('click', () => {
+        satisfied__input__recovery.classList.remove('active');
+        tolerated__input__recovery.classList.remove('active');
+    })
+
+    let recoveryTime__label = document.createElement('label');
+    recoveryTime__label.classList.add('form-check-label');
+    recoveryTime__label.setAttribute('for', `satisfied__input__recovery__${selectedID}`)
+    recoveryTime__label.innerText = 'Recovery time';
+    recoveryTime__label.classList.add('text-disabled');
+
+    recoveryBtn__group.appendChild(satisfied__input__recovery);
+    recoveryBtn__group.appendChild(tolerated__input__recovery);
+    recoveryBtn__group.appendChild(frustrated__input__recovery);
 
     let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
@@ -758,17 +806,24 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel);
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel__info);
     // TODO info text element
+    
+    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseTime__label);
+    responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureBtn__group);
+    
+    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryTime__label);
+    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryBtn__group);
 
     responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
     responseMeasureCheckboxContainer.appendChild(recoverTimeReferenceValue);
     responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
     responseMeasureCheckboxContainer.appendChild(responseTimeReferenceValue);
+    
 
     // responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeCheckbox__label);
     // responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureResponseTimeInput);
 
-    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeCheckbox__label);
-    responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeInput);
+    // responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeCheckbox__label);
+    // responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(responseMeasureRecoveryTimeInput);
 
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
