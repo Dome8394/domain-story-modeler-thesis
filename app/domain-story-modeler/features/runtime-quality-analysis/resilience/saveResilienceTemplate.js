@@ -102,6 +102,12 @@ export const saveResilienceTemplate = (selectedID) => {
 
     if (verifyMandatory(
         selectedID,
+        getRecoveryTime__satisfied,
+        getRecoveryTime__tolerated,
+        getRecoveryTime__frustrated,
+        getResponseTime__satisfied,
+        getResponseTime__tolerated,
+        getResponseTime__frustrated,
         getStimulus,
         getDuration,
         getAccuracy,
@@ -233,13 +239,21 @@ export const saveResilienceTemplate = (selectedID) => {
 
 const verifyMandatory = (
     selectedID,
+    getRecoveryTime__satisfied,
+    getRecoveryTime__tolerated,
+    getRecoveryTime__frustrated,
+    getResponseTime__satisfied,
+    getResponseTime__tolerated,
+    getResponseTime__frustrated,
     getStimulus,
     durationProvided,
     getAccuracy,
     environmentSelected
 ) => {
 
-    if (getStimulus && durationProvided && environmentSelected && (getAccuracy > 0)) {
+    if (getStimulus && durationProvided && environmentSelected && (getAccuracy > 0)
+        && (getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated) 
+        && (getResponseTime__satisfied || getResponseTime__tolerated || getResponseTime__frustrated)) {
         
         if (environmentSelected === 'No') {
             let getExistingLoadTestsCheckboxElement = document.getElementById(`existingLoadTests__input_${selectedID}`);
