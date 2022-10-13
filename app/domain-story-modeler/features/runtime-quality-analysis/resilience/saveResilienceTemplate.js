@@ -3,6 +3,7 @@ import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
 import { getNodeName } from '../util/util';
 import { setupTemplateObject } from '../classes/setupTemplateObject';
 import { getNodeRectElementAndSetColor } from '../util/util';
+import { createToastNotification } from '../util/notifications';
 
 
 export const saveResilienceTemplate = (selectedID) => {
@@ -208,8 +209,8 @@ export const saveResilienceTemplate = (selectedID) => {
             createNewSummaryForTemplate(newResilienceScenarioTemplate);
         }
 
-        getNodeRectElementAndSetColor(selectedID, true);
-
+        getNodeRectElementAndSetColor(selectedID, true, 'Resilience Template');
+        createToastNotification("Your specification has been saved!", 'success');
         resilienceTemplateModal.style.display = 'none';
     }
 

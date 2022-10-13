@@ -1,4 +1,4 @@
-
+import { createToastNotification } from "../util/notifications";
 export const createAnalysisResultsView = () => {
     let getSummaryContainer = document.getElementById('runtimeAnalysisSummaryContainer');
     let getResultsModal = document.getElementById('results_modal');
@@ -10,21 +10,28 @@ export const createAnalysisResultsView = () => {
     results__close__btn.innerText = 'Close';
 
     let results__btn__container = document.createElement('div');
+    results__btn__container.id = 'results__btn__container';
 
     let breakEle = document.createElement('br');
+    
+    
+    if (!document.getElementById('results__btn__container')) {
+        let results__btn = document.createElement('button');
+        results__btn.id = 'results__btn';
+        results__btn.classList.add('btn');
+        results__btn.classList.add('btn-success');
+        results__btn.classList.add('custom-button');
+        results__btn.innerText = 'Show results';
+    
+        results__btn.addEventListener('click', () => {
+            getResultsModal.style.display = 'block';
+            console.log(getResultsModal);
+            console.log(document.getElementById('results__modal__content'));
+        });
+        
+        results__btn__container.appendChild(results__btn);
+    }
 
-    let results__btn = document.createElement('button');
-    results__btn.id = 'results__btn';
-    results__btn.classList.add('btn');
-    results__btn.classList.add('btn-success');
-    results__btn.classList.add('custom-button');
-    results__btn.innerText = 'Show results';
-
-    results__btn.addEventListener('click', () => {
-        getResultsModal.style.display = 'block';
-        console.log(getResultsModal);
-        console.log(document.getElementById('results__modal__content'));
-    });
 
     results__close__btn.addEventListener('click', () => {
         getResultsModal.style.display = 'none';
@@ -93,12 +100,6 @@ export const createAnalysisResultsView = () => {
 
     let stimulus__loadtests__responseMeasure;
 
-    let stimulus__loadtests__peakload;
-
-    let stimulus__loadtests__constantLoad;
-
-    let stimulus__loadtests__continuousLoad;
-
     let stimulus__loadtests__durationIncrease;
 
     let resultMetric__loadtests__responseTimes;
@@ -134,11 +135,6 @@ export const createAnalysisResultsView = () => {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
                             if (innerKey === 'Type') {
                                 stimulus__loadtests__type = innerValue;
-                            }
-
-                            if (innerKey === 'Peak Load at') {
-                                stimulus__loadtests__peakload = innerValue;
-                                console.log("There is a peak load!!");
                             }
 
                             if (innerKey === 'Duration of Increase') {
@@ -285,8 +281,6 @@ export const createAnalysisResultsView = () => {
         resultsView__container.appendChild(summary__loadtests__container);
     }
 
-
-    
     if (stimulus__resilience__type) {
         let summary__resilience__results = document.createElement('span');
         
@@ -308,9 +302,10 @@ export const createAnalysisResultsView = () => {
 
     results__modal__content.appendChild(resultsView__container);
     results__modal__content.appendChild(results__close__btn);
-    results__btn__container.appendChild(results__btn);
     getResultsModal.appendChild(results__modal__content);
     getSummaryContainer.appendChild(results__btn__container);
+    
+    createToastNotification("Your test results arrived!", "success");
 };
 
 /**

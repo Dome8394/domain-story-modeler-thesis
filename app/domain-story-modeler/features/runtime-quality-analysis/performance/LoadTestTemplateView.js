@@ -507,12 +507,12 @@ const createContinuousLoadInformationTemplate = (selectedID) => {
     let continuousLoadProfile__label = document.createElement('label');
     continuousLoadProfile__label.setAttribute('for', `continuousLoadProfile__input_${selectedID}`);
     continuousLoadProfile__label.innerText = 'How much load would you like to simulate?';
+    continuousLoadProfile__label.style.marginTop = '5%';
 
     let continuousLoadProfile__reference__value = document.createElement('p');
     continuousLoadProfile__reference__value.classList.add('reference-values');
     continuousLoadProfile__reference__value.innerText = 'approx. < 5000 requests/hour';
 
-    
     let continuousLoadDuration__input = document.createElement('input');
     continuousLoadDuration__input.id = `continuousLoadDuration__input_${selectedID}`;
     continuousLoadDuration__input.type = 'number';
@@ -536,10 +536,10 @@ const createContinuousLoadInformationTemplate = (selectedID) => {
     
     continousLoadChild__container.appendChild(continousLoad__label__container);
     continousLoadChild__container.appendChild(continuousLoadDuration__input);
-    continousLoadChild__container.appendChild(continuousLoadProfile__label__container);
-    continousLoadChild__container.appendChild(continuousLoadProfile__child__container);
     
     containerContinuousLoad.appendChild(continousLoadChild__container);
+    containerContinuousLoad.appendChild(continuousLoadProfile__label__container);
+    containerContinuousLoad.appendChild(continuousLoadProfile__child__container);
     
     loadTestTemplatInputContainer__right.appendChild(containerContinuousLoad__label__container);
     loadTestTemplatInputContainer__right.appendChild(containerContinuousLoad);

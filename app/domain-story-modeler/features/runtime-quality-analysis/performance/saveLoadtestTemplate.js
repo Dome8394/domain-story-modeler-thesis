@@ -159,7 +159,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             createNewSummaryForTemplate(newLoadTestTemplateObj);
         }
 
-        getNodeRectElementAndSetColor(selectedID, true);
+        getNodeRectElementAndSetColor(selectedID, true, 'Loadtest Template');
         getLoadTestTemplateModal.style.display = 'none';
 
     }

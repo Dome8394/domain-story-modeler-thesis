@@ -1,4 +1,4 @@
-import { createToastNotification } from './notifications';
+import { createToastNotificationTemplate } from './notifications';
 
 /**
  * Retrieves the name of the currently selected node on which a test will be
@@ -22,7 +22,7 @@ export const getNodeRectElementAndSetColor = (selectedID, specified, type) => {
         rectElement.style.strokeWidth = '1px';
         rectElement.style.stroke = 'rgb(49 156 35)';
     } else {
-        createToastNotification("You did not provide all information in the template!", type, selectedID)
+        createToastNotificationTemplate("You did not provide all information in the template!", type)
         if (!(rectElement.style.stroke == unspecifiedColorHighlight)) {
             rectElement.style.strokeOpacity = 1;
             rectElement.style.strokeWidth = '1px';

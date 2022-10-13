@@ -1,4 +1,5 @@
 import { createAnalysisResultsView } from './analysis-results/analysisResultsView';
+import { createToastNotification } from './util/notifications';
 
 export const createDisabledGenerateBtn = () => {
     let generateButtonContainer = document.createElement('div');
@@ -15,7 +16,10 @@ export const createDisabledGenerateBtn = () => {
 
     generateAndPush__btn.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
-        createAnalysisResultsView();
+        createToastNotification("Congrats! Your test has been generated. Wait for your results to arrive!", "Template complete");
+        setTimeout(() => {
+            createAnalysisResultsView();
+        }, 5000)
     });
     
     generateButtonContainer.appendChild(generateAndPush__btn)
