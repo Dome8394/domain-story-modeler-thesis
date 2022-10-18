@@ -77,28 +77,35 @@ export const saveResilienceTemplate = (selectedID) => {
     // TODO add verification for button group
     let getRecoveryTime__satisfiedBtn = document.getElementById(`satisfied__recovery__option__key_${selectedID}`);
     let getRecoveryTime__satisfied = getRecoveryTime__satisfiedBtn.ariaPressed;
-    console.log(getRecoveryTime__satisfied);
+    console.log(getRecoveryTime__satisfiedBtn.textContent);
     
     let getRecoveryTime__toleratedBtn = document.getElementById(`tolerate__recovery__option__key_${selectedID}`);
     let getRecoveryTime__tolerated = getRecoveryTime__toleratedBtn.ariaPressed;
-    console.log(getRecoveryTime__tolerated);
     
     let getRecoveryTime__frustratedBtn = document.getElementById(`frustrated__recovery__option__key_${selectedID}`);
     let getRecoveryTime__frustrated = getRecoveryTime__frustratedBtn.ariaPressed;
-    console.log(getRecoveryTime__frustrated);
     
     let getResponseTime__satisfiedBtn = document.getElementById(`satisfied__option__key_${selectedID}`);
     let getResponseTime__satisfied = getResponseTime__satisfiedBtn.ariaPressed;
-    console.log("Saving: ", getResponseTime__satisfied);
     
     let getResponseTime__toleratedBtn = document.getElementById(`tolerated__input__option__key_${selectedID}`);
     let getResponseTime__tolerated = getResponseTime__toleratedBtn.ariaPressed;
-    console.log(getResponseTime__tolerated);
     
     let getResponseTime__frustratedBtn = document.getElementById(`frustrated__input__option__key_${selectedID}`);
     let getResponseTime__frustrated = getResponseTime__frustratedBtn.ariaPressed;
-    console.log(getResponseTime__frustrated);
-
+    
+    let getErrorRates__noneBtn = document.getElementById(`errorRates__input__none_${selectedID}`);
+    let getErrorRates__none = getErrorRates__noneBtn.ariaPressed;
+    
+    let getErrorRates__lowBtn = document.getElementById(`errorRates__input_low_${selectedID}`);
+    let getErrorRates__low = getErrorRates__lowBtn.ariaPressed;
+    
+    let getErrorRates__mediumBtn = document.getElementById(`errorRates__input_medium_${selectedID}`);
+    let getErrorRates__medium = getErrorRates__mediumBtn.ariaPressed;
+    
+    let getErrorRates__highBtn = document.getElementById(`errorRates__input_high_${selectedID}`);
+    let getErrorRates__high = getErrorRates__highBtn.ariaPressed;
+    
 
     if (verifyMandatory(
         selectedID,
@@ -108,6 +115,10 @@ export const saveResilienceTemplate = (selectedID) => {
         getResponseTime__satisfied,
         getResponseTime__tolerated,
         getResponseTime__frustrated,
+        getErrorRates__none,
+        getErrorRates__low,
+        getErrorRates__medium,
+        getErrorRates__high,
         getStimulus,
         getDuration,
         getAccuracy,
@@ -183,20 +194,20 @@ export const saveResilienceTemplate = (selectedID) => {
             }
         }
 
-        if (getNoResponse) {
+        if (getStimulus === 'No response') {
             stimulus = {
                 "Type": "No response"
             }
             responseMeasure = {
                 "Recovery Time below": getRecoveryTime + ' milliseconds'
             }
-        } else if (getDifferentResponse) {
+        } else if (getStimulus === 'Failed request') {
             stimulus = {
-                "Type": "Different response object",
+                "Type": "Failed request",
                 "Fault object": { "Test": "XXXXX" },
-                "Expected Status Code": 400
+                "Error rate": getErrorRates__none.textContent || getErrorRates__low.textContent || getErrorRates__medium.textContent || getErrorRates__high.textContent
             }
-        } else if (getLaterResponse) {
+        } else if (getStimulus === 'Late response') {
             stimulus = {
                 "Type": "Response arrives late"
             }
@@ -212,7 +223,7 @@ export const saveResilienceTemplate = (selectedID) => {
             "Context": environmentContext
         };
 
-        stimulus["Duration"] = getDuration + ' minutes';
+        stimulus["Duration"] = getDuration + ' %';
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,
@@ -245,6 +256,10 @@ const verifyMandatory = (
     getResponseTime__satisfied,
     getResponseTime__tolerated,
     getResponseTime__frustrated,
+    getErrorRates__none,
+    getErrorRates__low,
+    getErrorRates__medium,
+    getErrorRates__high,
     getStimulus,
     durationProvided,
     getAccuracy,
@@ -252,8 +267,9 @@ const verifyMandatory = (
 ) => {
 
     if (getStimulus && durationProvided && environmentSelected && (getAccuracy > 0)
-        && (getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated) 
-        && (getResponseTime__satisfied || getResponseTime__tolerated || getResponseTime__frustrated)) {
+        || (getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated) 
+        || (getResponseTime__satisfied || getResponseTime__tolerated || getResponseTime__frustrated)
+        || (getErrorRates__none || getErrorRates__low || getErrorRates__medium || getErrorRates__high)) {
         
         if (environmentSelected === 'No') {
             let getExistingLoadTestsCheckboxElement = document.getElementById(`existingLoadTests__input_${selectedID}`);

@@ -179,11 +179,6 @@ export function createResilienceTemplateView(selectedID) {
     stimulusRepitition__invalid.classList.add('error-info');
     stimulusRepitition__invalid.style.display = 'none';
 
-    // <div class="form-group">
-    //     <label for="formControlRange">Example Range input</label>
-    //     <input type="range" class="form-control-range" id="formControlRange">
-    // </div>
-    
     let accuracyChildContainer = document.createElement('div');
     accuracyChildContainer.classList.add('checkbox-child');
     
@@ -257,7 +252,7 @@ export function createResilienceTemplateView(selectedID) {
     
     let selection__otherThan = document.createElement('option');
     selection__otherThan.key = 'other__than';
-    selection__otherThan.text = 'False response';
+    selection__otherThan.text = 'Failed request';
     
     let selection__laterThan = document.createElement('option');
     selection__laterThan.key = 'later__than';
@@ -503,6 +498,7 @@ export function createResilienceTemplateView(selectedID) {
     satisfied__input.classList.add('btn');
     satisfied__input.classList.add('btn-outline-primary');
     satisfied__input.classList.add('btn-group-btn');
+    satisfied__input.disabled = true;
     
     satisfied__input.addEventListener('click', () => {
         console.log(satisfied__input.ariaPressed);
@@ -519,6 +515,7 @@ export function createResilienceTemplateView(selectedID) {
     tolerated__input.classList.add('btn');
     tolerated__input.classList.add('btn-outline-primary');
     tolerated__input.classList.add('btn-group-btn');
+    tolerated__input.disabled = true;
     
     tolerated__input.addEventListener('click', () => {
         satisfied__input.classList.remove('active');
@@ -534,6 +531,7 @@ export function createResilienceTemplateView(selectedID) {
     frustrated__input.classList.add('btn');
     frustrated__input.classList.add('btn-outline-primary');
     frustrated__input.classList.add('btn-group-btn');
+    frustrated__input.disabled = true;
     
     frustrated__input.addEventListener('click', () => {
         satisfied__input.classList.remove('active');
@@ -567,7 +565,8 @@ export function createResilienceTemplateView(selectedID) {
     satisfied__input__recovery.classList.add('btn');
     satisfied__input__recovery.classList.add('btn-outline-primary');
     satisfied__input__recovery.classList.add('btn-group-btn');
-
+    satisfied__input__recovery.disabled = true;
+    
     satisfied__input__recovery.addEventListener('click', () => {
         tolerated__input__recovery.classList.remove('active');
         frustrated__input__recovery.classList.remove('active');
@@ -582,7 +581,8 @@ export function createResilienceTemplateView(selectedID) {
     tolerated__input__recovery.classList.add('btn');
     tolerated__input__recovery.classList.add('btn-outline-primary');
     tolerated__input__recovery.classList.add('btn-group-btn');
-
+    tolerated__input__recovery.disabled = true;
+    
     tolerated__input__recovery.addEventListener('click', () => {
         satisfied__input__recovery.classList.remove('active');
         frustrated__input__recovery.classList.remove('active');
@@ -597,6 +597,7 @@ export function createResilienceTemplateView(selectedID) {
     frustrated__input__recovery.classList.add('btn');
     frustrated__input__recovery.classList.add('btn-outline-primary');
     frustrated__input__recovery.classList.add('btn-group-btn');
+    frustrated__input__recovery.disabled = true;
 
     frustrated__input__recovery.addEventListener('click', () => {
         satisfied__input__recovery.classList.remove('active');
@@ -624,32 +625,45 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__btn__group.classList.add('btn-group');
     errorRates__btn__group.classList.add('btn-group-toggle');
     
+    let errorRates__input__none = document.createElement('button');
+    errorRates__input__none.type = 'button';
+    errorRates__input__none.name = 'options';
+    errorRates__input__none.id = `errorRates__input__none_${selectedID}`;
+    errorRates__input__none.innerText = 'None';
+    errorRates__input__none.classList.add('btn');
+    errorRates__input__none.classList.add('btn-outline-primary');
+    errorRates__input__none.classList.add('btn-group-btn');
+    errorRates__input__none.disabled = true;
+    
     let errorRates__input__low = document.createElement('button');
     errorRates__input__low.type = 'button';
     errorRates__input__low.name = 'options';
-    errorRates__input__low.id = `errorRates__input_${selectedID}`;
+    errorRates__input__low.id = `errorRates__input_low_${selectedID}`;
     errorRates__input__low.innerText = 'Low';
     errorRates__input__low.classList.add('btn');
     errorRates__input__low.classList.add('btn-outline-primary');
     errorRates__input__low.classList.add('btn-group-btn');
+    errorRates__input__low.disabled = true;
     
     let errorRates__input__medium = document.createElement('button');
     errorRates__input__medium.type = 'button';
     errorRates__input__medium.name = 'options';
-    errorRates__input__medium.id = `errorRates__input_${selectedID}`;
+    errorRates__input__medium.id = `errorRates__input_medium_${selectedID}`;
     errorRates__input__medium.innerText = 'Medium';
     errorRates__input__medium.classList.add('btn');
     errorRates__input__medium.classList.add('btn-outline-primary');
     errorRates__input__medium.classList.add('btn-group-btn');
+    errorRates__input__medium.disabled = true;
     
     let errorRates__input__high = document.createElement('button');
     errorRates__input__high.type = 'button';
     errorRates__input__high.name = 'options';
-    errorRates__input__high.id = `errorRates__input_${selectedID}`;
+    errorRates__input__high.id = `errorRates__input_high_${selectedID}`;
     errorRates__input__high.innerText = 'High';
     errorRates__input__high.classList.add('btn');
     errorRates__input__high.classList.add('btn-outline-primary');
     errorRates__input__high.classList.add('btn-group-btn');
+    errorRates__input__high.disabled = true;
     
     let errorRates__input__label = document.createElement('label');
     errorRates__input__label.classList.add('form-check-label');
@@ -657,9 +671,73 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__label.innerText = 'Error rates';
     errorRates__input__label.classList.add('text-disabled');
     
+    errorRates__btn__group.appendChild(errorRates__input__none);
     errorRates__btn__group.appendChild(errorRates__input__low);
     errorRates__btn__group.appendChild(errorRates__input__medium);
     errorRates__btn__group.appendChild(errorRates__input__high);
+    
+    stimulusSelectionElement.addEventListener('change', () => {
+        if (stimulusSelectionElement.value === 'No response') {
+            satisfied__input__recovery.disabled = !satisfied__input__recovery.disabled;
+            tolerated__input__recovery.disabled = !tolerated__input__recovery.disabled;
+            frustrated__input__recovery.disabled = !frustrated__input__recovery.disabled;
+            recoveryTime__label.classList.remove('text-disabled');
+            recoveryTime__label.classList.add('text-enabled');
+            
+            errorRates__input__none.disabled = true;
+            errorRates__input__low.disabled = true;
+            errorRates__input__medium.disabled = true;
+            errorRates__input__high.disabled = true;
+            errorRates__input__label.classList.remove('text-enabled');
+            errorRates__input__label.classList.add('text-disabled');
+            
+            satisfied__input.disabled = true;
+            tolerated__input.disabled = true;
+            frustrated__input.disabled = true;
+            responseTime__label.classList.remove('text-enabled');
+            responseTime__label.classList.add('text-disabled');
+            
+        } else if (stimulusSelectionElement.value === 'Failed request') {
+            errorRates__input__none.disabled = !errorRates__input__none.disabled;
+            errorRates__input__low.disabled = !errorRates__input__low.disabled;
+            errorRates__input__medium.disabled = !errorRates__input__medium.disabled;
+            errorRates__input__high.disabled = !errorRates__input__high.disabled;
+            errorRates__input__label.classList.remove('text-disabled');
+            errorRates__input__label.classList.add('text-enabled');
+            
+            satisfied__input__recovery.disabled = true;
+            tolerated__input__recovery.disabled = true;
+            frustrated__input__recovery.disabled = true;
+            recoveryTime__label.classList.remove('text-enabled');
+            recoveryTime__label.classList.add('text-disabled');
+            
+            satisfied__input.disabled = true;
+            tolerated__input.disabled = true;
+            frustrated__input.disabled = true;
+            responseTime__label.classList.remove('text-enabled');
+            responseTime__label.classList.add('text-disabled');
+            
+        } else if (stimulusSelectionElement.value === 'Late response') {
+            errorRates__input__none.disabled = true;
+            errorRates__input__low.disabled = true;
+            errorRates__input__medium.disabled = true;
+            errorRates__input__high.disabled = true;
+            errorRates__input__label.classList.remove('text-enabled');
+            errorRates__input__label.classList.add('text-disabled');
+    
+            satisfied__input__recovery.disabled = true;
+            tolerated__input__recovery.disabled = true;
+            frustrated__input__recovery.disabled = true;
+            recoveryTime__label.classList.remove('text-enabled');
+            recoveryTime__label.classList.add('text-disabled');
+    
+            satisfied__input.disabled = !satisfied__input.disabled;
+            tolerated__input.disabled = !tolerated__input.disabled;
+            frustrated__input.disabled = !frustrated__input.disabled;
+            responseTime__label.classList.remove('text-disabled');
+            responseTime__label.classList.add('text-enabled');
+        }
+    });
 
     /**
      * This is probably going to be the summary view for all resilience scenarios
