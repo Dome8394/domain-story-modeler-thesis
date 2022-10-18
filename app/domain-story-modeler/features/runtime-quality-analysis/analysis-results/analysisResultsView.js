@@ -133,7 +133,7 @@ export const createAnalysisResultsView = () => {
                     }
                     if (key === 'stimulus') {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
-                            if (innerKey === 'Type') {
+                            if (innerKey === 'Accuracy') {
                                 stimulus__loadtests__type = innerValue;
                             }
 

@@ -53,6 +53,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         }
 
         let artifact = getNodeName(selectedID);
+        let stimulusType = getStimulus;
         let responseMeasure;
         let responseMeasureType = 'Response Times';
         let responseMeasureMeasure;
@@ -61,7 +62,8 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             "Accuracy": getAccuracy + '%'
         };
         
-        let stimulusType = getStimulus;
+        console.log(stimulus);
+        
         let stimulusLoadPeakType = 'Highest Load';
         let stimulusTimeToPeakType = 'Time to Highest Load';
         let stimulusTimeToPeakMeasure;
@@ -71,6 +73,8 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         let stimulusBaseLoadType = 'Base Load';
         let stimulusBaseLoadMeasure;
         let resultMetrics;
+        
+        console.log("Stimulus type: ", stimulusType);
 
         switch (stimulusType) {
             case 'Load Peak':
@@ -113,7 +117,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
                 break;
             case 'Load Increase':
-                let getTypeOfIncreaseElement = document.getElementById();
+                let getTypeOfIncreaseElement = document.getElementById(`loadIncrease__select_${selectedID}`);
                 let getTypeOfIncrease = getTypeOfIncreaseElement.value;
                 stimulusTypeIncreaseMeasure = getTypeOfIncrease;
                 
@@ -270,9 +274,9 @@ const verifyMandatory = (
                 return true;
             } else {
                 return false;
-            }
+            } 
         } else if (stimulus === 'Load Increase') {
-            let getTypeOfIncreaseElement = document.getElementById();
+            let getTypeOfIncreaseElement = document.getElementById(`loadIncrease__select_${selectedID}`);
             let getTypeOfIncrease = getTypeOfIncreaseElement.value;
 
             if (getTypeOfIncrease) {
@@ -282,13 +286,13 @@ const verifyMandatory = (
                 return false;
             }
         } else if (stimulus === 'Constant Load') {
-            let getBaseLoad__lowBtn = document.getElementById();
+            let getBaseLoad__lowBtn = document.getElementById(`baseLoad__low__btn${selectedID}`);
             let getBaseLoad__low = getBaseLoad__lowBtn.classList.contains('active');
 
-            let getBaseLoad__mediumBtn = document.getElementById();
+            let getBaseLoad__mediumBtn = document.getElementById(`baseLoad__medium__btn${selectedID}`);
             let getBaseLoad__medium = getBaseLoad__mediumBtn.classList.contains('active');
 
-            let getBaseLoad__HighBtn = document.getElementById();
+            let getBaseLoad__HighBtn = document.getElementById(`baseLoad__high__btn${selectedID}`);
             let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
 
             if (getBaseLoad__low || getBaseLoad__medium || getBaseLoad__High) {
