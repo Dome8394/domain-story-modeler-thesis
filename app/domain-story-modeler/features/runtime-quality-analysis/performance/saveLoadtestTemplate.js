@@ -12,86 +12,144 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`)
 
-    let getLoadPeakCheckbox = document.getElementById(`stimulusLoadPeak__checkbox_${selectedID}`);
-    let getLoadPeakChecked = getLoadPeakCheckbox.checked;
+    let getStimulusElement = document.getElementById(`stimulusSelectElement_${selectedID}`);
+    let getStimulus = getStimulusElement.value;
 
-    let getContinuousLoadCheckbox = document.getElementById(`stimulusContinuous__checkbox_${selectedID}`);
-    let getContinuousLoadChecked = getContinuousLoadCheckbox.checked;
-    
-    let getConstantLoadCheckbox = document.getElementById(`stimulusConstant__checkbox_${selectedID}`);
-    let getConstantLoadChecked = getConstantLoadCheckbox.checked;
+    let getAccuracyElement = document.getElementById(`accuracy_slider_${selectedID}`);
+    let getAccuracy = getAccuracyElement.value;
 
-    let getResponseTimeElement = document.getElementById(`stimulusResponseTimes__input_${selectedID}`);
-    let getResponseTime = getResponseTimeElement.value;
+    let getResponseTime__satisfiedBtn = document.getElementById(`responseTimes__satisfiedBtn_${selectedID}`);
+    let getResponseTime__satisfied = getResponseTime__satisfiedBtn.classList.contains('active');
 
-    let getResultResponseTimesElement = document.getElementById(`responseTime__input_${selectedID}`);
-    let getResultResponseTimes = getResultResponseTimesElement.checked;
-    
-    let getNinetyPercentileElement = document.getElementById(`percentileNinety__input_${selectedID}`);
-    let getNinetPercentile = getNinetyPercentileElement.checked;
-    
-    let getNinetyFivePercentileElement = document.getElementById(`percentileNinetyFive__input_${selectedID}`);
-    let getNinetyFivePercentile = getNinetyFivePercentileElement.checked;
+    let getResponseTime__toleratedBtn = document.getElementById(`responseTimes__toleratedBtn_${selectedID}`);
+    let getResponseTime__tolerated = getResponseTime__toleratedBtn.classList.contains('active');
 
-    let getDurationElement = document.getElementById(`duration__input_${selectedID}`);
-    let getDuration = getDurationElement.value;
+    let getResponseTime__FrustratedBtn = document.getElementById(`responseTimes__frustratedBtn_${selectedID}`);
+    let getResponseTime__frustrated = getResponseTime__FrustratedBtn.classList.contains('active');
+
+    let getResultResponseTimeElement = document.getElementById(`responseTime__input_${selectedID}`);
+    let getResultResponseTime = getResultResponseTimeElement.checked;
+
+    let getResultNinetyPercentileElement = document.getElementById(`percentileNinety__input_${selectedID}`);
+    let getResultNinetyPercentile = getResultNinetyPercentileElement.checked;
+
+    let getResultNinetyFivePercentileElement = document.getElementById(`percentileNinetyFive__input_${selectedID}`);
+    let getResultNinetyFivePercentile = getResultNinetyFivePercentileElement.checked;
 
     if (verifyMandatory(
         selectedID,
-        getLoadPeakChecked,
-        getContinuousLoadChecked,
-        getConstantLoadChecked,
-        getDuration,
-        getResponseTime,
-        getResultResponseTimes,
-        getNinetPercentile,
-        getNinetyFivePercentile)) {
+        getStimulus,
+        getAccuracy,
+        getResponseTime__satisfied,
+        getResponseTime__tolerated,
+        getResponseTime__frustrated,
+
+        getResultResponseTime,
+        getResultNinetyPercentile,
+        getResultNinetyFivePercentile)) {
 
         if (getGenerateAndPush__btn.disabled) {
             getGenerateAndPush__btn.disabled = false;
         }
 
         let artifact = getNodeName(selectedID);
-        let stimulus;
-
-        let responseMeasure = {
-            "Response times below": getResponseTime + ' milliseconds'
+        let responseMeasure;
+        let responseMeasureType = 'Response Times';
+        let responseMeasureMeasure;
+        let stimulus = {
+            "Load Profile": stimulusType,
+            "Accuracy": getAccuracy + '%'
         };
+        
+        let stimulusType = getStimulus;
+        let stimulusLoadPeakType = 'Highest Load';
+        let stimulusTimeToPeakType = 'Time to Highest Load';
+        let stimulusTimeToPeakMeasure;
+        let stimulusLoadPeakMeasure;
+        let stimulusTypeIncrease = 'Type of Increase';
+        let stimulusTypeIncreaseMeasure;
+        let stimulusBaseLoadType = 'Base Load';
+        let stimulusBaseLoadMeasure;
+        let resultMetrics;
 
-        let environment = {
-            "Duration": getDuration + ' minutes'
-        };
+        switch (stimulusType) {
+            case 'Load Peak':
+                let getHighestLoad__highBtn = document.getElementById(`highestLoad__high__btn_${selectedID}`);
+                let getHighestLoad__high = getHighestLoad__highBtn.classList.contains('active');
 
-        if (getLoadPeakChecked) {
-            let getLoadPeakInput = document.getElementById(`peakLoad__input_${selectedID}`);
-            let getLoadPeak = getLoadPeakInput.value;
-            stimulus = {
-                "Type": "Peak Load",
-                "Load profile": getLoadPeak + ' requests/hour'
-            }
-        } else if (getContinuousLoadChecked) {
-            let getContinuousLoadDurationElement = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
-            let getContinuousLoadDuration = getContinuousLoadDurationElement.value;
-            
-            let getContinuousLoadProfileElement = document.getElementById(`continuousLoadProfile__input_${selectedID}`);
-            let getContinuousLoadProfile = getContinuousLoadProfileElement.value;
-            
-            stimulus = {
-                "Type": "Continuous Load",
-                "Load profile": getContinuousLoadProfile + ' requests/hour',
-                "Duration of Increase": getContinuousLoadDuration + ' minutes'
-            }
-        } else if(getConstantLoadChecked) {
-            let getConstantLoadElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
-            let getConstantLoad = getConstantLoadElement.value;
-            stimulus = {
-                "Type": "Constant Load",
-                "Load profile": getConstantLoad + ' requests/hour'
-            }
+                let getHighestLoad__veryHighBtn = document.getElementById(`highestLoad__veryHigh__btn${selectedID}`);
+                let getHighestLoad__veryHigh = getHighestLoad__veryHighBtn.classList.contains('active');
+
+                let getHighestLoad__extremeBtn = document.getElementById(`load__extreme__btn${selectedID}`);
+                let getHighestLoad__extreme = getHighestLoad__extremeBtn.classList.contains('active');
+
+                let getTimeToHighest__slowBtn = document.getElementById(`load__low__btn_${selectedID}`);
+                let getTimeToHighest__slow = getTimeToHighest__slowBtn.classList.contains('active');
+
+                let getTimeToHighest__fastBtn = document.getElementById(`load__medium__btn_${selectedID}`);
+                let getTimeToHighest__fast = getTimeToHighest__fastBtn.classList.contains('active');
+
+                let getTimeToHighest__veryFastBtn = document.getElementById(`load__high__btn${selectedID}`);
+                let getTimeToHighest__veryFast = getTimeToHighest__veryFastBtn.classList.contains('active');
+
+                if (getHighestLoad__high) {
+                    stimulusLoadPeakMeasure = getHighestLoad__highBtn.textContent;
+                } else if (getHighestLoad__veryHigh) {
+                    stimulusLoadPeakMeasure = getHighestLoad__veryHighBtn.textContent;
+                } else if (getHighestLoad__extreme) {
+                    stimulusLoadPeakMeasure = getHighestLoad__extremeBtn.textContent;
+                }
+
+                if (getTimeToHighest__slow) {
+                    stimulusTimeToPeakMeasure = getTimeToHighest__slowBtn.textContent;
+                } else if (getTimeToHighest__fast) {
+                    stimulusTimeToPeakMeasure = getTimeToHighest__fastBtn.textContent;
+                } else if (getTimeToHighest__veryFast) {
+                    stimulusTimeToPeakMeasure = getTimeToHighest__veryFastBtn.textContent;
+                }
+
+                stimulus[stimulusLoadPeakType] = stimulusLoadPeakMeasure;
+                stimulus[stimulusTimeToPeakType] = stimulusTimeToPeakMeasure;
+
+                break;
+            case 'Load Increase':
+                let getTypeOfIncreaseElement = document.getElementById();
+                let getTypeOfIncrease = getTypeOfIncreaseElement.value;
+                stimulusTypeIncreaseMeasure = getTypeOfIncrease;
+                
+                stimulus[stimulusTypeIncrease] = stimulusTypeIncreaseMeasure;
+                break;
+            case 'Constant Load':
+                let getBaseLoad__lowBtn = document.getElementById();
+                let getBaseLoad__low = getBaseLoad__lowBtn.classList.contains('active');
+
+                let getBaseLoad__mediumBtn = document.getElementById();
+                let getBaseLoad__medium = getBaseLoad__mediumBtn.classList.contains('active');
+
+                let getBaseLoad__HighBtn = document.getElementById();
+                let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
+                
+                if (getBaseLoad__low) {
+                    stimulusBaseLoadMeasure = getBaseLoad__lowBtn.textContent;
+                } else if (getBaseLoad__medium) {
+                    stimulusBaseLoadMeasure = getBaseLoad__mediumBtn.textContent;
+                } else if (getBaseLoad__High) {
+                    stimulusBaseLoadMeasure = getBaseLoad__HighBtn.textContent;
+                }
+                stimulus[stimulusBaseLoadType] = stimulusBaseLoadMeasure;
+                break;
         }
         
-        let resultMetrics;
+        if (getResponseTime__satisfied) {
+            responseMeasureMeasure = getResponseTime__satisfiedBtn.textContent;
+        } else if (getResponseTime__tolerated) {
+            responseMeasureMeasure = getResponseTime__toleratedBtn.textContent;
+        } else if (getResponseTime__frustrated) {
+            responseMeasureMeasure = getResponseTime__FrustratedBtn.textContent;
+        }
         
+        responseMeasure[responseMeasureType] = responseMeasureMeasure;
+
         if (getResultResponseTimes && getNinetPercentile && getNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
@@ -104,7 +162,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "Response Times" },
-                    { "Metric": "90th Percentile"}
+                    { "Metric": "90th Percentile" }
                 ]
             }
         } else if (getResultResponseTimes && getNinetyFivePercentile) {
@@ -127,7 +185,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                     { "Metric": "90th Percentile" },
                 ]
             }
-        } else if (getNinetyFivePercentile){
+        } else if (getNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "90th Percentile" },
@@ -146,7 +204,6 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         const newLoadTestTemplateObj = new LoadTestTemplate(
             artifact,
             stimulus,
-            environment,
             responseMeasure,
             resultMetrics
         );
@@ -169,80 +226,76 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
 const verifyMandatory = (
     selectedID,
-    loadPeakChecked,
-    continuousLoadChecked,
-    constantLoadChecked,
-    duration,
-    responseTime,
-    resultResponseTimesChecked,
-    resultNinetyPercentileChecked,
-    resultNinetyFivePercentileChecked) => {
+    stimulus,
+    accuracy,
+    responseTime__satisfied__checked,
+    responseTime__tolerated__checked,
+    responseTime__frustrated__checked,
+    resultResponseTime__provided,
+    resultNinetyPercentile__provided,
+    resultNinetyFivePercentile__provided) => {
 
 
-    if ((loadPeakChecked || continuousLoadChecked || constantLoadChecked) && duration && responseTime && (resultResponseTimesChecked || resultNinetyPercentileChecked || resultNinetyFivePercentileChecked)) {
-        
-        if (loadPeakChecked) {
-            let getPeakLoadInput = document.getElementById(`peakLoad__input_${selectedID}`);
-            let getPeakLoad = getPeakLoadInput.value;
-            
-            let getTimeToPeakInput = document.getElementById(`timeToPeakLoad__input_${selectedID}`);
-            let getTimeToPeak = getTimeToPeakInput.value;
-            
-            if (getPeakLoad && getTimeToPeak) {
+    if (stimulus && (accuracy > 0) &&
+        (responseTime__satisfied__checked || responseTime__tolerated__checked || responseTime__frustrated__checked)
+        && (resultResponseTime__provided || resultNinetyPercentile__provided || resultNinetyFivePercentile__provided)) {
+
+        if (stimulus === 'Load Peak') {
+            let getHighestLoad__highBtn = document.getElementById(`highestLoad__high__btn_${selectedID}`);
+            let getHighestLoad__high = getHighestLoad__highBtn.classList.contains('active');
+
+            let getHighestLoad__veryHighBtn = document.getElementById(`highestLoad__veryHigh__btn${selectedID}`);
+            let getHighestLoad__veryHigh = getHighestLoad__veryHighBtn.classList.contains('active');
+
+            let getHighestLoad__extremeBtn = document.getElementById(`load__extreme__btn${selectedID}`);
+            let getHighestLoad__extreme = getHighestLoad__extremeBtn.classList.contains('active');
+
+            let getTimeToHighest__slowBtn = document.getElementById(`load__low__btn_${selectedID}`);
+            let getTimeToHighest__slow = getTimeToHighest__slowBtn.classList.contains('active');
+
+            let getTimeToHighest__fastBtn = document.getElementById(`load__medium__btn_${selectedID}`);
+            let getTimeToHighest__fast = getTimeToHighest__fastBtn.classList.contains('active');
+
+            let getTimeToHighest__veryFastBtn = document.getElementById(`load__high__btn${selectedID}`);
+            let getTimeToHighest__veryFast = getTimeToHighest__veryFastBtn.classList.contains('active');
+
+            if ((getHighestLoad__high || getHighestLoad__veryHigh || getHighestLoad__extreme)
+                && (getTimeToHighest__slow || getTimeToHighest__fast || getTimeToHighest__veryFast)) {
+                console.log("Everything seems fine with your load test template!");
                 return true;
             } else {
                 return false;
             }
-            
-        } else if (continuousLoadChecked) {
-            let getContinousIncreaseDurationElement = document.getElementById(`continuousLoadDuration__input_${selectedID}`);
-            let getContinousIncrease = getContinousIncreaseDurationElement.value;
-            
-            if (!getContinousIncrease) {
+        } else if (stimulus === 'Load Increase') {
+            let getTypeOfIncreaseElement = document.getElementById();
+            let getTypeOfIncrease = getTypeOfIncreaseElement.value;
+
+            if (getTypeOfIncrease) {
+                console.log("Everything seems fine with your load test template!");
+                return true;
+            } else {
                 return false;
             }
-            
-        } else if (constantLoadChecked) {
-            let getSimulatedLoadElement = document.getElementById(`numberActiveUsers__input_${selectedID}`);
-            let getSimulatedLoad = getSimulatedLoadElement.value;
-            
-            if (!getSimulatedLoad) {
+        } else if (stimulus === 'Constant Load') {
+            let getBaseLoad__lowBtn = document.getElementById();
+            let getBaseLoad__low = getBaseLoad__lowBtn.classList.contains('active');
+
+            let getBaseLoad__mediumBtn = document.getElementById();
+            let getBaseLoad__medium = getBaseLoad__mediumBtn.classList.contains('active');
+
+            let getBaseLoad__HighBtn = document.getElementById();
+            let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
+
+            if (getBaseLoad__low || getBaseLoad__medium || getBaseLoad__High) {
+                console.log("Everything seems fine with your load test template!");
+                return true;
+            } else {
                 return false;
             }
         }
-        return true;
+
     }
-    
+
     console.log("Mandatory fields are missing!");
     return false;
-}
-
-const verifyLoadTestTemplate = (loadTestDuration, numberSelectedRequests, selectedID) => {
-    let getDurationInputElement = document.getElementById(`duration__input_${selectedID}`);
-
-    let getLoadTestDuration__invalid = document.getElementById(`duration__input__invalid_${selectedID}`);
-
-    let getNumberOfSimulatedRequestsInputElement = document.getElementById(`numberOfSimulatedRequests__input_${selectedID}`);
-    let getNumberOfSimulatedRequests__input__invalid = document.getElementById(`numberOfSimulatedRequests__input__invalid_${selectedID}`);
-
-    if (!loadTestDuration) {
-        getLoadTestDuration__invalid.style.display = 'block';
-        getDurationInputElement.style.borderColor = 'red';
-    } else {
-        getLoadTestDuration__invalid.style.display = 'none';
-        getDurationInputElement.style.borderColor = 'springgreen';
-    }
-
-    if (!numberSelectedRequests) {
-        getNumberOfSimulatedRequests__input__invalid.style.display = 'block';
-        getNumberOfSimulatedRequestsInputElement.style.borderColor = 'red';
-        return false;
-
-    } else {
-        getNumberOfSimulatedRequests__input__invalid.style.display = 'none';
-        getNumberOfSimulatedRequestsInputElement.style.borderColor = 'springgreen';
-    }
-
-    return true;
-
 }

@@ -738,33 +738,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     getLoadTestTemplateModal.style.display = 'block';
 }
 
-const createConstantLoadInformationTemplate = (selectedID) => {
-    let getTopContainer = document.getElementById(`loadTestTemplatInputContainer__right_${selectedID}`);
-
-    let loadTestTemplatInputContainer__right = document.createElement('div');
-    loadTestTemplatInputContainer__right.id = `constantLoadContainer_${selectedID}`;
-    loadTestTemplatInputContainer__right.classList.add('checkbox-parent');
-
-    let constantLoad__container = document.createElement('div');
-    constantLoad__container.id = `constantLoad__container_${selectedID}`;
-
-    let constantLoad__container__label__container = document.createElement('div');
-    constantLoad__container__label__container.classList.add('label-container');
-
-    let constantLoad__container__label = document.createElement('label');
-    constantLoad__container__label.setAttribute('for', `constantLoad__container_${selectedID}`);
-    constantLoad__container__label.innerText = 'Load Design Constant Load (*)';
-    constantLoad__container__label.classList.add('label-padding');
-
-   
-
-    constantLoad__container__label__container.appendChild(constantLoad__container__label);
-
-    loadTestTemplatInputContainer__right.appendChild(constantLoad__container__label__container);
-    loadTestTemplatInputContainer__right.appendChild(constantLoad__container);
-    getTopContainer.appendChild(loadTestTemplatInputContainer__right);
-}
-
 
 const createAndAppendResultViewMetrics = (selectedID) => {
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
