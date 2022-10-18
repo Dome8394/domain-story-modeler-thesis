@@ -47,27 +47,27 @@ const createLoadTestTemplateView = (selectedID) => {
 }
 
 const checkIfTemplateComplete = (selectedID) => {
-    
+
     let getDuration__input = document.getElementById(`duration__input_${selectedID}`);
     let getDurationValue = getDuration__input.value;
-    
+
     console.log(getDurationValue);
-    
+
     let getResponseTime__input = document.getElementById(`responseTime__input_${selectedID}`);
     let getResponseTimeValue = getResponseTime__input.checked;
-    
+
     let getPercentileNinety__input = document.getElementById(`percentileNinety__input_${selectedID}`);
     let getNinetyPercentileValue = getPercentileNinety__input.checked;
-    
+
     let getPercentileNinetyFive__input = document.getElementById(`percentileNinetyFive__input_${selectedID}`);
     let getNinetyFivePercentileValue = getPercentileNinetyFive__input.checked;
-    
+
     if (!getDurationValue || (!getResponseTimeValue && !getNinetyPercentileValue && !getNinetyFivePercentileValue)) {
         console.log("Test...");
         getNodeRectElementAndSetColor(selectedID, false, 'Loadtest Template');
     }
-    
-} 
+
+}
 
 const createButtonContainer = (selectedID) => {
 
@@ -124,7 +124,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let loadTestTemplatInputContainer__right = document.createElement('div');
     loadTestTemplatInputContainer__right.id = `loadTestTemplatInputContainer__right_${selectedID}`;
     loadTestTemplatInputContainer__right.classList.add('input__container');
-    
+
     let artifactDescriptor = document.createElement('p');
     artifactDescriptor.classList.add('label-padding');
     artifactDescriptor.innerText = 'Artifact';
@@ -135,215 +135,598 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let artifactValueContainer = document.createElement('div');
     artifactValueContainer.classList.add('checkbox-child');
-    
+
     let stimulusLabelContainer = document.createElement('div');
     stimulusLabelContainer.classList.add('label-container');
     stimulusLabelContainer.id = `stimulusLabelContainer_${selectedID}`;
-    
+
     let stimulusContainer__label = document.createElement('label');
     stimulusContainer__label.setAttribute('for', `stimulusLabelContainer_${selectedID}`);
-    stimulusContainer__label.classList.add('label-padding');
     stimulusContainer__label.innerText = 'Stimulus (*)';
-    
+
     let stimulusParentContainer = document.createElement('div');
     stimulusParentContainer.classList.add('checkbox-parent');
-    
+
     let stimulusLoadPeakChildContainer = document.createElement('div');
     stimulusLoadPeakChildContainer.classList.add('checkbox-child');
+
+    let stimulusChildContainer = document.createElement('div');
+    stimulusChildContainer.classList.add('checkbox-child');
+
+    let stimulusSelectElement = document.createElement('select');
+    stimulusSelectElement.id = `stimulusSelectElement_${selectedID}`;
+
+    let optionLoadPeak = document.createElement('option');
+    optionLoadPeak.key = 'loadpeak';
+    optionLoadPeak.text = 'Load Peak';
+
+    let optionConstantLoad = document.createElement('option');
+    optionConstantLoad.key = 'constant';
+    optionConstantLoad.text = 'Constant Load';
     
-    let stimulusLoadPeak__checkbox = document.createElement('input');
-    stimulusLoadPeak__checkbox.type = 'checkbox';
-    stimulusLoadPeak__checkbox.classList.add('form-check-input');
-    stimulusLoadPeak__checkbox.id = `stimulusLoadPeak__checkbox_${selectedID}`;
-    
-    stimulusLoadPeak__checkbox.addEventListener('click', () => {
-        if (stimulusLoadPeak__checkbox.checked) {
-            showLoadDesign('LOAD_PEAK', selectedID); 
-        } else {
-            hideLoadDesign('LOAD_PEAK', selectedID);
+    let optionLoadIncrease = document.createElement('option');
+    optionLoadIncrease.key = 'constant';
+    optionLoadIncrease.text = 'Load Increase';
+
+    stimulusSelectElement.appendChild(optionLoadPeak);
+    stimulusSelectElement.appendChild(optionLoadIncrease);
+    stimulusSelectElement.appendChild(optionConstantLoad);
+
+    stimulusSelectElement.addEventListener('change', () => {
+        switch (stimulusSelectElement.value) {
+            case 'Load Peak':
+                highestLoad__label.classList.remove('text-disabled');
+                highestLoad__label.classList.add('text-enabled');
+                highestLoad__high__btn.disabled = false;
+                highestLoad__veryHigh__btn.disabled = false;
+                highestLoad__extreme__btn.disabled = false;
+                
+                load__low__btn.disabled = false;
+                load__medium__btn.disabled = false;
+                load__high__btn.disabled = false;
+                simulatedLoad__label.classList.add('text-enabled');
+                simulatedLoad__label.classList.remove('text-disabled');
+                
+                loadIncrease__select.disabled = true;
+                loadIncrease__label.classList.add('text-disabled');
+                loadIncrease__label.classList.remove('text-enabled');
+                break;
+            case 'Constant Load':
+                highestLoad__label.classList.remove('text-enabled');
+                highestLoad__parentContainer__label.classList.add('text-disabled');
+                highestLoad__label.classList.add('text-disabled');
+                highestLoad__high__btn.disabled = true;
+                highestLoad__veryHigh__btn.disabled = true;
+                highestLoad__extreme__btn.disabled = true;
+                
+                baseLoad__label.classList.remove('text-disabled');
+                baseLoad__label.classList.add('text-enabled');
+                baseLoad__low__btn.disabled = false;
+                baseLoad__medium__btn.disabled = false;
+                baseLoad__high__btn.disabled = false;
+                
+                load__low__btn.disabled = true;
+                load__medium__btn.disabled = true;
+                load__high__btn.disabled = true;
+                simulatedLoad__label.classList.remove('text-enabled');
+                simulatedLoad__label.classList.add('text-disabled');
+                
+                loadIncrease__select.disabled = true;
+                loadIncrease__label.classList.add('text-disabled');
+                loadIncrease__label.classList.remove('text-enabled');
+                break;
+            case 'Load Increase':
+                loadIncrease__select.disabled = false;
+                loadIncrease__label.classList.remove('text-disabled');
+                loadIncrease__label.classList.add('text-enabled');
+                
+                highestLoad__label.classList.remove('text-enabled');
+                highestLoad__parentContainer__label.classList.add('text-disabled');
+                highestLoad__label.classList.add('text-disabled');
+                highestLoad__high__btn.disabled = true;
+                highestLoad__veryHigh__btn.disabled = true;
+                highestLoad__extreme__btn.disabled = true;
+                
+                load__low__btn.disabled = true;
+                load__medium__btn.disabled = true;
+                load__high__btn.disabled = true;
+                simulatedLoad__label.classList.remove('text-enabled');
+                simulatedLoad__label.classList.add('text-disabled');
+
+                baseLoad__label.classList.remove('text-enabled');
+                baseLoad__label.classList.add('text-disabled');
+                baseLoad__low__btn.disabled = true;
+                baseLoad__medium__btn.disabled = true;
+                baseLoad__high__btn.disabled = true;
+                break;
+            default:
+                break;
         }
-        stimulusContinuous__checkbox.disabled = !stimulusContinuous__checkbox.disabled;
-        stimulusConstant__checkbox.disabled = !stimulusConstant__checkbox.disabled;
-    });
-    
-    let stimulusLoadPeak__label = document.createElement('label');
-    stimulusLoadPeak__label.setAttribute('for', `stimulusLoadPeak__checkbox_${selectedID}`);
-    stimulusLoadPeak__label.classList.add('form-check-label');
-    stimulusLoadPeak__label.innerText = 'Load Peak';
-    
-    let stimulusConstantLoadChildContainer = document.createElement('div');
-    stimulusConstantLoadChildContainer.classList.add('checkbox-child');
-    
-    let stimulusConstant__checkbox = document.createElement('input');
-    stimulusConstant__checkbox.type = 'checkbox';
-    stimulusConstant__checkbox.classList.add('form-check-input');
-    stimulusConstant__checkbox.id = `stimulusConstant__checkbox_${selectedID}`;
-    
-    stimulusConstant__checkbox.addEventListener('click', () => {
-        if (stimulusConstant__checkbox.checked) {
-            showLoadDesign('CONSTANT_LOAD', selectedID);
-        } else {
-            hideLoadDesign('CONSTANT_LOAD', selectedID);
-        }
-        stimulusContinuous__checkbox.disabled = !stimulusContinuous__checkbox.disabled;
-        stimulusLoadPeak__checkbox.disabled = !stimulusLoadPeak__checkbox.disabled;
-    });
-    
-    let stimulusConstantLoad__label = document.createElement('label');
-    stimulusConstantLoad__label.setAttribute('for', `stimulusConstant__checkbox_${selectedID}`)
-    stimulusConstantLoad__label.classList.add('form-check-label');
-    stimulusConstantLoad__label.innerText = 'Constant Load';
-    
-    let stimulusContinuousLoadChildContainer = document.createElement('div');
-    stimulusContinuousLoadChildContainer.classList.add('checkbox-child');
-    
-    let stimulusContinuous__checkbox = document.createElement('input');
-    stimulusContinuous__checkbox.type = 'checkbox';
-    stimulusContinuous__checkbox.classList.add('form-check-input');
-    stimulusContinuous__checkbox.id = `stimulusContinuous__checkbox_${selectedID}`;
-    
-    stimulusContinuous__checkbox.addEventListener('click', () => {
-        if(stimulusContinuous__checkbox.checked) {
-            showLoadDesign('CONTINUOUS_LOAD', selectedID);
-        } else {
-            hideLoadDesign('CONTINUOUS_LOAD', selectedID);
-        }
-        stimulusLoadPeak__checkbox.disabled = !stimulusLoadPeak__checkbox.disabled;
-        stimulusConstant__checkbox.disabled = !stimulusConstant__checkbox.disabled;
     })
 
-    let stimulusContinuous__label = document.createElement('label');
-    stimulusContinuous__label.setAttribute('for', `stimulusContinuous__checkbox_${selectedID}`);
-    stimulusContinuous__label.classList.add('form-check-label');
-    stimulusContinuous__label.innerText = 'Continuous Load';
-    
     let stimulusResponseTimesChildContainer = document.createElement('div');
     stimulusResponseTimesChildContainer.classList.add('checkbox-child');
     stimulusResponseTimesChildContainer.id = `stimulusResponseTimesChildContainer_${selectedID}`;
-    
+
     let stimulusResponseTimeChildContainer__label__container = document.createElement('div');
     stimulusResponseTimeChildContainer__label__container.classList.add('label-container');
-    
+
     let stimulusResponseTimeChildContainer__label = document.createElement('label');
     stimulusResponseTimeChildContainer__label.setAttribute('for', `stimulusResponseTimesChildContainer_${selectedID}`);
     stimulusResponseTimeChildContainer__label.classList.add('label-padding');
     stimulusResponseTimeChildContainer__label.innerText = 'Response Measure (*)';
     
-    let stimulusResponseTimes__input = document.createElement('input');
-    stimulusResponseTimes__input.id = `stimulusResponseTimes__input_${selectedID}`;
-    stimulusResponseTimes__input.placeholder = 'E.g., 3000 ms';
-    stimulusResponseTimes__input.type = 'number';
-    stimulusResponseTimes__input.style.height = '20px';
-    stimulusResponseTimes__input.style.width = '135px';
+    let responseTimes__btnGroup = document.createElement('div');
+    responseTimes__btnGroup.setAttribute('data-toggle', 'buttons');
+    responseTimes__btnGroup.classList.add('btn-group');
+    responseTimes__btnGroup.classList.add('btn-group-toggle');
     
+    let responseTimes__satisfiedBtn = document.createElement('div');
+    responseTimes__satisfiedBtn.type = 'button';
+    responseTimes__satisfiedBtn.name = 'options';
+    responseTimes__satisfiedBtn.setAttribute('aria-pressed', 'false');
+    responseTimes__satisfiedBtn.id = `responseTimes__satisfiedBtn_${selectedID}`;
+    responseTimes__satisfiedBtn.innerText = 'Satisfied';
+    responseTimes__satisfiedBtn.classList.add('btn');
+    responseTimes__satisfiedBtn.classList.add('btn-outline-primary');
+    responseTimes__satisfiedBtn.classList.add('btn-group-btn');
+    responseTimes__satisfiedBtn.disabled = true;
+    
+    responseTimes__satisfiedBtn.addEventListener('click', () => {
+        responseTimes__toleratedBtn.classList.remove('active');
+        responseTimes__frustratedBtn.classList.remove('active');
+    })
+    
+    let responseTimes__toleratedBtn = document.createElement('div');
+    responseTimes__toleratedBtn.type = 'button';
+    responseTimes__toleratedBtn.name = 'options';
+    responseTimes__toleratedBtn.setAttribute('aria-pressed', 'false');
+    responseTimes__toleratedBtn.id = `responseTimes__toleratedBtn_${selectedID}`;
+    responseTimes__toleratedBtn.innerText = 'Tolerated';
+    responseTimes__toleratedBtn.classList.add('btn');
+    responseTimes__toleratedBtn.classList.add('btn-outline-primary');
+    responseTimes__toleratedBtn.classList.add('btn-group-btn');
+    responseTimes__toleratedBtn.disabled = true;
+    
+    responseTimes__toleratedBtn.addEventListener('click', () => {
+        responseTimes__satisfiedBtn.classList.remove('active');
+        responseTimes__frustratedBtn.classList.remove('active');
+    });
+    
+    let responseTimes__frustratedBtn = document.createElement('div');
+    responseTimes__frustratedBtn.type = 'button';
+    responseTimes__frustratedBtn.name = 'options';
+    responseTimes__frustratedBtn.setAttribute('aria-pressed', 'false');
+    responseTimes__frustratedBtn.id = `responseTimes__frustratedBtn_${selectedID}`;
+    responseTimes__frustratedBtn.innerText = 'Frustrated';
+    responseTimes__frustratedBtn.classList.add('btn');
+    responseTimes__frustratedBtn.classList.add('btn-outline-primary');
+    responseTimes__frustratedBtn.classList.add('btn-group-btn');
+    responseTimes__frustratedBtn.disabled = true;
+    
+    responseTimes__frustratedBtn.addEventListener('click', () => {
+        responseTimes__toleratedBtn.classList.remove('active');
+        responseTimes__satisfiedBtn.classList.remove('active');
+    });
+    
+    responseTimes__btnGroup.appendChild(responseTimes__satisfiedBtn);
+    responseTimes__btnGroup.appendChild(responseTimes__toleratedBtn);
+    responseTimes__btnGroup.appendChild(responseTimes__frustratedBtn);
+    
+    let simulatedLoad__child__container = document.createElement('div');
+    simulatedLoad__child__container.classList.add('checkbox-child');
+
+    let simulatedLoad__label__container = document.createElement('div');
+    simulatedLoad__label__container.classList.add('label-container');
+    
+    let simulatedLoad__btnGroup = document.createElement('div');
+    simulatedLoad__btnGroup.setAttribute('data-toggle', 'buttons');
+    simulatedLoad__btnGroup.classList.add('btn-group');
+    simulatedLoad__btnGroup.classList.add('btn-group-toggle');
+    
+    let load__low__btn = document.createElement('button');
+    load__low__btn.type = 'button';
+    load__low__btn.name = 'options';
+    load__low__btn.setAttribute('aria-pressed', 'false');
+    load__low__btn.id = `load__low__btn_${selectedID}`;
+    load__low__btn.innerText = 'Slow';
+    load__low__btn.classList.add('btn');
+    load__low__btn.classList.add('btn-outline-primary');
+    load__low__btn.classList.add('btn-group-btn');
+    load__low__btn.disabled = false;
+    
+    load__low__btn.addEventListener('click', () => {
+        load__medium__btn.classList.remove('active');
+        load__high__btn.classList.remove('active');
+    })
+    
+    let load__medium__btn = document.createElement('button');
+    load__medium__btn.type = 'button';
+    load__medium__btn.name = 'options';
+    load__medium__btn.setAttribute('aria-pressed', 'false');
+    load__medium__btn.id = `load__medium__btn_${selectedID}`;
+    load__medium__btn.innerText = 'Fast';
+    load__medium__btn.classList.add('btn');
+    load__medium__btn.classList.add('btn-outline-primary');
+    load__medium__btn.classList.add('btn-group-btn');
+    load__medium__btn.disabled = false;
+    
+    load__medium__btn.addEventListener('click', () => {
+        load__low__btn.classList.remove('active');
+        load__high__btn.classList.remove('active');
+    })
+    
+    let load__high__btn = document.createElement('button');
+    load__high__btn.type = 'button';
+    load__high__btn.name = 'options';
+    load__high__btn.setAttribute('aria-pressed', 'false');
+    load__high__btn.id = `load__high__btn${selectedID}`;
+    load__high__btn.innerText = 'Very Fast';
+    load__high__btn.classList.add('btn');
+    load__high__btn.classList.add('btn-outline-primary');
+    load__high__btn.classList.add('btn-group-btn');
+    load__high__btn.style.width = '130px';
+    load__high__btn.disabled = false;
+    
+    load__high__btn.addEventListener('click', () => {
+        load__low__btn.classList.remove('active');
+        load__medium__btn.classList.remove('active');
+    })
+    
+    simulatedLoad__btnGroup.appendChild(load__low__btn);
+    simulatedLoad__btnGroup.appendChild(load__medium__btn);
+    simulatedLoad__btnGroup.appendChild(load__high__btn);
+    
+    let simulatedLoad__label = document.createElement('label');
+    simulatedLoad__label.setAttribute('for', `load__low__btn_${selectedID}`);
+    simulatedLoad__label.innerText = 'Time to Highest Load (*)';
+    simulatedLoad__label.classList.add('text-enabled');
+
+    let simulatedLoad__reference__value = document.createElement('p');
+    simulatedLoad__reference__value.classList.add('reference-values');
+    simulatedLoad__reference__value.innerText = 'approx. Slow';
+    
+    let highestLoad__btnGroup = document.createElement('div');
+    highestLoad__btnGroup.setAttribute('data-toggle', 'buttons');
+    highestLoad__btnGroup.classList.add('btn-group');
+    highestLoad__btnGroup.classList.add('btn-group-toggle');
+    
+    let highestLoad__high__btn = document.createElement('button');
+    highestLoad__high__btn.type = 'button';
+    highestLoad__high__btn.name = 'options';
+    highestLoad__high__btn.setAttribute('aria-pressed', 'false');
+    highestLoad__high__btn.id = `highestLoad__high__btn_${selectedID}`;
+    highestLoad__high__btn.innerText = 'High';
+    highestLoad__high__btn.classList.add('btn');
+    highestLoad__high__btn.classList.add('btn-outline-primary');
+    highestLoad__high__btn.classList.add('btn-group-btn');
+    highestLoad__high__btn.disabled = false;
+    
+    highestLoad__high__btn.addEventListener('click', () => {
+        highestLoad__veryHigh__btn.classList.remove('active');
+        highestLoad__extreme__btn.classList.remove('active');
+    });
+
+    let highestLoad__veryHigh__btn = document.createElement('button');
+    highestLoad__veryHigh__btn.type = 'button';
+    highestLoad__veryHigh__btn.name = 'options';
+    highestLoad__veryHigh__btn.setAttribute('aria-pressed', 'false');
+    highestLoad__veryHigh__btn.id = `highestLoad__veryHigh__btn${selectedID}`;
+    highestLoad__veryHigh__btn.innerText = 'Very High';
+    highestLoad__veryHigh__btn.classList.add('btn');
+    highestLoad__veryHigh__btn.classList.add('btn-outline-primary');
+    highestLoad__veryHigh__btn.classList.add('btn-group-btn');
+    highestLoad__veryHigh__btn.disabled = false;
+    
+    highestLoad__veryHigh__btn.addEventListener('click', () => {
+        highestLoad__high__btn.classList.remove('active');
+        highestLoad__extreme__btn.classList.remove('active');
+    })
+
+    let highestLoad__extreme__btn = document.createElement('button');
+    highestLoad__extreme__btn.type = 'button';
+    highestLoad__extreme__btn.name = 'options';
+    highestLoad__extreme__btn.setAttribute('aria-pressed', 'false');
+    highestLoad__extreme__btn.id = `load__extreme__btn${selectedID}`;
+    highestLoad__extreme__btn.innerText = 'Extremely High';
+    highestLoad__extreme__btn.classList.add('btn');
+    highestLoad__extreme__btn.classList.add('btn-outline-primary');
+    highestLoad__extreme__btn.classList.add('btn-group-btn');
+    highestLoad__extreme__btn.disabled = false;
+    highestLoad__extreme__btn.style.width = '130px';
+    
+    highestLoad__extreme__btn.addEventListener('click', () => {
+        highestLoad__high__btn.classList.remove('active');
+        highestLoad__veryHigh__btn.classList.remove('active');
+    })
+    
+    highestLoad__btnGroup.appendChild(highestLoad__high__btn);
+    highestLoad__btnGroup.appendChild(highestLoad__veryHigh__btn);
+    highestLoad__btnGroup.appendChild(highestLoad__extreme__btn);
+    
+    let highestLoad__label__container = document.createElement('div');
+    highestLoad__label__container.classList.add('label-container');
+    
+    let highestLoad__childContainer = document.createElement('div');
+    highestLoad__childContainer.classList.add('checkbox-child');
+    
+    let highestLoad__label = document.createElement('label');
+    highestLoad__label.setAttribute('for', `highestLoad__high__btn_${selectedID}`);
+    highestLoad__label.classList.add('form-check-label');
+    highestLoad__label.classList.add('text-enabled');
+    highestLoad__label.innerText = 'Highest Load (*)';
+    
+    let highestLoad__occurence__child__container = document.createElement('div');
+    highestLoad__occurence__child__container.classList.add('checkbox-child');
+    
+    let highestLoad__occurence__input = document.createElement('select');
+    highestLoad__occurence__input.id = `highestLoad__occurence__input_${selectedID}`;
+    highestLoad__occurence__input.disabled = false;
+    
+    let option__once = document.createElement('option');
+    option__once.key = 'once';
+    option__once.text = 'Once';
+    
+    let option__twice = document.createElement('option');
+    option__twice.key = 'twice';
+    option__twice.text = 'Twice';
+    
+    let option__unpredict = document.createElement('option');
+    option__unpredict.key = 'unpredict';
+    option__unpredict.text = 'Unpredictable';
+    
+    highestLoad__occurence__input.appendChild(option__once);
+    highestLoad__occurence__input.appendChild(option__twice);
+    highestLoad__occurence__input.appendChild(option__unpredict);
+    
+    let highestLoad__occurence__label = document.createElement('label');
+    highestLoad__occurence__label.setAttribute('for', `highestLoad__occurence__input_${selectedID}`);
+    highestLoad__occurence__label.classList.add('form-check-label');
+    highestLoad__occurence__label.classList.add('text-disabled');
+    highestLoad__occurence__label.innerText = 'Occurence of Peak (*)';
+    
+    let highestLoad__parentContainer = document.createElement('div');
+    highestLoad__parentContainer.classList.add('checkbox-child');
+    highestLoad__parentContainer.id = `highestLoad__parentContainer_${selectedID}`;
+
+    let highestLoad__parentContainer__label = document.createElement('label');
+    highestLoad__parentContainer__label.setAttribute('for', `highestLoad__parentContainer_${selectedID}`);
+    highestLoad__parentContainer__label.classList.add('label-padding');
+    highestLoad__parentContainer__label.innerText = 'Load Design (*)';
+
     let stimulusResponseTimes__label = document.createElement('label');
-    stimulusResponseTimes__label.setAttribute('for', `stimulusResponseTimes__input_${selectedID}`);
+    stimulusResponseTimes__label.setAttribute('for', `responseTimes__satisfiedBtn_${selectedID}`);
     stimulusResponseTimes__label.classList.add('form-check-label');
-    stimulusResponseTimes__label.innerText = "Response Time's below";
-    
+    stimulusResponseTimes__label.innerText = "Response times";
+
     let stimulusResponseTimesReferenceValue__label = document.createElement('p');
     stimulusResponseTimesReferenceValue__label.classList.add('reference-values');
-    stimulusResponseTimesReferenceValue__label.innerText = 'approx. < 4000 ms';
-    
+    stimulusResponseTimesReferenceValue__label.innerText = 'approx. Tolerated';
+
     let environmentInformationParentContainer = document.createElement('div');
     environmentInformationParentContainer.id = `environmentInformationParentContainer_${selectedID}`;
     environmentInformationParentContainer.classList.add('checkbox-parent');
-    
+
     let environmentInformation__label__container = document.createElement('div');
     environmentInformation__label__container.classList.add('label-container');
-    
+
     let environmentInformation__label = document.createElement('label');
     environmentInformation__label.classList.add('label-padding');
     environmentInformation__label.setAttribute('for', `environmentInformationParentContainer_${selectedID}`);
     environmentInformation__label.innerText = 'Environment Information (*)';
-    
-    let durationChildContainer = document.createElement('div');
-    durationChildContainer.classList.add('checkbox-child');
 
-    let durationLabelContainer = document.createElement('div');
-    durationLabelContainer.classList.add('label-container');
+    let accuracyChildContainer = document.createElement('div');
+    accuracyChildContainer.classList.add('checkbox-child');
 
-    let duration__input = document.createElement('input');
-    duration__input.id = `duration__input_${selectedID}`;
-    duration__input.placeholder = 'E.g., 25 (minutes)';
-    duration__input.type = 'number';
-    duration__input.style.height = '20px';
+    let accuracyLabelContainer = document.createElement('div');
+    accuracyLabelContainer.classList.add('label-container');
 
-    let duration__input__invalid = document.createElement('p');
-    duration__input__invalid.id = `duration__input__invalid_${selectedID}`;
-    duration__input__invalid.innerText = LOADTEST_DURATION_INFO;
-    duration__input__invalid.classList.add('error-info');
+    let accuracy_slider = document.createElement('input');
+    accuracy_slider.id = `accuracy_slider_${selectedID}`;
+    accuracy_slider.type = 'range';
+    accuracy_slider.min = '0';
+    accuracy_slider.max = '100';
+    accuracy_slider.value = '0';
+    accuracy_slider.step = '1';
+    accuracy_slider.style.width = '59%';
 
-    let duration__label = document.createElement('label');
-    duration__label.setAttribute('for', `duration__input_${selectedID}`);
-    duration__label.innerText = 'How long do you want the loadtest to run (in minutes)? (*)';
-    duration__label.style.marginTop = '5%';
+    let accuracyCurrentValue = document.createElement('span');
+    accuracyCurrentValue.classList.add('accuracy');
+    accuracyCurrentValue.innerText = accuracy_slider.value + '%';
 
-    let duration__label_info = document.createElement('i');
-    duration__label_info.classList.add('bi');
-    duration__label_info.classList.add('bi-info-circle');
-    duration__label_info.classList.add('toolTip');
+    accuracy_slider.addEventListener('change', () => {
+        accuracyCurrentValue.innerText = accuracy_slider.value + '%';
+    })
 
-    duration__label_info.addEventListener('mouseover', () => {
-        duration__label_info_text.style.display = 'block';
+    let accuracy__input__invalid = document.createElement('p');
+    accuracy__input__invalid.id = `accuracy__input__invalid_${selectedID}`;
+    accuracy__input__invalid.innerText = LOADTEST_DURATION_INFO;
+    accuracy__input__invalid.classList.add('error-info');
+
+    let accuracy__label = document.createElement('label');
+    accuracy__label.setAttribute('for', `duration__input_${selectedID}`);
+    accuracy__label.innerText = 'Accuracy of Results (*)';
+
+    let accuracy__label_info = document.createElement('i');
+    accuracy__label_info.classList.add('bi');
+    accuracy__label_info.classList.add('bi-info-circle');
+    accuracy__label_info.classList.add('toolTip');
+
+    accuracy__label_info.addEventListener('mouseover', () => {
+        accuracy__label_info_text.style.display = 'block';
     });
 
-    duration__label_info.addEventListener('mouseleave', () => {
-        duration__label_info_text.style.display = 'none';
+    accuracy__label_info.addEventListener('mouseleave', () => {
+        accuracy__label_info_text.style.display = 'none';
     });
 
-    let duration__label_info_text = document.createElement('span');
-    duration__label_info_text.classList.add('tooltipText');
-    duration__label_info_text.innerText = INFO_DURATION;
+    let accuracy__label_info_text = document.createElement('span');
+    accuracy__label_info_text.classList.add('tooltipText');
+    accuracy__label_info_text.innerText = INFO_DURATION;
+    
+    let containerConstantLoad__label__container = document.createElement('div');
+    containerConstantLoad__label__container.classList.add('label-container');
+    
+    let loadIncrease__child__container = document.createElement('div');
+    loadIncrease__child__container.classList.add('checkbox-child');
+    
+    let loadIncrease__select = document.createElement('select');
+    loadIncrease__select.id = `loadIncrease__select_${selectedID}`;
+    loadIncrease__select.disabled = true;
+    
+    let option__linear = document.createElement('option');
+    option__linear.key = 'linear';
+    option__linear.text = 'Linear';
+    
+    let option__quadratic = document.createElement('option');
+    option__quadratic.key = 'quadratic';
+    option__quadratic.text = 'Quadratic';
+    
+    let option__cubic = document.createElement('option');
+    option__cubic.key = 'cubic';
+    option__cubic.text = 'Cubic';
+    
+    loadIncrease__select.appendChild(option__linear);
+    loadIncrease__select.appendChild(option__quadratic);
+    loadIncrease__select.appendChild(option__cubic);
+    
+    let loadIncrease__label = document.createElement('label');
+    loadIncrease__label.setAttribute('for', `highestLoad__occurence__input_${selectedID}`);
+    loadIncrease__label.classList.add('form-check-label');
+    loadIncrease__label.classList.add('text-disabled');
+    loadIncrease__label.innerText = 'Type of Increase (*)';
+    
+    let baseLoad__container = document.createElement('div');
+    baseLoad__container.classList.add('checkbox-child');
+    
+    let baseLoad__btnGroup = document.createElement('div');
+    baseLoad__btnGroup.setAttribute('data-toggle', 'buttons');
+    baseLoad__btnGroup.classList.add('btn-group');
+    baseLoad__btnGroup.classList.add('btn-group-toggle');
+
+    let baseLoad__low__btn = document.createElement('button');
+    baseLoad__low__btn.type = 'button';
+    baseLoad__low__btn.name = 'options';
+    baseLoad__low__btn.setAttribute('aria-pressed', 'false');
+    baseLoad__low__btn.id = `baseLoad__low__btn${selectedID}`;
+    baseLoad__low__btn.innerText = 'Low';
+    baseLoad__low__btn.classList.add('btn');
+    baseLoad__low__btn.classList.add('btn-outline-primary');
+    baseLoad__low__btn.classList.add('btn-group-btn');
+    baseLoad__low__btn.disabled = true;
+
+    baseLoad__low__btn.addEventListener('click', () => {
+        baseLoad__medium__btn.classList.remove('active');
+        baseLoad__high__btn.classList.remove('active');
+    });
+
+    let baseLoad__medium__btn = document.createElement('button');
+    baseLoad__medium__btn.type = 'button';
+    baseLoad__medium__btn.name = 'options';
+    baseLoad__medium__btn.setAttribute('aria-pressed', 'false');
+    baseLoad__medium__btn.id = `baseLoad__medium__btn${selectedID}`;
+    baseLoad__medium__btn.innerText = 'Medium';
+    baseLoad__medium__btn.classList.add('btn');
+    baseLoad__medium__btn.classList.add('btn-outline-primary');
+    baseLoad__medium__btn.classList.add('btn-group-btn');
+    baseLoad__medium__btn.disabled = true;
+
+    baseLoad__medium__btn.addEventListener('click', () => {
+        baseLoad__low__btn.classList.remove('active');
+        baseLoad__high__btn.classList.remove('active');
+    })
+
+    let baseLoad__high__btn = document.createElement('button');
+    baseLoad__high__btn.type = 'button';
+    baseLoad__high__btn.name = 'options';
+    baseLoad__high__btn.setAttribute('aria-pressed', 'false');
+    baseLoad__high__btn.id = `baseLoad__high__btn${selectedID}`;
+    baseLoad__high__btn.innerText = 'High';
+    baseLoad__high__btn.classList.add('btn');
+    baseLoad__high__btn.classList.add('btn-outline-primary');
+    baseLoad__high__btn.classList.add('btn-group-btn');
+    baseLoad__high__btn.disabled = true;
+    baseLoad__high__btn.style.width = '130px';
+
+    baseLoad__high__btn.addEventListener('click', () => {
+        baseLoad__low__btn.classList.remove('active');
+        baseLoad__medium__btn.classList.remove('active');
+    })
+
+    baseLoad__btnGroup.appendChild(baseLoad__low__btn);
+    baseLoad__btnGroup.appendChild(baseLoad__medium__btn);
+    baseLoad__btnGroup.appendChild(baseLoad__high__btn);
+    
+    let baseLoad__label = document.createElement('label');
+    baseLoad__label.setAttribute('for', `baseLoad__low__btn${selectedID}`);
+    baseLoad__label.classList.add('form-check-label');
+    baseLoad__label.classList.add('text-disabled');
+    baseLoad__label.innerText = 'Base Load (*)';
 
 
-    
-    
     /**
      * Appending child nodes
      */
     environmentInformation__label__container.appendChild(environmentInformation__label);
     
-    durationLabelContainer.appendChild(duration__label);
-    durationLabelContainer.appendChild(duration__label_info);
-    durationLabelContainer.appendChild(duration__label_info_text);
-
-    durationChildContainer.appendChild(duration__input);
-    durationChildContainer.appendChild(duration__input__invalid);
+    baseLoad__container.appendChild(baseLoad__label);
+    baseLoad__container.appendChild(baseLoad__btnGroup);
     
+    simulatedLoad__label__container.appendChild(simulatedLoad__label);
+    simulatedLoad__label__container.appendChild(simulatedLoad__reference__value);
+    
+    highestLoad__label__container.appendChild(highestLoad__label);
+    
+    highestLoad__childContainer.appendChild(highestLoad__label);
+    highestLoad__childContainer.appendChild(highestLoad__btnGroup);
+    
+    simulatedLoad__child__container.appendChild(simulatedLoad__label__container);
+    simulatedLoad__child__container.appendChild(simulatedLoad__btnGroup);
+    
+    stimulusChildContainer.appendChild(stimulusLabelContainer);
+    stimulusChildContainer.appendChild(stimulusSelectElement);
+
+    accuracyLabelContainer.appendChild(accuracy__label);
+    accuracyLabelContainer.appendChild(accuracy__label_info);
+    accuracyLabelContainer.appendChild(accuracyCurrentValue);
+    accuracyLabelContainer.appendChild(accuracy__label_info_text);
+
+    accuracyChildContainer.appendChild(accuracyLabelContainer);
+    accuracyChildContainer.appendChild(accuracy_slider);
+    accuracyChildContainer.appendChild(accuracy__input__invalid);
+
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
-    
+
     stimulusLabelContainer.appendChild(stimulusContainer__label);
     stimulusResponseTimeChildContainer__label__container.appendChild(stimulusResponseTimeChildContainer__label);
-    
-    stimulusConstantLoadChildContainer.appendChild(stimulusConstantLoad__label);
-    stimulusConstantLoadChildContainer.appendChild(stimulusConstant__checkbox);
-    
-    stimulusLoadPeakChildContainer.appendChild(stimulusLoadPeak__label);
-    stimulusLoadPeakChildContainer.appendChild(stimulusLoadPeak__checkbox);
-    
-    stimulusContinuousLoadChildContainer.appendChild(stimulusContinuous__label);
-    stimulusContinuousLoadChildContainer.appendChild(stimulusContinuous__checkbox);
-    
+
     stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__label);
-    stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__input);
+    stimulusResponseTimesChildContainer.appendChild(responseTimes__btnGroup);
     
-    stimulusParentContainer.appendChild(stimulusLoadPeakChildContainer);
-    stimulusParentContainer.appendChild(stimulusContinuousLoadChildContainer);
-    stimulusParentContainer.appendChild(stimulusConstantLoadChildContainer);
+    highestLoad__occurence__child__container.appendChild(highestLoad__occurence__label);
+    highestLoad__occurence__child__container.appendChild(highestLoad__occurence__input);
     
+    loadIncrease__child__container.appendChild(loadIncrease__label);
+    loadIncrease__child__container.appendChild(loadIncrease__select);
+
     loadTestTemplatInputContainer__left.appendChild(artifactValueContainer);
+    loadTestTemplatInputContainer__left.appendChild(stimulusChildContainer);
+    loadTestTemplatInputContainer__left.appendChild(accuracyChildContainer);
+    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimeChildContainer__label__container);
+    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesChildContainer);
+    loadTestTemplatInputContainer__left.appendChild(stimulusResponseTimesReferenceValue__label);
     
-    loadTestTemplatInputContainer__left.appendChild(stimulusLabelContainer);
-    loadTestTemplatInputContainer__left.appendChild(stimulusParentContainer);
-    loadTestTemplatInputContainer__left.appendChild(durationLabelContainer);
-    loadTestTemplatInputContainer__left.appendChild(durationChildContainer);
+    loadTestTemplatInputContainer__right.appendChild(highestLoad__parentContainer__label);
+    loadTestTemplatInputContainer__right.appendChild(highestLoad__childContainer);
     
-    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimeChildContainer__label__container);
-    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimesChildContainer);
-    loadTestTemplatInputContainer__right.appendChild(stimulusResponseTimesReferenceValue__label);
+    loadTestTemplatInputContainer__right.appendChild(simulatedLoad__child__container);
     
+    loadTestTemplatInputContainer__right.appendChild(loadIncrease__child__container);
+    
+    loadTestTemplatInputContainer__right.appendChild(baseLoad__container);
+    
+
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__left);
     loadTestTemplateModalContentTopLevelInputContainer.appendChild(loadTestTemplatInputContainer__right);
     getLoadTestTemplateModalContent.appendChild(loadTestTemplateModalContentTopLevelInputContainer)
@@ -355,366 +738,108 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     getLoadTestTemplateModal.style.display = 'block';
 }
 
-const hideLoadDesign = (type, selectedID) => {
-    switch(type) {
-        case 'LOAD_PEAK':
-            let getLoadPeakContainer = document.getElementById(`loadPeakContainer_${selectedID}`);
-            getLoadPeakContainer.remove();
-            break;
-        case 'CONTINUOUS_LOAD':
-            let getContinousLoadContainer = document.getElementById(`continuousLoadContainer_${selectedID}`);
-            getContinousLoadContainer.remove();
-            break;
-        case 'CONSTANT_LOAD':
-            let getConstantLoadContainer = document.getElementById(`constantLoadContainer_${selectedID}`);
-            getConstantLoadContainer.remove();
-            break;
-        default:
-            console.log("No matching type to hide!");
-    }
-}
-
-const showLoadDesign = (type, selectedID) => {
-    switch(type) {
-        case 'LOAD_PEAK':
-            createLoadPeakInformationTemplate(selectedID);
-            break;
-        case 'CONTINUOUS_LOAD':
-            createContinuousLoadInformationTemplate(selectedID);
-            break;
-        case 'CONSTANT_LOAD':
-            createConstantLoadInformationTemplate(selectedID);
-            break;
-        default:
-            console.log("No matching type to show!");
-            break;
-    }
-}
-
 const createConstantLoadInformationTemplate = (selectedID) => {
     let getTopContainer = document.getElementById(`loadTestTemplatInputContainer__right_${selectedID}`);
-    
+
     let loadTestTemplatInputContainer__right = document.createElement('div');
     loadTestTemplatInputContainer__right.id = `constantLoadContainer_${selectedID}`;
     loadTestTemplatInputContainer__right.classList.add('checkbox-parent');
-    
+
     let constantLoad__container = document.createElement('div');
     constantLoad__container.id = `constantLoad__container_${selectedID}`;
-    
+
     let constantLoad__container__label__container = document.createElement('div');
     constantLoad__container__label__container.classList.add('label-container');
-    
+
     let constantLoad__container__label = document.createElement('label');
     constantLoad__container__label.setAttribute('for', `constantLoad__container_${selectedID}`);
     constantLoad__container__label.innerText = 'Load Design Constant Load (*)';
     constantLoad__container__label.classList.add('label-padding');
-    
-    let numberActiveUsers__child__container = document.createElement('div');
-    numberActiveUsers__child__container.classList.add('checkbox-child');
 
-    let numberActiveUsers__label__container = document.createElement('div');
-    numberActiveUsers__label__container.classList.add('label-container');
+   
 
-    let numberActiveUsers__input = document.createElement('select');
-    numberActiveUsers__input.id = `numberActiveUsers__input_${selectedID}`;
-
-    let option_medium = document.createElement('option');
-    option_medium.key = 'medium';
-    option_medium.text = 'Medium (2x reference value)';
-
-    let option_high = document.createElement('option');
-    option_high.key = 'high';
-    option_high.text = 'High (4x reference value)';
-
-    let option_veryHigh = document.createElement('option');
-    option_veryHigh.key = 'veryHigh';
-    option_veryHigh.text = 'Very High (6x reference value)';
-
-    numberActiveUsers__input.appendChild(option_medium);
-    numberActiveUsers__input.appendChild(option_high);
-    numberActiveUsers__input.appendChild(option_veryHigh);
-
-    let numberActiveUsers__label = document.createElement('label');
-    numberActiveUsers__label.setAttribute('for', `numberActiveUsers__input_${selectedID}`);
-    numberActiveUsers__label.innerText = 'How much load would you like to simulate?';
-
-    let numberActiveUsers__reference__value = document.createElement('p');
-    numberActiveUsers__reference__value.classList.add('reference-values');
-    numberActiveUsers__reference__value.innerText = 'approx. < 5000 requests/hour';
-    
     constantLoad__container__label__container.appendChild(constantLoad__container__label);
-    numberActiveUsers__label__container.appendChild(numberActiveUsers__label);
-    numberActiveUsers__child__container.appendChild(numberActiveUsers__input);
-    
-    constantLoad__container.appendChild(numberActiveUsers__label__container);
-    constantLoad__container.appendChild(numberActiveUsers__child__container);
-    constantLoad__container.appendChild(numberActiveUsers__reference__value);
-    
+
     loadTestTemplatInputContainer__right.appendChild(constantLoad__container__label__container);
     loadTestTemplatInputContainer__right.appendChild(constantLoad__container);
     getTopContainer.appendChild(loadTestTemplatInputContainer__right);
 }
 
-const createContinuousLoadInformationTemplate = (selectedID) => {
-    let getTopContainer = document.getElementById(`loadTestTemplatInputContainer__right_${selectedID}`);
-    
-    let loadTestTemplatInputContainer__right = document.createElement('div');
-    loadTestTemplatInputContainer__right.id = `continuousLoadContainer_${selectedID}`;
-    loadTestTemplatInputContainer__right.classList.add('checkbox-parent');
-    
-    let containerContinuousLoad = document.createElement('div');
-    containerContinuousLoad.id = `containerContinuousLoad_${selectedID}`;
-    
-    let containerContinuousLoad__label__container = document.createElement('div');
-    containerContinuousLoad__label__container.classList.add('label-container');
-    
-    let containerContinuousLoad__label = document.createElement('label');
-    containerContinuousLoad__label.innerText = 'Load Design Continuous Load (*)';
-    containerContinuousLoad__label.classList.add('label-padding');
-    containerContinuousLoad__label.setAttribute('for', `containerContinuousLoad_${selectedID}`);
-    
-    let continousLoadChild__container = document.createElement('div');
-    continousLoadChild__container.classList.add('checkbox-child');
-    
-    let continousLoad__label__container = document.createElement('div');
-    continousLoad__label__container.classList.add('label-container');
-    
-    let continuousLoadProfile__child__container = document.createElement('div');
-    continuousLoadProfile__child__container.classList.add('checkbox-child');
-
-    let continuousLoadProfile__label__container = document.createElement('div');
-    continuousLoadProfile__label__container.classList.add('label-container');
-
-    let continuousLoadProfile__input = document.createElement('select');
-    continuousLoadProfile__input.id = `continuousLoadProfile__input_${selectedID}`;
-
-    let option_medium = document.createElement('option');
-    option_medium.key = 'medium';
-    option_medium.text = 'Medium (2x reference value)';
-
-    let option_high = document.createElement('option');
-    option_high.key = 'high';
-    option_high.text = 'High (4x reference value)';
-
-    let option_veryHigh = document.createElement('option');
-    option_veryHigh.key = 'veryHigh';
-    option_veryHigh.text = 'Very High (6x reference value)';
-
-    continuousLoadProfile__input.appendChild(option_medium);
-    continuousLoadProfile__input.appendChild(option_high);
-    continuousLoadProfile__input.appendChild(option_veryHigh);
-
-    let continuousLoadProfile__label = document.createElement('label');
-    continuousLoadProfile__label.setAttribute('for', `continuousLoadProfile__input_${selectedID}`);
-    continuousLoadProfile__label.innerText = 'How much load would you like to simulate?';
-    continuousLoadProfile__label.style.marginTop = '5%';
-
-    let continuousLoadProfile__reference__value = document.createElement('p');
-    continuousLoadProfile__reference__value.classList.add('reference-values');
-    continuousLoadProfile__reference__value.innerText = 'approx. < 5000 requests/hour';
-
-    let continuousLoadDuration__input = document.createElement('input');
-    continuousLoadDuration__input.id = `continuousLoadDuration__input_${selectedID}`;
-    continuousLoadDuration__input.type = 'number';
-    continuousLoadDuration__input.placeholder = 'E.g., 20';
-    
-    let continousLoad__label = document.createElement('label');
-    continousLoad__label.classList.add('form-check-label');
-    continousLoad__label.setAttribute('for', `continuousLoadDuration__input_${selectedID}`);
-    continousLoad__label.innerText = 'Duration of Increase (*)';
-    
-    /**
-     * Appending child nodes
-     */
-    
-    continuousLoadProfile__label__container.appendChild(continuousLoadProfile__label);
-    continuousLoadProfile__child__container.appendChild(continuousLoadProfile__input);
-    
-    containerContinuousLoad__label__container.appendChild(containerContinuousLoad__label);
-    
-    continousLoad__label__container.appendChild(continousLoad__label);
-    
-    continousLoadChild__container.appendChild(continousLoad__label__container);
-    continousLoadChild__container.appendChild(continuousLoadDuration__input);
-    
-    containerContinuousLoad.appendChild(continousLoadChild__container);
-    containerContinuousLoad.appendChild(continuousLoadProfile__label__container);
-    containerContinuousLoad.appendChild(continuousLoadProfile__child__container);
-    
-    loadTestTemplatInputContainer__right.appendChild(containerContinuousLoad__label__container);
-    loadTestTemplatInputContainer__right.appendChild(containerContinuousLoad);
-    
-    getTopContainer.appendChild(loadTestTemplatInputContainer__right);
-}
-
-const createLoadPeakInformationTemplate = (selectedID) => {
-    
-    let getTopContainer = document.getElementById(`loadTestTemplatInputContainer__right_${selectedID}`);
-    
-    let loadTestTemplatInputContainer__right = document.createElement('div');
-    loadTestTemplatInputContainer__right.id = `loadPeakContainer_${selectedID}`;
-    loadTestTemplatInputContainer__right.classList.add('checkbox-parent');
-    
-    let containerLoadPeak = document.createElement('div');
-    containerLoadPeak.id = `containerLoadPeak_${selectedID}`;
-    
-    let containerLabel__label__container = document.createElement('div');
-    containerLabel__label__container.classList.add('label-container');
-    
-    let container__label = document.createElement('label');
-    container__label.setAttribute('for', `containerLoadPeak_${selectedID}`);
-    container__label.classList.add('label-padding');
-    container__label.innerText = 'Load Design Peak Load (*)';
-    
-    let peakLoadChild__container = document.createElement('div');
-    peakLoadChild__container.classList.add('checkbox-child');
-    
-    let peakLoad__label__container = document.createElement('div');
-    peakLoad__label__container.classList.add('label-container');
-    
-    let peakLoad__input = document.createElement('select');
-    peakLoad__input.id = `peakLoad__input_${selectedID}`;
-    
-    let option_medium = document.createElement('option');
-    option_medium.key = 'medium';
-    option_medium.text = 'Medium (2x reference value)';
-
-    let option_high = document.createElement('option');
-    option_high.key = 'high';
-    option_high.text = 'High (4x reference value)';
-
-    let option_veryHigh = document.createElement('option');
-    option_veryHigh.key = 'veryHigh';
-    option_veryHigh.text = 'Very High (6x reference value)';
-
-    peakLoad__input.appendChild(option_medium);
-    peakLoad__input.appendChild(option_high);
-    peakLoad__input.appendChild(option_veryHigh);
-    
-    let peakLoad__label = document.createElement('label');
-    peakLoad__label.setAttribute('for', `peakLoad__input_${selectedID}`);
-    peakLoad__label.classList.add('form-check-label');
-    peakLoad__label.style.marginTop = '2%';
-    peakLoad__label.innerText = 'Peak Load at (*)';
-    
-    let peakLoad__reference = document.createElement('p');
-    peakLoad__reference.classList.add('reference-values');
-    peakLoad__reference.innerText = 'Peak at approx. 5000 requests/hour';
-    
-    let timeToPeakLoadChild__container = document.createElement('div');
-    timeToPeakLoadChild__container.classList.add('checkbox-child');
-    
-    let timeToPeakLoad__label__container = document.createElement('div');
-    timeToPeakLoad__label__container.classList.add('label-container');
-    
-    let timeToPeakLoad__input = document.createElement('input');
-    timeToPeakLoad__input.id = `timeToPeakLoad__input_${selectedID}`;
-    timeToPeakLoad__input.type = 'number';
-    timeToPeakLoad__input.placeholder = 'E.g., 10';
-    timeToPeakLoad__input.style.width = '135px';
-    timeToPeakLoad__input.style.height = '20px';
-    
-    let timeToPeakLoad__label = document.createElement('label');
-    timeToPeakLoad__label.setAttribute('for', `timeToPeakLoad__input_${selectedID}`);
-    timeToPeakLoad__label.innerText = 'Time until Peak (in minutes) (*)';
-    
-    /**
-     * Appending child nodes
-     */
-    containerLabel__label__container.appendChild(container__label);
-    
-    timeToPeakLoad__label__container.appendChild(timeToPeakLoad__label);
-    
-    timeToPeakLoadChild__container.appendChild(timeToPeakLoad__label__container);
-    timeToPeakLoadChild__container.appendChild(timeToPeakLoad__input);
-    
-    peakLoad__label__container.appendChild(peakLoad__label);
-    
-    peakLoadChild__container.appendChild(peakLoad__input);
-    
-    containerLoadPeak.appendChild(peakLoad__label__container);
-    containerLoadPeak.appendChild(peakLoadChild__container);
-    containerLoadPeak.appendChild(peakLoad__reference);
-    containerLoadPeak.appendChild(timeToPeakLoadChild__container);
-    loadTestTemplatInputContainer__right.appendChild(containerLabel__label__container);
-    loadTestTemplatInputContainer__right.appendChild(containerLoadPeak);
-    getTopContainer.appendChild(loadTestTemplatInputContainer__right);
-}
 
 const createAndAppendResultViewMetrics = (selectedID) => {
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
-    
+
     let resultViewTopContainer = document.createElement('div');
     resultViewTopContainer.classList.add('input__container');
-    
+
     let resultViewMetricsContainer = document.createElement('div');
     resultViewMetricsContainer.id = `resultViewMetricsContainer_${selectedID}`;
     resultViewMetricsContainer.classList.add('checkbox-parent');
     resultViewMetricsContainer.classList.add('result-view-container');
-    
+
     let resultViewMetrics__label = document.createElement('label');
     resultViewMetrics__label.setAttribute('for', `resultViewMetricsContainer_${selectedID}`);
     resultViewMetrics__label.innerText = 'Metrics you would like to include in the Result (*)';
     resultViewMetrics__label.classList.add('form-check-label');
     resultViewMetrics__label.classList.add('label-padding');
-    
+
     let responseTimeChildContainer = document.createElement('div');
     responseTimeChildContainer.classList.add('checkbox-child');
-    
+
     let responseTimeLabelContainer = document.createElement('div');
     responseTimeLabelContainer.classList.add('label-container');
-    
+
     let responseTime__input = document.createElement('input');
     responseTime__input.type = 'checkbox';
     responseTime__input.classList.add('form-check-input');
     responseTime__input.id = `responseTime__input_${selectedID}`;
-    
+
     let responseTimeInput__label = document.createElement('label');
     responseTimeInput__label.setAttribute('for', `responseTime__input_${selectedID}`);
     responseTimeInput__label.innerText = 'Response Times';
     responseTimeInput__label.classList.add('form-check-label');
-    
+
     responseTimeChildContainer.appendChild(responseTimeInput__label);
     responseTimeChildContainer.appendChild(responseTime__input);
-    
+
     let percentileNinetyChildContainer = document.createElement('div');
     percentileNinetyChildContainer.classList.add('checkbox-child');
-    
+
     let percentileNinety__input = document.createElement('input');
     percentileNinety__input.id = `percentileNinety__input_${selectedID}`;
     percentileNinety__input.type = 'checkbox';
     percentileNinety__input.classList.add('form-check-input');
-    
+
     let percentileNinety__label = document.createElement('label');
     percentileNinety__label.setAttribute('for', `percentileNinety__input_${selectedID}`);
     percentileNinety__label.innerText = '90th Percentile';
     percentileNinety__label.classList.add('form-check-label');
-    
+
     let percentileNinetyFiveChildContainer = document.createElement('div');
     percentileNinetyFiveChildContainer.classList.add('checkbox-child');
-    
+
     let percentileNinetyFive__input = document.createElement('input');
     percentileNinetyFive__input.id = `percentileNinetyFive__input_${selectedID}`;
     percentileNinetyFive__input.type = 'checkbox';
     percentileNinetyFive__input.classList.add('form-check-input');
-    
+
     let percentileNinetyFive__label = document.createElement('label');
     percentileNinetyFive__label.setAttribute('for', `percentileNinetyFive__input_${selectedID}`);
     percentileNinetyFive__label.innerText = '95th Percentile';
     percentileNinetyFive__label.classList.add('form-check-label');
-    
+
     percentileNinetyFiveChildContainer.appendChild(percentileNinetyFive__label);
     percentileNinetyFiveChildContainer.appendChild(percentileNinetyFive__input);
-    
+
     percentileNinetyChildContainer.appendChild(percentileNinety__label);
     percentileNinetyChildContainer.appendChild(percentileNinety__input);
-    
+
     resultViewMetricsContainer.appendChild(responseTimeChildContainer);
     resultViewMetricsContainer.appendChild(percentileNinetyChildContainer);
     resultViewMetricsContainer.appendChild(percentileNinetyFiveChildContainer);
     resultViewTopContainer.appendChild(resultViewMetrics__label)
     resultViewTopContainer.appendChild(resultViewMetricsContainer)
-    
+
     getLoadTestTemplateModalContent.appendChild(resultViewTopContainer);
 }
 

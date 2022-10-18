@@ -20,6 +20,12 @@ input {
   height: 25px;
 }
 
+.btn-group-load-peak {
+  padding: 0px !important;
+  width: 125px;
+  height: 25px;
+}
+
 .custom-button {
   width: 150px;
   margin: 0 2% 0 2%;
@@ -181,7 +187,7 @@ input {
   display: flex;
   flex-direction: column;
   width: 50%;
-  margin: 1% 2% 5% 2%;
+  margin: 1% 2% 5% 1%;
   justify-content: center;
 }
 

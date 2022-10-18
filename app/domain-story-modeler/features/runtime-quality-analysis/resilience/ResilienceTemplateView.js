@@ -679,7 +679,7 @@ export function createResilienceTemplateView(selectedID) {
     let errorRates__input__high = document.createElement('button');
     errorRates__input__high.type = 'button';
     errorRates__input__high.name = 'options';
-    errorRates__input__high.setAttribute('aria-pressed', 'false');
+    errorRates__input__high.setAttribute('aria-pressed', false);
     errorRates__input__high.id = `errorRates__input_high_${selectedID}`;
     errorRates__input__high.innerText = 'High';
     errorRates__input__high.classList.add('btn');
