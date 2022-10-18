@@ -48,10 +48,8 @@ const createLoadTestTemplateView = (selectedID) => {
 
 const checkIfTemplateComplete = (selectedID) => {
 
-    let getDuration__input = document.getElementById(`duration__input_${selectedID}`);
+    let getDuration__input = document.getElementById(`accuracy_slider_${selectedID}`);
     let getDurationValue = getDuration__input.value;
-
-    console.log(getDurationValue);
 
     let getResponseTime__input = document.getElementById(`responseTime__input_${selectedID}`);
     let getResponseTimeValue = getResponseTime__input.checked;

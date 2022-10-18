@@ -148,9 +148,14 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             responseMeasureMeasure = getResponseTime__FrustratedBtn.textContent;
         }
         
-        responseMeasure[responseMeasureType] = responseMeasureMeasure;
+        console.log(responseMeasureMeasure === undefined);
+        console.log(responseMeasureType);
+        
+        responseMeasure = {
+            "Response times": responseMeasureMeasure
+        }
 
-        if (getResultResponseTimes && getNinetPercentile && getNinetyFivePercentile) {
+        if (getResultResponseTime && getResultNinetyPercentile && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "Response Times" },
@@ -158,34 +163,34 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                     { "Metric": "95th Percentile" }
                 ]
             }
-        } else if (getResultResponseTimes && getNinetPercentile) {
+        } else if (getResultResponseTime && getResultNinetyPercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "Response Times" },
                     { "Metric": "90th Percentile" }
                 ]
             }
-        } else if (getResultResponseTimes && getNinetyFivePercentile) {
+        } else if (getResultResponseTime && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "Response Times" },
                     { "Metric": "95th Percentile" }
                 ]
             }
-        } else if (getNinetPercentile && getNinetyFivePercentile) {
+        } else if (getResultNinetyPercentile && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "90th Percentile" },
                     { "Metric": "95th Percentile" }
                 ]
             }
-        } else if (getNinetPercentile) {
+        } else if (getResultNinetyPercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "90th Percentile" },
                 ]
             }
-        } else if (getNinetyFivePercentile) {
+        } else if (getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
                     { "Metric": "90th Percentile" },
