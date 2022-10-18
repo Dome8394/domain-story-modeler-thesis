@@ -401,28 +401,6 @@
 
   <script>
 
-    // THESIS-START
-    /**
-     * Get elements
-     */
-    let btn__analysisResults = document.getElementById('btn__showAnalysisResults');
-    let currentContext = document.getElementById('currentContext');
-
-    /**
-     * Listeners
-     */
-    btn__analysisResults.addEventListener('click', () => { console.log("Show analysis results..."); })
-
-
-    select.addEventListener('change', () => {
-      let options = select.options[select.selectedIndex];
-      if (options) {
-        currentContext.innerText = options.text;
-      }
-    });
-
-    // THESIS-END
-
     /* from http://jsfiddle.net/jAYEt/2188/
     */
     var inputQuantity = [];

@@ -7,7 +7,7 @@ import { createToastNotification } from '../util/notifications';
 
 
 export const saveResilienceTemplate = (selectedID) => {
-    
+
     const preparedLoadTestPeakLoadOne = {
         "artifact": getNodeName(selectedID),
         "stimulus":
@@ -22,9 +22,9 @@ export const saveResilienceTemplate = (selectedID) => {
         "Response Measure": {
             "Response times below": "5 milliseconds"
         }
-    
+
     };
-    
+
     const preparedLoadTestPeakLoadTwo = {
         "artifact": getNodeName(selectedID),
         "stimulus":
@@ -39,7 +39,7 @@ export const saveResilienceTemplate = (selectedID) => {
         "Response Measure": {
             "Response times below": "2 milliseconds"
         }
-    
+
     };
 
     /**
@@ -70,42 +70,40 @@ export const saveResilienceTemplate = (selectedID) => {
 
     let getStimulusSelectElement = document.getElementById(`stimulusSelectionElement_${selectedID}`);
     let getStimulus = getStimulusSelectElement.value;
-    
+
     let getAccuracySlider = document.getElementById(`accuracy_${selectedID}`);
     let getAccuracy = getAccuracySlider.value;
-    
+
     // TODO add verification for button group
     let getRecoveryTime__satisfiedBtn = document.getElementById(`satisfied__recovery__option__key_${selectedID}`);
     let getRecoveryTime__satisfied = getRecoveryTime__satisfiedBtn.ariaPressed;
-    console.log(getRecoveryTime__satisfiedBtn.textContent);
-    
+
     let getRecoveryTime__toleratedBtn = document.getElementById(`tolerate__recovery__option__key_${selectedID}`);
     let getRecoveryTime__tolerated = getRecoveryTime__toleratedBtn.ariaPressed;
-    
+
     let getRecoveryTime__frustratedBtn = document.getElementById(`frustrated__recovery__option__key_${selectedID}`);
     let getRecoveryTime__frustrated = getRecoveryTime__frustratedBtn.ariaPressed;
-    
+
     let getResponseTime__satisfiedBtn = document.getElementById(`satisfied__option__key_${selectedID}`);
     let getResponseTime__satisfied = getResponseTime__satisfiedBtn.ariaPressed;
-    
+
     let getResponseTime__toleratedBtn = document.getElementById(`tolerated__input__option__key_${selectedID}`);
     let getResponseTime__tolerated = getResponseTime__toleratedBtn.ariaPressed;
-    
+
     let getResponseTime__frustratedBtn = document.getElementById(`frustrated__input__option__key_${selectedID}`);
     let getResponseTime__frustrated = getResponseTime__frustratedBtn.ariaPressed;
-    
+
     let getErrorRates__noneBtn = document.getElementById(`errorRates__input__none_${selectedID}`);
     let getErrorRates__none = getErrorRates__noneBtn.ariaPressed;
-    
+
     let getErrorRates__lowBtn = document.getElementById(`errorRates__input_low_${selectedID}`);
     let getErrorRates__low = getErrorRates__lowBtn.ariaPressed;
-    
+
     let getErrorRates__mediumBtn = document.getElementById(`errorRates__input_medium_${selectedID}`);
     let getErrorRates__medium = getErrorRates__mediumBtn.ariaPressed;
-    
+
     let getErrorRates__highBtn = document.getElementById(`errorRates__input_high_${selectedID}`);
     let getErrorRates__high = getErrorRates__highBtn.ariaPressed;
-    
 
     if (verifyMandatory(
         selectedID,
@@ -120,7 +118,6 @@ export const saveResilienceTemplate = (selectedID) => {
         getErrorRates__medium,
         getErrorRates__high,
         getStimulus,
-        getDuration,
         getAccuracy,
         executionEnvironment)) {
 
@@ -139,8 +136,11 @@ export const saveResilienceTemplate = (selectedID) => {
         let scenarioEnvironment;
         let environmentContext;
         let artifact = getNodeName(selectedID);
-        let responseMeasure;
         let stimulus;
+        let stimulusType;
+        let responseMeasure;
+        let responseMeasureObject;
+        let responseMeasureType;
 
         if (executionEnvironment == 'Yes') {
             scenarioEnvironment = 'PROD';
@@ -194,26 +194,63 @@ export const saveResilienceTemplate = (selectedID) => {
             }
         }
 
-        if (getStimulus === 'No response') {
-            stimulus = {
-                "Type": "No response"
-            }
-            responseMeasure = {
-                "Recovery Time below": getRecoveryTime + ' milliseconds'
-            }
-        } else if (getStimulus === 'Failed request') {
-            stimulus = {
-                "Type": "Failed request",
-                "Fault object": { "Test": "XXXXX" },
-                "Error rate": getErrorRates__none.textContent || getErrorRates__low.textContent || getErrorRates__medium.textContent || getErrorRates__high.textContent
-            }
-        } else if (getStimulus === 'Late response') {
-            stimulus = {
-                "Type": "Response arrives late"
-            }
-            responseMeasure = {
-                "Response Time below": getResponseTime + ' milliseconds'
-            }
+        switch (getStimulus) {
+            case 'No response':
+                responseMeasureType = 'Recovery time';
+
+                if (getRecoveryTime__satisfiedBtn.classList.contains('active')) {
+                    responseMeasureObject = getRecoveryTime__satisfiedBtn.textContent;
+                } else if (getRecoveryTime__toleratedBtn.classList.contains('active')) {
+                    responseMeasureObject = getRecoveryTime__toleratedBtn.textContent;
+                } else if (getRecoveryTime__frustratedBtn.classList.contains('active')) {
+                    responseMeasureObject = getRecoveryTime__frustratedBtn.textContent;
+                }
+                responseMeasure = {
+                    'Recovery time': responseMeasureObject
+                }
+                break;
+
+            case 'Failed request':
+                responseMeasureType = 'Error rate';
+
+                if (getErrorRates__noneBtn.classList.contains('active')) {
+                    responseMeasureObject = getErrorRates__noneBtn.textContent;
+                    console.log(responseMeasureObject);
+                } else if (getErrorRates__lowBtn.classList.contains('active')) {
+                    responseMeasureObject = getErrorRates__lowBtn.textContent;
+                } else if (getErrorRates__mediumBtn.classList.contains('active')) {
+                    responseMeasureObject = getErrorRates__mediumBtn.textContent;
+                } else if (getErrorRates__highBtn.classList.contains('active')) {
+                    responseMeasureObject = getErrorRates__highBtn.textContent;
+                }
+                responseMeasure = {
+                    'Error rate': responseMeasureObject
+                }
+                break;
+
+            case 'Late response':
+                responseMeasureType = 'Response time';
+
+                if (getResponseTime__satisfiedBtn.classList.contains('active')) {
+                    responseMeasureObject = getResponseTime__satisfiedBtn.textContent;
+                } else if (getResponseTime__toleratedBtn.classList.contains('active')) {
+                    responseMeasureObject = getResponseTime__toleratedBtn.textContent;
+                } else if (getResponseTime__frustratedBtn.classList.contains('active')) {
+                    responseMeasureObject = getResponseTime__frustratedBtn.textContent;
+                }
+                responseMeasure = {
+                    'Response time': responseMeasureObject
+                }
+                break;
+            default:
+                console.log("No matching stimuli");
+                break;
+        }
+
+        stimulusType = getStimulus;
+
+        stimulus = {
+            "Type": stimulusType
         }
 
         let environment =
@@ -223,7 +260,7 @@ export const saveResilienceTemplate = (selectedID) => {
             "Context": environmentContext
         };
 
-        stimulus["Duration"] = getDuration + ' %';
+        stimulus["Accuracy"] = getDuration + '%';
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,
@@ -261,28 +298,28 @@ const verifyMandatory = (
     getErrorRates__medium,
     getErrorRates__high,
     getStimulus,
-    durationProvided,
     getAccuracy,
     environmentSelected
 ) => {
 
-    if (getStimulus && durationProvided && environmentSelected && (getAccuracy > 0)
-        || (getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated) 
-        || (getResponseTime__satisfied || getResponseTime__tolerated || getResponseTime__frustrated)
-        || (getErrorRates__none || getErrorRates__low || getErrorRates__medium || getErrorRates__high)) {
-        
+
+    if (getStimulus && environmentSelected && (getAccuracy > 0)
+        && ((getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated)
+            || (getResponseTime__satisfied || getResponseTime__tolerated || getResponseTime__frustrated)
+            || (getErrorRates__none || getErrorRates__low || getErrorRates__medium || getErrorRates__high))) {
+
         if (environmentSelected === 'No') {
             let getExistingLoadTestsCheckboxElement = document.getElementById(`existingLoadTests__input_${selectedID}`);
             let getExistingLoadTestsChecked = getExistingLoadTestsCheckboxElement.checked;
 
             if (getExistingLoadTestsChecked) {
-                
+
                 let getLoadTestCheckboxOneElement = document.getElementById(`loadTestOneCheckbox__input_${selectedID}`);
                 let getLoadTestCheckboxOneChecked = getLoadTestCheckboxOneElement.checked;
 
                 let getLoadTestCheckBoxTwoElement = document.getElementById(`loadTestTwoCheckbox__input_${selectedID}`);
                 let getLoadTestCheckboxTwoChecked = getLoadTestCheckBoxTwoElement.checked;
-                
+
                 if (getLoadTestCheckboxOneChecked || getLoadTestCheckboxTwoChecked) {
                     return true;
                 } else {
@@ -292,111 +329,10 @@ const verifyMandatory = (
                 return false;
             }
         }
+
         return true;
     }
+
     console.log("Mandatory fields are missing");
     return false;
-}
-
-
-export const verifyResilienceTemplate = (
-    amountOfFailingInstances,
-    timeToFailure,
-    serviceFails,
-    // getResponseMeasureResponseTimeCheckBoxValue,
-    getResponseTime,
-    // getResponseMeasureRecoveryTimeCheckBoxValue,
-    getRecoveryTime,
-    selectedID) => {
-    /**
-     * Get HTML elements and their values
-     */
-    let numberOfInstances = document.getElementById(`resilienceServiceAmount_${selectedID}`);
-    let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
-    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
-
-    // let responseMeasureResponseTimeCheckBoxElement = document.getElementById(`responseMeasureCheckbox_${selectedID}`);
-    let getResponseMeasureResponseTimeInputElement = document.getElementById(`responseMeasureResponseTimeInput_${selectedID}`);
-
-    // let responseMeasureRecoveryTimeCheckBoxElement = document.getElementById(`responseMeasureRecoveryTimeCheckbox_${selectedID}`);
-    let getResponseMeasureRecoveryTimeInputElement = document.getElementById(`responseMeasureRecoveryTimeInput_${selectedID}`);
-    /**
-     * Get error msg elements
-     */
-    // let resilienceServiceAmount__invalidElement = document.getElementById(`resilienceServiceAmount__invalid_${selectedID}`);
-    let accuracy__invalidElement = document.getElementById(`accuracy__invalid_${selectedID}`);
-    let stimulusCheckBox__invalid = document.getElementById(`stimulusCheckBox__invalid_${selectedID}`);
-    let responseMeasure__invalidElement = document.getElementById(`responseMeasure__invalid_${selectedID}`);
-
-    // if (!amountOfFailingInstances) {
-    //     resilienceServiceAmount__invalidElement.style.display = 'block';
-    //     numberOfInstances.style.borderColor = 'red';
-    // } else {
-    //     resilienceServiceAmount__invalidElement.style.display = 'none';
-    //     numberOfInstances.style.borderColor = 'springgreen';
-    // }
-
-    // if (!timeToFailure) {
-    //     accuracy__invalidElement.style.display = 'block';
-    //     accuracyElement.style.borderColor = 'red';
-    // } else {
-    //     accuracy__invalidElement.style.display = 'none';
-    //     accuracyElement.style.borderColor = 'springgreen';
-    // }
-
-    // if (getResponseMeasureResponseTimeCheckBoxValue === false && getResponseMeasureRecoveryTimeCheckBoxValue === false) {
-    //     responseMeasure__invalidElement.style.display = 'block';
-    //     responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'red';
-    //     responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'red';
-    // } else {
-    //     if (getResponseMeasureResponseTimeCheckBoxValue && getResponseMeasureRecoveryTimeCheckBoxValue) {
-    //         responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
-    //         responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
-
-    //         if (getResponseTime) {
-    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
-    //         } else {
-    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
-    //         }
-
-    //         if (getRecoveryTime) {
-    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
-    //         } else {
-    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
-    //         }
-    //     }
-
-    //     if (getResponseMeasureResponseTimeCheckBoxValue) {
-    //         console.log("Testing...");
-    //         responseMeasureResponseTimeCheckBoxElement.style.borderColor = 'springgreen';
-    //         if (getResponseTime) {
-    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'springgreen';
-    //         } else {
-    //             getResponseMeasureResponseTimeInputElement.style.borderColor = 'red';
-    //         }
-    //     } else if (getResponseMeasureRecoveryTimeCheckBoxValue) {
-    //         responseMeasureRecoveryTimeCheckBoxElement.style.borderColor = 'springgreen';
-    //         if (getRecoveryTime) {
-    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'springgreen';
-    //         } else {
-    //             getResponseMeasureRecoveryTimeInputElement.style.borderColor = 'red';
-    //         }
-    //     }
-
-    //     responseMeasure__invalidElement.style.display = 'none';
-    // }
-
-    // if (!serviceFails) {
-    //     stimulusCheckBox__invalid.style.display = 'block';
-    //     stimulusCheckBoxElement.style.borderColor = 'red';
-    // } else {
-    //     stimulusCheckBox__invalid.style.display = 'none';
-    //     stimulusCheckBoxElement.style.borderColor = 'springgreen';
-    // }
-
-    // if (serviceFails && timeToFailure && amountOfFailingInstances && (getResponseTime || getRecoveryTime)) {
-    //     return true;
-    // }
-
-    return true;
 }

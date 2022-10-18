@@ -628,6 +628,7 @@ export function createResilienceTemplateView(selectedID) {
     let errorRates__input__none = document.createElement('button');
     errorRates__input__none.type = 'button';
     errorRates__input__none.name = 'options';
+    errorRates__input__none.setAttribute('aria-pressed', 'false');
     errorRates__input__none.id = `errorRates__input__none_${selectedID}`;
     errorRates__input__none.innerText = 'None';
     errorRates__input__none.classList.add('btn');
@@ -635,9 +636,16 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__none.classList.add('btn-group-btn');
     errorRates__input__none.disabled = true;
     
+    errorRates__input__none.addEventListener('click', () => {
+        errorRates__input__low.classList.remove('active');
+        errorRates__input__medium.classList.remove('active');
+        errorRates__input__high.classList.remove('active');
+    })
+    
     let errorRates__input__low = document.createElement('button');
     errorRates__input__low.type = 'button';
     errorRates__input__low.name = 'options';
+    errorRates__input__low.setAttribute('aria-pressed', 'false');
     errorRates__input__low.id = `errorRates__input_low_${selectedID}`;
     errorRates__input__low.innerText = 'Low';
     errorRates__input__low.classList.add('btn');
@@ -645,9 +653,16 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__low.classList.add('btn-group-btn');
     errorRates__input__low.disabled = true;
     
+    errorRates__input__low.addEventListener('click', () => {
+        errorRates__input__none.classList.remove('active');
+        errorRates__input__medium.classList.remove('active');
+        errorRates__input__high.classList.remove('active');
+    })
+    
     let errorRates__input__medium = document.createElement('button');
     errorRates__input__medium.type = 'button';
     errorRates__input__medium.name = 'options';
+    errorRates__input__medium.setAttribute('aria-pressed', 'false');
     errorRates__input__medium.id = `errorRates__input_medium_${selectedID}`;
     errorRates__input__medium.innerText = 'Medium';
     errorRates__input__medium.classList.add('btn');
@@ -655,15 +670,28 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__medium.classList.add('btn-group-btn');
     errorRates__input__medium.disabled = true;
     
+    errorRates__input__medium.addEventListener('click', () => {
+        errorRates__input__none.classList.remove('active');
+        errorRates__input__low.classList.remove('active');
+        errorRates__input__high.classList.remove('active');
+    })
+    
     let errorRates__input__high = document.createElement('button');
     errorRates__input__high.type = 'button';
     errorRates__input__high.name = 'options';
+    errorRates__input__high.setAttribute('aria-pressed', 'false');
     errorRates__input__high.id = `errorRates__input_high_${selectedID}`;
     errorRates__input__high.innerText = 'High';
     errorRates__input__high.classList.add('btn');
     errorRates__input__high.classList.add('btn-outline-primary');
     errorRates__input__high.classList.add('btn-group-btn');
     errorRates__input__high.disabled = true;
+    
+    errorRates__input__high.addEventListener('click', () => {
+        errorRates__input__none.classList.remove('active');
+        errorRates__input__low.classList.remove('active');
+        errorRates__input__medium.classList.remove('active');
+    })
     
     let errorRates__input__label = document.createElement('label');
     errorRates__input__label.classList.add('form-check-label');
