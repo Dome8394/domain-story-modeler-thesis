@@ -53,16 +53,15 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         }
 
         let artifact = getNodeName(selectedID);
+        let environment = {
+            "Accuracy": getAccuracy + '%'
+        };
         let stimulusType = getStimulus;
         let responseMeasure;
-        let responseMeasureType = 'Response Times';
         let responseMeasureMeasure;
         let stimulus = {
             "Load Profile": stimulusType,
-            "Accuracy": getAccuracy + '%'
         };
-        
-        console.log(stimulus);
         
         let stimulusLoadPeakType = 'Highest Load';
         let stimulusTimeToPeakType = 'Time to Highest Load';
@@ -74,8 +73,6 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         let stimulusBaseLoadMeasure;
         let resultMetrics;
         
-        console.log("Stimulus type: ", stimulusType);
-
         switch (stimulusType) {
             case 'Load Peak':
                 let getHighestLoad__highBtn = document.getElementById(`highestLoad__high__btn_${selectedID}`);
@@ -124,13 +121,13 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                 stimulus[stimulusTypeIncrease] = stimulusTypeIncreaseMeasure;
                 break;
             case 'Constant Load':
-                let getBaseLoad__lowBtn = document.getElementById();
+                let getBaseLoad__lowBtn = document.getElementById(`baseLoad__low__btn${selectedID}`);
                 let getBaseLoad__low = getBaseLoad__lowBtn.classList.contains('active');
 
-                let getBaseLoad__mediumBtn = document.getElementById();
+                let getBaseLoad__mediumBtn = document.getElementById(`baseLoad__medium__btn${selectedID}`);
                 let getBaseLoad__medium = getBaseLoad__mediumBtn.classList.contains('active');
 
-                let getBaseLoad__HighBtn = document.getElementById();
+                let getBaseLoad__HighBtn = document.getElementById(`baseLoad__high__btn${selectedID}`);
                 let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
                 
                 if (getBaseLoad__low) {
@@ -140,7 +137,9 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                 } else if (getBaseLoad__High) {
                     stimulusBaseLoadMeasure = getBaseLoad__HighBtn.textContent;
                 }
-                stimulus[stimulusBaseLoadType] = stimulusBaseLoadMeasure;
+                stimulus = {
+                    'Base Load': stimulusBaseLoadMeasure
+                };
                 break;
         }
         
@@ -152,8 +151,6 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             responseMeasureMeasure = getResponseTime__FrustratedBtn.textContent;
         }
         
-        console.log(responseMeasureMeasure === undefined);
-        console.log(responseMeasureType);
         
         responseMeasure = {
             "Response times": responseMeasureMeasure
@@ -213,6 +210,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         const newLoadTestTemplateObj = new LoadTestTemplate(
             artifact,
             stimulus,
+            environment,
             responseMeasure,
             resultMetrics
         );

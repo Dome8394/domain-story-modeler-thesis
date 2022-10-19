@@ -13,8 +13,8 @@ export const createAnalysisResultsView = () => {
     results__btn__container.id = 'results__btn__container';
 
     let breakEle = document.createElement('br');
-    
-    
+
+
     if (!document.getElementById('results__btn__container')) {
         let results__btn = document.createElement('button');
         results__btn.id = 'results__btn';
@@ -22,13 +22,13 @@ export const createAnalysisResultsView = () => {
         results__btn.classList.add('btn-success');
         results__btn.classList.add('custom-button');
         results__btn.innerText = 'Show results';
-    
+
         results__btn.addEventListener('click', () => {
             getResultsModal.style.display = 'block';
             console.log(getResultsModal);
             console.log(document.getElementById('results__modal__content'));
         });
-        
+
         results__btn__container.appendChild(results__btn);
     }
 
@@ -90,17 +90,21 @@ export const createAnalysisResultsView = () => {
     let summary__loadtests__container = document.createElement('div');
     summary__loadtests__container.id = 'summary__loadtests__container';
 
-    let stimulus__loadtests__type;
+    let loadtests__stimulus__loadProfile;
+    
+    let loadtests__stimulus__typeOfIncrease;
+    
+    let loadtests__stimulus__baseLoad;
 
-    let stimulus__loadtests__loadProfile;
+    let loadtests__stimulus__artifact;
 
-    let stimulus__loadtests__artifact;
+    let stimulus__loadtests__accuracy;
 
-    let stimulus__loadtests__duration;
+    let loadtests__stimulus__highestLoad;
 
-    let stimulus__loadtests__responseMeasure;
+    let loadtests__stimulus__responseMeasure;
 
-    let stimulus__loadtests__durationIncrease;
+    let loadtests__stimulus__timeToLoadPeak;
 
     let resultMetric__loadtests__responseTimes;
 
@@ -133,31 +137,39 @@ export const createAnalysisResultsView = () => {
                     }
                     if (key === 'stimulus') {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
-                            if (innerKey === 'Accuracy') {
-                                stimulus__loadtests__type = innerValue;
+                            if (innerKey === 'Highest Load') {
+                                loadtests__stimulus__highestLoad = innerValue;
                             }
 
-                            if (innerKey === 'Duration of Increase') {
-                                stimulus__loadtests__durationIncrease = innerValue;
+                            if (innerKey === 'Load profile') {
+                                loadtests__stimulus__loadProfile = innerValue;
+                            }
+
+                            if (innerKey === 'Time to Highest Load') {
+                                loadtests__stimulus__timeToLoadPeak = innerValue;
                             }
                             
-                            if (innerKey === 'Load profile') {
-                                stimulus__loadtests__loadProfile = innerValue;
+                            if(innerKey === 'Type of Increase') {
+                                loadtests__stimulus__typeOfIncrease = innerValue;
+                            }
+                            
+                            if(innerKey === 'Base Load') {
+                                loadtests__stimulus__baseLoad = innerValue;
                             }
                         }
                     }
 
                     if (key === 'environment') {
-                        for (const [innerKey, innerValue] of Object.entries(loadtest.environment)) {
-                            if (innerKey === 'Duration') {
-                                stimulus__loadtests__duration = innerValue;
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
+                            if (innerKey === 'Accuracy') {
+                                stimulus__loadtests__accuracy = innerValue;
                             }
                         }
                     }
 
                     if (key === 'responseMeasure') {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.responseMeasure)) {
-                            stimulus__loadtests__responseMeasure = innerValue;
+                            loadtests__stimulus__responseMeasure = innerValue;
                         }
                     }
 
@@ -184,7 +196,6 @@ export const createAnalysisResultsView = () => {
         if (parsedResults.resiliencetest) {
             const resilienceTest = parsedResults.resiliencetest[0];
             if (resilienceTest) {
-
                 for (const [key, value] of Object.entries(resilienceTest)) {
                     console.log(`${key}: ${value}`);
                     if (key === 'artifact') {
@@ -237,45 +248,66 @@ export const createAnalysisResultsView = () => {
         }
     }
 
-    if (stimulus__loadtests__type === 'Peak Load') {
-        summary__loadtests.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> test for the artifact
-            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n The load has reached its peaked at
-            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
-            The requests should respond within ${stimulus__loadtests__responseMeasure} during the loadtest in order to be succesful.
-            The test took <strong>${stimulus__loadtests__duration}</strong>.
+    if (loadtests__stimulus__loadProfile === 'Load Peak') {
+        summary__loadtests.innerHTML = `We executed the <strong>${loadtests__stimulus__loadProfile}</strong> test for the artifact
+            <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n The load peak was set to
+            <strong>${loadtests__stimulus__highestLoad}</strong>. The time until the peak is reached was set to 
+            <strong>${loadtests__stimulus__timeToLoadPeak}</strong>. You stated that the request's response times should be 
+            ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            </br>
             </br>`;
-        console.log(stimulus__loadtests__type);
-        console.log("This is correct!");
-    } else if (stimulus__loadtests__type === 'Continuous Load') {
-        summary__loadtests.innerHTML = `We executed the <u class="underline">${stimulus__loadtests__type}</u> test for the artifact
-            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n You specified the load to be
-            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
-            The load increased for <strong>${stimulus__loadtests__durationIncrease}</strong> and remained at this value for
-            the residiual test time. The test took <strong>${stimulus__loadtests__duration}</strong>.
+            
+    } else if (loadtests__stimulus__loadProfile === 'Load Increase') {
+        summary__loadtests.innerHTML = `We executed the <u class="underline">${loadtests__stimulus__loadProfile}</u> test for the artifact
+            <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the type of increase to be
+            <strong>${loadtests__stimulus__typeOfIncrease}</strong>. You stated that the request's response times should be 
+            ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            </br>
             </br>`;
-        console.log(stimulus__loadtests__type);
     } else {
-        summary__loadtests.innerHTML = `We executed the <strong>${stimulus__loadtests__type}</strong> test for the artifact
-            <strong>${stimulus__loadtests__artifact}</strong> with the tool JMeter. \n You specified the load to be
-            <strong>${stimulus__loadtests__loadProfile}</strong> whereas the reference value is set to be <strong>approx. 5000 requests</strong> an hour.
-            The load test increased slowly over the period of <strong>${stimulus__loadtests__duration}</strong> up to the load profile you specified. 
+        summary__loadtests.innerHTML = `We executed the <strong>${loadtests__stimulus__loadProfile}</strong> test for the artifact
+            <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the base load to be
+            <strong>${loadtests__stimulus__baseLoad}</strong>.
+            You stated that the request's response times should be ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            </br>
             </br>`
-        console.log(stimulus__loadtests__type);
     }
-    
-    if (stimulus__loadtests__type) {
+
+    if (loadtests__stimulus__loadProfile) {
         summary__header__container.appendChild(summary__header__loadtests__text);
         summary__loadtests__container.appendChild(summary__loadtests);
         summary__loadtests__container.appendChild(breakEle);
         summary__loadtests__container.appendChild(breakEle);
         summary__loadtests__container.appendChild(breakEle);
-        
+
         let summary__loadtests__results = document.createElement('span');
+
+        if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyPercentile) {
+            summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
+            Requests that fall within the 90th Percentile had a satisfiable response time!
+            Therefore, your system's specifications are satisfied!</u>`;
+        } else if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyFivePercentile) {
+            summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
+            Requests that fall within the 95th Percentile had a satisfiable response time!
+            Therefore, your system's specifications are satisfied!</u>`;
+        } else if (resultMetric__loadtests__responseTimes) {     
+            summary__loadtests__results.innerHTML = 
+            `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
+            Therefore, your system's specifications are satisfied!</u>`;
         
-        summary__loadtests__results.innerHTML = `The threshold of expected response times was defined to be below <strong>${stimulus__loadtests__responseMeasure}</strong>. 
-        <u class="underline"> The calculated average response time of the loadtests was 2x faster than the specified threshold!
-        Therefore, your system responded within the specified threshold!</u>`;
-       
+        } else if (resultMetric__loadtests__ninetyPercentile) {
+            summary__loadtests__results.innerHTML =
+            `<u class="underline"> Requests that fall within the 90th Percentile had a satisfiable response time!
+            Therefore, your system's specifications are still fulfilled!</u>`;
+        } else if (resultMetric__loadtests__ninetyFivePercentile) {
+            summary__loadtests__results.innerHTML =
+            `<u class="underline"> Requests that fall within the 95th Percentile had a satisfiable response time!
+            Therefore, your system's specifications are still fulfilled!</u>`;
+        } 
+
         summary__loadtests__container.appendChild(summary__loadtests__results);
         resultsView__container.appendChild(summary__header__container);
         resultsView__container.appendChild(summary__loadtests__container);
@@ -283,15 +315,15 @@ export const createAnalysisResultsView = () => {
 
     if (stimulus__resilience__type) {
         let summary__resilience__results = document.createElement('span');
-        
+
         summary__resilience.innerHTML = `We executed the <strong>${stimulus__resilience__type}</strong> resilience test 
         with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__resilience__duration}</strong>.
         The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
         As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
         `;
-    
+
         summary__resilience__results.innerHTML = `Your experiment was <u class="underline">not successfull</u>!`;
-        
+
         summary__header__resilience__container.appendChild(summary__header__resilience__text);
         summary__resilience__container.appendChild(summary__resilience);
         summary__resilience__container.appendChild(breakEle);
@@ -304,7 +336,7 @@ export const createAnalysisResultsView = () => {
     results__modal__content.appendChild(results__close__btn);
     getResultsModal.appendChild(results__modal__content);
     getSummaryContainer.appendChild(results__btn__container);
-    
+
     createToastNotification("Your test results arrived!", "success");
 };
 
