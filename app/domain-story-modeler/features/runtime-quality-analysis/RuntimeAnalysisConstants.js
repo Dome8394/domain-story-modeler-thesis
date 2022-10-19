@@ -28,23 +28,12 @@ export const INVALID_RAMP_UP_TIME = 'Please provide a valid number!';
 /**
  * Information text constants for resilience templates
  */
-export const INFO_SCENARIO_DESC = 'Describe your scenario with a few words. This is optional.';
-export const INFO_TYPE_OF_FAILURE = 'The type of failure describes what you would like to do with this element. Currently, there is only a "service shutdown"' + 
-'available. A service shutdown tells dqualizer that the services which comprises this domain story element will terminate in order to observe how the application behaves' + 
-'in a scenario where a service is no longer available. The checkbox "other than" describes a failure where the responds of the service is altered. The checkbox' + 
-' "later than" describes a failure where the reponse of the service is delayed by a given threshold.';
-export const INFO_EXECUTION_CONTEXT = 'The execution context describes in which environment you would like to execute the scenario. You can' + 
-'decide between production, staging, and testing. Production is the environment with the highest risk. You should communicate with your technical expert before you select the production environment as this'+ 
-' may affect your users. Testing and staging are the most secure environments and do not affect your users. The default is set to the production environment.';
-export const INFO_ENVIRONMENT_INFORMATION = 'You can provide additional information about the environment in which you would like to execute this scenario.' + 
-'The application may behave differently when running a resilience scenario during office hours than a scenario that is executed at midnight for example (off schedule). This is optional.';
-export const INFO_FAILING_INSTANCES = 'If there are more than one running instances that comprise this domain story element, you can select a particular instance' + 
-' that you would like to terminate for this scenario. If it does not matter to you which particular instance terminates, you do not need to select a particular instance ID.' + 
-'Note that, if you would like to select a particular instance ID, you need to check the randomization checkbox below. This is optional.';
-export const INFO_RANDOMIZATION = 'By default, Dqualizer selects a random service ID for termination only if there are more than one instance IDs available.' + 
-' If you would like, to select a particular instance ID, check the box below. This is optional.';
-export const INFO_TIME_OF_SHUTDOWN = 'You can provide the time at which the service terminates in minutes. The time is calculated from the start of the scenario.' + 
-'For instance, if you would like the service to terminate after 10 minutes, simply type in the value 10 in the input field.';
+export const INFO_TYPE_OF_FAILURE = `The stimulus describes the behavior that you would like to simulate. For instance, "No response" leads to a missing signal of the corresponding process to simulate a situation where the process does not respond or does not exist.`;
+export const INFO_EXECUTION_CONTEXT = `In order to receive meaningful results, you have the option to run the test in your productive environment where your users access your application. However, this may lead to negative impacts on your application. Therefor, you may opt for the option to run the test in a secure environment, but in that case you need to specify further information.`;
+export const INFO_ENVIRONMENT_INFORMATION = `The information below define your environment in more detail as a means to be as close to your productive environment as possible. You may choose a time slot for your test as well as adding existing load tests, which simulate users that access your application.`;
+export const INFO_REPITITION = `The repitition of the stimulus declares how often it will be executed during the test duration. By default the stimulus will be executed only once. For example, if you set the stimulus to be "No response", then only once will be process by terminated and removed from the application to simulate the specified behavior.`;
+export const INFO_ACCURACY = `The accuracy defines how long the test will be executed. The higher the accuracy is, the longer the test will be executed. By default, a 100% accuracy is set to a test duration of 1 week. An accuracy of 1% relates to approximately 1 hour. An accuracy value of 0% is not possible. We advise to use at least 60% accuracy to receive meaningful results. With a value of 60% the test will run approximately 60 hours, i.e., two and a half days.`;
+export const INFO_RESPONSE_MEASURE = `The response measure declares a hypothesis that you wish to be fulfilled. For instance, in case of a "No response" stimulus, you may declare the hypothesis to be that the recovery time is still toleratable in case of a missing response.`;
 
 
 /**

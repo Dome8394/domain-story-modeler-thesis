@@ -1,6 +1,17 @@
 // 'use-strict';
-import { ResilienceEnvironmentEnum, ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
-import { INVALID_RESPONSE_MEASURE, INFO_ENVIRONMENT_INFORMATION, INFO_EXECUTION_CONTEXT, INFO_SCENARIO_DESC, INFO_TYPE_OF_FAILURE, INFO_RANDOMIZATION, INFO_TIME_OF_SHUTDOWN, INFO_FAILING_INSTANCES, VERIFICATION_MODAL_NOTIFICATION, RESILIENCE_FAULT_TYPE_INFO, RESILIENCE_SCENARIO_NAME_INFO, RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO, SERVICE_FAILURE_AMOUNT_INFO, SERVICE_FAILURE_NAME_INFO, SERVICE_TIME_TO_FAILURE_INFO } from '../RuntimeAnalysisConstants';
+import {
+    INVALID_RESPONSE_MEASURE,
+    INFO_ENVIRONMENT_INFORMATION,
+    INFO_EXECUTION_CONTEXT,
+    INFO_TYPE_OF_FAILURE,
+    INFO_ACCURACY,
+    INFO_RESPONSE_MEASURE,
+    INFO_REPITITION,
+    RESILIENCE_FAULT_TYPE_INFO,
+    RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO,
+    SERVICE_FAILURE_AMOUNT_INFO,
+    SERVICE_TIME_TO_FAILURE_INFO
+} from '../RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
@@ -162,7 +173,7 @@ export function createResilienceTemplateView(selectedID) {
     let stimulusRepitition__info_text = document.createElement('span');
     stimulusRepitition__info_text.classList.add('tooltipText');
     stimulusRepitition__info_text.id = `stimulusRepitition_${selectedID}_info_text`
-    stimulusRepitition__info_text.innerText = INFO_FAILING_INSTANCES;
+    stimulusRepitition__info_text.innerText = INFO_REPITITION;
 
     let stimulusRepititionLabelContainer = document.createElement('div');
     stimulusRepititionLabelContainer.classList.add('label-container');
@@ -181,11 +192,11 @@ export function createResilienceTemplateView(selectedID) {
 
     let accuracyChildContainer = document.createElement('div');
     accuracyChildContainer.classList.add('checkbox-child');
-    
+
     let accuracyLabelContainer = document.createElement('div');
     accuracyLabelContainer.classList.add('label-container');
-    
-    
+
+
     let accuracy = document.createElement('input');
     accuracy.id = `accuracy_${selectedID}`;
     accuracy.type = 'range';
@@ -193,11 +204,11 @@ export function createResilienceTemplateView(selectedID) {
     accuracy.max = '100';
     accuracy.value = '0';
     accuracy.step = '1';
-   
+
     let accuracyCurrentValue = document.createElement('span');
     accuracyCurrentValue.classList.add('accuracy');
     accuracyCurrentValue.innerText = accuracy.value + '%';
-    
+
     accuracy.addEventListener('change', () => {
         accuracyCurrentValue.innerText = accuracy.value + '%';
     })
@@ -223,7 +234,7 @@ export function createResilienceTemplateView(selectedID) {
     let accuracy__label_info_text = document.createElement('span');
     accuracy__label_info_text.classList.add('tooltipText');
     accuracy__label_info_text.id = `accuracy__label_info_text_${selectedID}_info_text`
-    accuracy__label_info_text.innerText = INFO_TIME_OF_SHUTDOWN;
+    accuracy__label_info_text.innerText = INFO_ACCURACY;
 
     let accuracy__invalid = document.createElement('p');
     accuracy__invalid.innerText = SERVICE_TIME_TO_FAILURE_INFO;
@@ -234,13 +245,13 @@ export function createResilienceTemplateView(selectedID) {
     let checkBoxContainer = document.createElement('div');
     checkBoxContainer.id = 'checkBoxContainerstimulus';
     checkBoxContainer.classList.add('checkbox-parent');
-    
+
     let stimulusSelection__labelContainer = document.createElement('div');
     stimulusSelection__labelContainer.classList.add('label-container');
-    
+
     let stimulusSelectionChildContainer = document.createElement('div');
     stimulusSelectionChildContainer.classList.add('checkbox-child');
-    
+
     let stimulusSelection__info = document.createElement('i');
     stimulusSelection__info.classList.add('bi');
     stimulusSelection__info.classList.add('bi-info-circle');
@@ -258,27 +269,27 @@ export function createResilienceTemplateView(selectedID) {
     stimulusSelection__info_text.classList.add('tooltipText');
     stimulusSelection__info_text.id = `stimulusRepitition_${selectedID}_info_text`
     stimulusSelection__info_text.innerText = INFO_TYPE_OF_FAILURE;
-    
+
     let stimulusSelectionElement = document.createElement('select');
     stimulusSelectionElement.id = `stimulusSelectionElement_${selectedID}`;
-    
+
     let stimulusSelection__label = document.createElement('label');
     stimulusSelection__label.setAttribute('for', `stimulusSelectionElement_${selectedID}`);
     stimulusSelection__label.classList.add('form-check-label');
     stimulusSelection__label.innerText = 'Stimulus (*)';
-    
+
     let selection__noResponse = document.createElement('option');
     selection__noResponse.key = 'no__response';
     selection__noResponse.text = 'No response';
-    
+
     let selection__otherThan = document.createElement('option');
     selection__otherThan.key = 'other__than';
     selection__otherThan.text = 'Failed request';
-    
+
     let selection__laterThan = document.createElement('option');
     selection__laterThan.key = 'later__than';
     selection__laterThan.text = 'Late response';
-    
+
     stimulusSelectionElement.appendChild(selection__noResponse);
     stimulusSelectionElement.appendChild(selection__otherThan);
     stimulusSelectionElement.appendChild(selection__laterThan);
@@ -377,7 +388,7 @@ export function createResilienceTemplateView(selectedID) {
     existingLoadTests__input.id = `existingLoadTests__input_${selectedID}`;
     existingLoadTests__input.type = 'checkbox';
     existingLoadTests__input.classList.add('form-check-input');
-    
+
     existingLoadTests__input.addEventListener('click', () => {
         if (existingLoadTests__input.checked) {
             existingLoadTests__button.disabled = false;
@@ -485,6 +496,18 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureCheckboxLabel__info.classList.add('bi-info-circle');
     responseMeasureCheckboxLabel__info.classList.add('toolTip');
     
+    responseMeasureCheckboxLabel__info.addEventListener('mouseover', () => {
+        responseMeasureCheckboxLabel__info_text.style.display = 'block';
+    });
+
+    responseMeasureCheckboxLabel__info.addEventListener('mouseleave', () => {
+        responseMeasureCheckboxLabel__info_text.style.display = 'none';
+    });
+
+    let responseMeasureCheckboxLabel__info_text = document.createElement('span');
+    responseMeasureCheckboxLabel__info_text.classList.add('tooltipText');
+    responseMeasureCheckboxLabel__info_text.innerText = INFO_RESPONSE_MEASURE;
+
     /**
      * Button group for Response Times in Response Measure
      */
@@ -492,7 +515,7 @@ export function createResilienceTemplateView(selectedID) {
     responseMeasureBtn__group.setAttribute('data-toggle', 'buttons');
     responseMeasureBtn__group.classList.add('btn-group');
     responseMeasureBtn__group.classList.add('btn-group-toggle');
-    
+
     let satisfied__input = document.createElement('button');
     satisfied__input.type = 'button';
     satisfied__input.name = 'options';
@@ -503,13 +526,13 @@ export function createResilienceTemplateView(selectedID) {
     satisfied__input.classList.add('btn-outline-primary');
     satisfied__input.classList.add('btn-group-btn');
     satisfied__input.disabled = true;
-    
+
     satisfied__input.addEventListener('click', () => {
         console.log(satisfied__input.ariaPressed);
         tolerated__input.classList.remove('active');
         frustrated__input.classList.remove('active');
     })
-    
+
     let tolerated__input = document.createElement('button');
     tolerated__input.type = 'button';
     tolerated__input.name = 'options';
@@ -520,12 +543,12 @@ export function createResilienceTemplateView(selectedID) {
     tolerated__input.classList.add('btn-outline-primary');
     tolerated__input.classList.add('btn-group-btn');
     tolerated__input.disabled = true;
-    
+
     tolerated__input.addEventListener('click', () => {
         satisfied__input.classList.remove('active');
         frustrated__input.classList.remove('active');
     })
-    
+
     let frustrated__input = document.createElement('button');
     frustrated__input.type = 'button';
     frustrated__input.name = 'options';
@@ -536,25 +559,25 @@ export function createResilienceTemplateView(selectedID) {
     frustrated__input.classList.add('btn-outline-primary');
     frustrated__input.classList.add('btn-group-btn');
     frustrated__input.disabled = true;
-    
+
     frustrated__input.addEventListener('click', () => {
         satisfied__input.classList.remove('active');
         tolerated__input.classList.remove('active');
     })
-    
+
     let responseTime__label = document.createElement('label');
     responseTime__label.classList.add('form-check-label');
     responseTime__label.setAttribute('for', `satisfied__option__key_${selectedID}`);
     responseTime__label.innerText = 'Response time';
     responseTime__label.classList.add('text-disabled');
-    
+
     responseMeasureBtn__group.appendChild(satisfied__input);
     responseMeasureBtn__group.appendChild(tolerated__input);
     responseMeasureBtn__group.appendChild(frustrated__input);
-    
+
     let responseMeasureResponseTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureResponseTimeCheckboxContainerChild.classList.add('checkbox-child');
-    
+
     let recoveryBtn__group = document.createElement('div');
     recoveryBtn__group.setAttribute('data-toggle', 'buttons');
     recoveryBtn__group.classList.add('btn-group');
@@ -570,7 +593,7 @@ export function createResilienceTemplateView(selectedID) {
     satisfied__input__recovery.classList.add('btn-outline-primary');
     satisfied__input__recovery.classList.add('btn-group-btn');
     satisfied__input__recovery.disabled = false;
-    
+
     satisfied__input__recovery.addEventListener('click', () => {
         tolerated__input__recovery.classList.remove('active');
         frustrated__input__recovery.classList.remove('active');
@@ -586,7 +609,7 @@ export function createResilienceTemplateView(selectedID) {
     tolerated__input__recovery.classList.add('btn-outline-primary');
     tolerated__input__recovery.classList.add('btn-group-btn');
     tolerated__input__recovery.disabled = false;
-    
+
     tolerated__input__recovery.addEventListener('click', () => {
         satisfied__input__recovery.classList.remove('active');
         frustrated__input__recovery.classList.remove('active');
@@ -620,15 +643,15 @@ export function createResilienceTemplateView(selectedID) {
 
     let responseMeasureRecoveryTimeCheckboxContainerChild = document.createElement('div');
     responseMeasureRecoveryTimeCheckboxContainerChild.classList.add('checkbox-child');
-    
+
     let errorRatesChildContainer = document.createElement('div');
     errorRatesChildContainer.classList.add('checkbox-child');
-    
+
     let errorRates__btn__group = document.createElement('div');
     errorRates__btn__group.setAttribute('data-toggle', 'buttons');
     errorRates__btn__group.classList.add('btn-group');
     errorRates__btn__group.classList.add('btn-group-toggle');
-    
+
     let errorRates__input__none = document.createElement('button');
     errorRates__input__none.type = 'button';
     errorRates__input__none.name = 'options';
@@ -639,13 +662,13 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__none.classList.add('btn-outline-primary');
     errorRates__input__none.classList.add('btn-group-btn');
     errorRates__input__none.disabled = true;
-    
+
     errorRates__input__none.addEventListener('click', () => {
         errorRates__input__low.classList.remove('active');
         errorRates__input__medium.classList.remove('active');
         errorRates__input__high.classList.remove('active');
     })
-    
+
     let errorRates__input__low = document.createElement('button');
     errorRates__input__low.type = 'button';
     errorRates__input__low.name = 'options';
@@ -656,13 +679,13 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__low.classList.add('btn-outline-primary');
     errorRates__input__low.classList.add('btn-group-btn');
     errorRates__input__low.disabled = true;
-    
+
     errorRates__input__low.addEventListener('click', () => {
         errorRates__input__none.classList.remove('active');
         errorRates__input__medium.classList.remove('active');
         errorRates__input__high.classList.remove('active');
     })
-    
+
     let errorRates__input__medium = document.createElement('button');
     errorRates__input__medium.type = 'button';
     errorRates__input__medium.name = 'options';
@@ -673,13 +696,13 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__medium.classList.add('btn-outline-primary');
     errorRates__input__medium.classList.add('btn-group-btn');
     errorRates__input__medium.disabled = true;
-    
+
     errorRates__input__medium.addEventListener('click', () => {
         errorRates__input__none.classList.remove('active');
         errorRates__input__low.classList.remove('active');
         errorRates__input__high.classList.remove('active');
     })
-    
+
     let errorRates__input__high = document.createElement('button');
     errorRates__input__high.type = 'button';
     errorRates__input__high.name = 'options';
@@ -690,24 +713,24 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__input__high.classList.add('btn-outline-primary');
     errorRates__input__high.classList.add('btn-group-btn');
     errorRates__input__high.disabled = true;
-    
+
     errorRates__input__high.addEventListener('click', () => {
         errorRates__input__none.classList.remove('active');
         errorRates__input__low.classList.remove('active');
         errorRates__input__medium.classList.remove('active');
     })
-    
+
     let errorRates__input__label = document.createElement('label');
     errorRates__input__label.classList.add('form-check-label');
     errorRates__input__label.setAttribute('for', `satisfied__input__recovery__${selectedID}`)
     errorRates__input__label.innerText = 'Error rates';
     errorRates__input__label.classList.add('text-disabled');
-    
+
     errorRates__btn__group.appendChild(errorRates__input__none);
     errorRates__btn__group.appendChild(errorRates__input__low);
     errorRates__btn__group.appendChild(errorRates__input__medium);
     errorRates__btn__group.appendChild(errorRates__input__high);
-    
+
     stimulusSelectionElement.addEventListener('change', () => {
         if (stimulusSelectionElement.value === 'No response') {
             satisfied__input__recovery.disabled = !satisfied__input__recovery.disabled;
@@ -715,20 +738,20 @@ export function createResilienceTemplateView(selectedID) {
             frustrated__input__recovery.disabled = !frustrated__input__recovery.disabled;
             recoveryTime__label.classList.remove('text-disabled');
             recoveryTime__label.classList.add('text-enabled');
-            
+
             errorRates__input__none.disabled = true;
             errorRates__input__low.disabled = true;
             errorRates__input__medium.disabled = true;
             errorRates__input__high.disabled = true;
             errorRates__input__label.classList.remove('text-enabled');
             errorRates__input__label.classList.add('text-disabled');
-            
+
             satisfied__input.disabled = true;
             tolerated__input.disabled = true;
             frustrated__input.disabled = true;
             responseTime__label.classList.remove('text-enabled');
             responseTime__label.classList.add('text-disabled');
-            
+
         } else if (stimulusSelectionElement.value === 'Failed request') {
             errorRates__input__none.disabled = !errorRates__input__none.disabled;
             errorRates__input__low.disabled = !errorRates__input__low.disabled;
@@ -736,19 +759,19 @@ export function createResilienceTemplateView(selectedID) {
             errorRates__input__high.disabled = !errorRates__input__high.disabled;
             errorRates__input__label.classList.remove('text-disabled');
             errorRates__input__label.classList.add('text-enabled');
-            
+
             satisfied__input__recovery.disabled = true;
             tolerated__input__recovery.disabled = true;
             frustrated__input__recovery.disabled = true;
             recoveryTime__label.classList.remove('text-enabled');
             recoveryTime__label.classList.add('text-disabled');
-            
+
             satisfied__input.disabled = true;
             tolerated__input.disabled = true;
             frustrated__input.disabled = true;
             responseTime__label.classList.remove('text-enabled');
             responseTime__label.classList.add('text-disabled');
-            
+
         } else if (stimulusSelectionElement.value === 'Late response') {
             errorRates__input__none.disabled = true;
             errorRates__input__low.disabled = true;
@@ -756,13 +779,13 @@ export function createResilienceTemplateView(selectedID) {
             errorRates__input__high.disabled = true;
             errorRates__input__label.classList.remove('text-enabled');
             errorRates__input__label.classList.add('text-disabled');
-    
+
             satisfied__input__recovery.disabled = true;
             tolerated__input__recovery.disabled = true;
             frustrated__input__recovery.disabled = true;
             recoveryTime__label.classList.remove('text-enabled');
             recoveryTime__label.classList.add('text-disabled');
-    
+
             satisfied__input.disabled = !satisfied__input.disabled;
             tolerated__input.disabled = !tolerated__input.disabled;
             frustrated__input.disabled = !frustrated__input.disabled;
@@ -804,7 +827,7 @@ export function createResilienceTemplateView(selectedID) {
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__label);
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info);
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info_text);
-    
+
     stimulusSelection__labelContainer.appendChild(stimulusSelection__label);
     stimulusSelection__labelContainer.appendChild(stimulusSelection__info);
     stimulusSelection__labelContainer.appendChild(stimulusSelection__info_text);
@@ -816,7 +839,7 @@ export function createResilienceTemplateView(selectedID) {
 
     accuracyChildContainer.appendChild(accuracyLabelContainer);
     accuracyChildContainer.appendChild(accuracy);
-    
+
     errorRatesChildContainer.appendChild(errorRates__input__label);
     errorRatesChildContainer.appendChild(errorRates__btn__group);
 
@@ -830,23 +853,24 @@ export function createResilienceTemplateView(selectedID) {
 
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel);
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel__info);
-    
+    responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel__info_text);
+
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseTime__label);
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureBtn__group);
-    
+
     responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryTime__label);
     responseMeasureRecoveryTimeCheckboxContainerChild.appendChild(recoveryBtn__group);
-    
+
     responseMeasureCheckboxContainer.appendChild(responseMeasureRecoveryTimeCheckboxContainerChild);
     responseMeasureCheckboxContainer.appendChild(responseMeasureResponseTimeCheckboxContainerChild);
     responseMeasureCheckboxContainer.appendChild(errorRatesChildContainer);
-    
+
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
 
     stimulusSelectionChildContainer.appendChild(stimulusSelection__labelContainer);
     stimulusSelectionChildContainer.appendChild(stimulusSelectionElement);
-    
+
     checkBoxContainer.appendChild(stimulusSelectionChildContainer);
 
     executionContextScheduleContainerOfficeHours.appendChild(executionContextWorkingHoursCheckBox__label);
@@ -867,20 +891,20 @@ export function createResilienceTemplateView(selectedID) {
     resilienceTemplateViewContainer__right.appendChild(stimulusRepititionLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(stimulusOccurrence__select);
     resilienceTemplateViewContainer__right.appendChild(stimulusRepitition__invalid);
-    
+
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentLabelContainer);
     resilienceTemplateViewContainer__right.appendChild(resilienceScenarioEnvironmentSelect);
     resilienceTemplateViewContainer__right.appendChild(environment_select_information_container);
     resilienceTemplateViewContainer__right.appendChild(executionContextInformation_container);
-    
-    
+
+
     // this goes left
     resilienceTemplateViewContainer__left.appendChild(artifactValueContainer);
     resilienceTemplateViewContainer__left.appendChild(checkBoxContainer);
     resilienceTemplateViewContainer__left.appendChild(stimulusCheckBox__invalid);
-    
+
     resilienceTemplateViewContainer__left.appendChild(accuracyChildContainer);
-    
+
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckBoxLabelContainer);
     resilienceTemplateViewContainer__left.appendChild(responseMeasureCheckboxContainer);
     resilienceTemplateViewContainer__left.appendChild(responseMeasure__invalid);
