@@ -14,6 +14,11 @@ input {
 
 /* THESIS-Start */
 
+.accuracy {
+  margin: 0 0 0 2%;
+  color: grey;
+}
+
 .btn-group-btn {
   padding: 0px !important;
   width: 80px;
