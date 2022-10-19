@@ -321,6 +321,7 @@ export function createResilienceTemplateView(selectedID) {
     environment_select_information_container.style.display = 'none';
 
     let user_information = document.createElement('p');
+    user_information.classList.add('caution-text');
     user_information.innerText = 'Caution: Your scenario will be executed in the production environment. '
         + 'This may lead to users experiencing the selected stimulus, at least for the duration you specified';
 
