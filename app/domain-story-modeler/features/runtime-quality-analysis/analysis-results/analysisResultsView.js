@@ -66,12 +66,15 @@ export const createAnalysisResultsView = () => {
     let resilience__artifact;
 
     let stimulus__resilience__type;
-    let stimulus__resilience__faultObject;
-    let stimulus__resilience__expectedStatus;
-    let stimulus__resilience__duration;
+    let resilience__responseMeasure__errorRate;
+    let resilience__environment__noContext;
+    let resilience__environment__afterHours;
+    let resilience__environment__duringHours;
+    let resilience__environment__existingTest;
+    let resilience__stimulus__accuracy;
+    
     let environment__resilience__environment;
     let environment__resilience__stimuliRepetition;
-    let environment__resilience__context;
     let responseMeasure__resilience__recoveryTime;
     let responseMeasure__recoveryTime__keyValue;
     let responseMeasure__resilience__responseTime;
@@ -174,10 +177,8 @@ export const createAnalysisResultsView = () => {
                     }
 
                     if (key === 'resultMetrics') {
-                        console.log("Metrics", loadtest.resultMetrics[0]);
                         for (const [innerKey, innerValue] of Object.entries(loadtest.resultMetrics)) {
                             for(const [metricKey, metricValue] of Object.entries(innerValue)) {
-                                console.log(`${metricKey}: ${metricValue}`);
                                 if (metricValue === "Response Times") {
                                     resultMetric__loadtests__responseTimes = metricValue;
                                 }
@@ -210,14 +211,8 @@ export const createAnalysisResultsView = () => {
                             if (innerKey === 'Type') {
                                 stimulus__resilience__type = innerValue;
                             }
-                            if (innerKey === 'Fault object') {
-                                stimulus__resilience__faultObject = innerValue;
-                            }
-                            if (innerKey === 'Expected Status Code') {
-                                stimulus__resilience__expectedStatus = innerValue;
-                            }
-                            if (innerKey === 'Duration') {
-                                stimulus__resilience__duration = innerValue;
+                            if (innerKey === 'Accuracy') {
+                                resilience__stimulus__accuracy = innerValue;
                             }
                         }
                     }
@@ -230,19 +225,39 @@ export const createAnalysisResultsView = () => {
                                 environment__resilience__stimuliRepetition = innerValue;
                             }
                             if (innerKey === 'Context') {
-                                console.log(JSON.stringify(innerValue));
+                                for(const [contextKey, contextValue] of Object.entries(innerValue)) {
+                                    if(contextKey === 'NO_CONTEXT_INFORMATION') {
+                                        resilience__environment__noContext = contextValue;
+                                    }
+                                    
+                                    if(contextKey === 'Execution after office hours') {
+                                        resilience__environment__afterHours = contextValue;
+                                    }
+                                    
+                                    if(contextKey === 'Execution during office hours') {
+                                        resilience__environment__duringHours = contextValue;
+                                    }
+                                    
+                                    if(contextKey === 'Load Test') {
+                                        resilience__environment__existingTest = true;
+                                    }
+                                }
+                               
                             }
                         }
                     }
                     if (key === 'responseMeasure') {
                         for (const [innerKey, innerValue] of Object.entries(resilienceTest.responseMeasure)) {
-                            if (innerKey === 'Response Time below') {
+                            if (innerKey === 'Recovery time') {
                                 responseMeasure__resilience__recoveryTime = innerValue;
                                 responseMeasure__recoveryTime__keyValue = innerKey;
                             }
-                            if (innerKey === 'Recovery Time below') {
+                            if (innerKey === 'Response time') {
                                 responseMeasure__resilience__responseTime = innerValue;
                                 responseMeasure__responseTime__keyValue = innerKey;
+                            }
+                            if(innerKey === 'Error rate') {
+                                resilience__responseMeasure__errorRate = innerValue;
                             }
                         }
                     }
@@ -250,13 +265,15 @@ export const createAnalysisResultsView = () => {
             }
         }
     }
+    
+    console.log(resilience__responseMeasure__errorRate);
 
     if (loadtests__stimulus__loadProfile === 'Load Peak') {
         summary__loadtests.innerHTML = `We executed the <strong>${loadtests__stimulus__loadProfile}</strong> test for the artifact
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n The load peak was set to
             <strong>${loadtests__stimulus__highestLoad}</strong>. The time until the peak is reached was set to 
             <strong>${loadtests__stimulus__timeToLoadPeak}</strong>. You stated that the request's response times should be 
-            ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            <strong>${loadtests__stimulus__responseMeasure}</strong> during the loadtest in order to be succesful.
             The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`;
@@ -265,7 +282,7 @@ export const createAnalysisResultsView = () => {
         summary__loadtests.innerHTML = `We executed the <u class="underline">${loadtests__stimulus__loadProfile}</u> test for the artifact
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the type of increase to be
             <strong>${loadtests__stimulus__typeOfIncrease}</strong>. You stated that the request's response times should be 
-            ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            <strong>${loadtests__stimulus__responseMeasure}</strong> during the loadtest in order to be succesful.
             The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`;
@@ -273,7 +290,7 @@ export const createAnalysisResultsView = () => {
         summary__loadtests.innerHTML = `We executed the <strong>${loadtests__stimulus__loadProfile}</strong> test for the artifact
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the base load to be
             <strong>${loadtests__stimulus__baseLoad}</strong>.
-            You stated that the request's response times should be ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
+            You stated that the request's response times should be <strong>${loadtests__stimulus__responseMeasure}</strong> during the loadtest in order to be succesful.
             The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`
@@ -288,8 +305,6 @@ export const createAnalysisResultsView = () => {
         let summary__loadtests__results = document.createElement('span');
         summary__loadtests__results.id = `summary__loadtests__results`;
         
-        console.log(resultMetric__loadtests__responseTimes);
-
         if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyPercentile) {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Requests that fall within the 90th Percentile had a satisfiable response time!
@@ -297,25 +312,24 @@ export const createAnalysisResultsView = () => {
         } else if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyFivePercentile) {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Requests that fall within the 95th Percentile had a satisfiable response time!
-            Therefore, your system's specifications are satisfied!</u>`;
+            Therefore, your system's specifications are <strong>satisfied!</strong></u>`;
         } else if (resultMetric__loadtests__responseTimes) {   
             console.log("This should be printed");  
             summary__loadtests__results.innerHTML = 
             `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
-            Therefore, your system's specifications are satisfied!</u>`;
+            Therefore, your system's specifications are <strong>satisfied!</strong></u>`;
         
         } else if (resultMetric__loadtests__ninetyPercentile) {
             summary__loadtests__results.innerHTML =
             `<u class="underline"> Requests that fall within the 90th Percentile had a satisfiable response time!
-            Therefore, your system's specifications are still fulfilled!</u>`;
+            Therefore, your system's specifications are still <strong>satisfied!</strong></u>`;
         } else if (resultMetric__loadtests__ninetyFivePercentile) {
             summary__loadtests__results.innerHTML =
             `<u class="underline"> Requests that fall within the 95th Percentile had a satisfiable response time!
-            Therefore, your system's specifications are still fulfilled!</u>`;
+            Therefore, your system's specifications are still <strong>satisfied!</strong></u>`;
         } 
 
         summary__loadtests__container.appendChild(summary__loadtests__results);
-        console.log(summary__loadtests__container);
         resultsView__container.appendChild(summary__header__container);
         resultsView__container.appendChild(summary__loadtests__container);
     }
@@ -323,13 +337,54 @@ export const createAnalysisResultsView = () => {
     if (stimulus__resilience__type) {
         let summary__resilience__results = document.createElement('span');
 
-        summary__resilience.innerHTML = `We executed the <strong>${stimulus__resilience__type}</strong> resilience test 
-        with Chaos Toolkit in the environment <strong>${environment__resilience__environment}</strong> for <strong>${stimulus__resilience__duration}</strong>.
-        The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
-        As a response measure you specified the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue)} : ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime)}.
-        `;
+        if (resilience__environment__noContext) {
+            summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
+        using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
+        You did not specify any further contextual information.
+        The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>.
+        The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
+        As a hypothesis you stated the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")} 
+        to be ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}.
+        </br>
+        </br>`;
+        } else if (resilience__environment__afterHours && resilience__environment__duringHours) {
+            summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
+            using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
+            You stated that the test should be executed <strong>during and after office hours, i.e., from 08:00 am to 08:00 am the next day</strong>.
+            You also added <strong>existing load tests to simulate real user behavior </strong>.
+            The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
+            The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
+            As a hypothesis you stated the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")} 
+            to be ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}.
+            </br>
+            </br>`;
+        } else if (resilience__environment__afterHours) {
+            summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
+            using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
+            You stated that the test should be executed <strong>during and after office hours, i.e., after 16:00 pm</strong>.
+            You also added <strong>existing load tests to simulate real user behavior </strong>.
+            The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
+            The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
+            As a hypothesis you stated the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")} 
+            to be ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}.
+            </br>
+            </br>`;
+        } else if (resilience__environment__duringHours) {
+            summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
+            using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
+            You stated that the test should be executed <strong>during regular office hours, i.e., between 08:00 am and 16:00 pm</strong>.
+            You also added <strong>existing load tests to simulate real user behavior </strong>.
+            The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>. 
+            The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
+            As a hypothesis you stated the <strong>${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")}</strong>
+            to be <strong>${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}</strong>.
+            </br>
+            </br>`;
+        } 
 
-        summary__resilience__results.innerHTML = `Your experiment was <u class="underline">not successfull</u>!`;
+        summary__resilience__results.innerHTML = `Sadly, your experiment was <u class="underline">not successfull</u>! 
+        The hypothesis did not hold because the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")}
+        was higher than the measure you specified. :-(`;
 
         summary__header__resilience__container.appendChild(summary__header__resilience__text);
         summary__resilience__container.appendChild(summary__resilience);

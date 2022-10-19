@@ -160,8 +160,6 @@ export const saveResilienceTemplate = (selectedID) => {
                     "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
                     "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
                 };
-            } else {
-                console.log("Please provide additional environment information");
             }
 
             let getLoadTestCheckboxOneElement = document.getElementById(`loadTestOneCheckbox__input_${selectedID}`);

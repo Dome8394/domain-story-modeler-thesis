@@ -565,7 +565,7 @@ export function createResilienceTemplateView(selectedID) {
     satisfied__input__recovery.classList.add('btn');
     satisfied__input__recovery.classList.add('btn-outline-primary');
     satisfied__input__recovery.classList.add('btn-group-btn');
-    satisfied__input__recovery.disabled = true;
+    satisfied__input__recovery.disabled = false;
     
     satisfied__input__recovery.addEventListener('click', () => {
         tolerated__input__recovery.classList.remove('active');
@@ -581,7 +581,7 @@ export function createResilienceTemplateView(selectedID) {
     tolerated__input__recovery.classList.add('btn');
     tolerated__input__recovery.classList.add('btn-outline-primary');
     tolerated__input__recovery.classList.add('btn-group-btn');
-    tolerated__input__recovery.disabled = true;
+    tolerated__input__recovery.disabled = false;
     
     tolerated__input__recovery.addEventListener('click', () => {
         satisfied__input__recovery.classList.remove('active');
@@ -597,7 +597,7 @@ export function createResilienceTemplateView(selectedID) {
     frustrated__input__recovery.classList.add('btn');
     frustrated__input__recovery.classList.add('btn-outline-primary');
     frustrated__input__recovery.classList.add('btn-group-btn');
-    frustrated__input__recovery.disabled = true;
+    frustrated__input__recovery.disabled = false;
 
     frustrated__input__recovery.addEventListener('click', () => {
         satisfied__input__recovery.classList.remove('active');
@@ -608,7 +608,7 @@ export function createResilienceTemplateView(selectedID) {
     recoveryTime__label.classList.add('form-check-label');
     recoveryTime__label.setAttribute('for', `satisfied__input__recovery__${selectedID}`)
     recoveryTime__label.innerText = 'Recovery time';
-    recoveryTime__label.classList.add('text-disabled');
+    recoveryTime__label.classList.add('text-enabled');
 
     recoveryBtn__group.appendChild(satisfied__input__recovery);
     recoveryBtn__group.appendChild(tolerated__input__recovery);
