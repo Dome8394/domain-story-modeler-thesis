@@ -1,42 +1,13 @@
 import { createToastNotification } from "../util/notifications";
+
 export const createAnalysisResultsView = () => {
     let getSummaryContainer = document.getElementById('runtimeAnalysisSummaryContainer');
     let getResultsModal = document.getElementById('results_modal');
 
-    let results__close__btn = document.createElement('button');
-    results__close__btn.classList.add('btn');
-    results__close__btn.classList.add('btn-secondary');
-    results__close__btn.classList.add('custom-btn');
-    results__close__btn.innerText = 'Close';
-
-    let results__btn__container = document.createElement('div');
-    results__btn__container.id = 'results__btn__container';
-
+    
+    
     let breakEle = document.createElement('br');
-
-
-    if (!document.getElementById('results__btn__container')) {
-        let results__btn = document.createElement('button');
-        results__btn.id = 'results__btn';
-        results__btn.classList.add('btn');
-        results__btn.classList.add('btn-success');
-        results__btn.classList.add('custom-button');
-        results__btn.innerText = 'Show results';
-
-        results__btn.addEventListener('click', () => {
-            getResultsModal.style.display = 'block';
-            console.log(getResultsModal);
-            console.log(document.getElementById('results__modal__content'));
-        });
-
-        results__btn__container.appendChild(results__btn);
-    }
-
-
-    results__close__btn.addEventListener('click', () => {
-        getResultsModal.style.display = 'none';
-    });
-
+    
     let results__modal__content = document.createElement('div');
     results__modal__content.id = 'results__modal__content';
     results__modal__content.classList.add('modal__container__content');
@@ -47,7 +18,36 @@ export const createAnalysisResultsView = () => {
     let summary__header__container = document.createElement('div');
     summary__header__container.id = 'summary__header__container';
     summary__header__container.classList.add('label-container');
+    
+    let results__btn__container = document.createElement('div');
+    results__btn__container.id = 'results__btn__container';
+    
+    let results__close__btn = document.createElement('button');
+    results__close__btn.classList.add('btn');
+    results__close__btn.classList.add('btn-secondary');
+    results__close__btn.classList.add('custom-btn');
+    results__close__btn.innerText = 'Close';
+    
+    let results__btn = document.createElement('button');
+    results__btn.id = 'results__btn';
+    results__btn.classList.add('btn');
+    results__btn.classList.add('btn-success');
+    results__btn.classList.add('custom-button');
+    results__btn.innerText = 'Show results';
 
+    results__btn.addEventListener('click', () => {
+        getResultsModal.style.display = 'block';
+        console.log(getResultsModal);
+        console.log(document.getElementById('results__modal__content'));
+    });
+
+    results__close__btn.addEventListener('click', () => {
+        getResultsModal.style.display = 'none';
+    });
+    
+    results__btn__container.appendChild(results__btn);
+    
+    
     /**
      * Resilience related HTML elements
      */
@@ -98,7 +98,7 @@ export const createAnalysisResultsView = () => {
 
     let loadtests__stimulus__artifact;
 
-    let stimulus__loadtests__accuracy;
+    let loadtests__stimulus__accuracy;
 
     let loadtests__stimulus__highestLoad;
 
@@ -128,12 +128,12 @@ export const createAnalysisResultsView = () => {
          */
         if (parsedResults.loadtest) {
             const loadtest = parsedResults.loadtest[0];
-
+            console.log(loadtest);
             if (loadtest) {
 
                 for (const [key, value] of Object.entries(loadtest)) {
                     if (key === 'artifact') {
-                        stimulus__loadtests__artifact = value;
+                        loadtests__stimulus__artifact = value;
                     }
                     if (key === 'stimulus') {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
@@ -141,7 +141,7 @@ export const createAnalysisResultsView = () => {
                                 loadtests__stimulus__highestLoad = innerValue;
                             }
 
-                            if (innerKey === 'Load profile') {
+                            if (innerKey === 'Load Profile') {
                                 loadtests__stimulus__loadProfile = innerValue;
                             }
 
@@ -160,9 +160,9 @@ export const createAnalysisResultsView = () => {
                     }
 
                     if (key === 'environment') {
-                        for (const [innerKey, innerValue] of Object.entries(loadtest.stimulus)) {
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.environment)) {
                             if (innerKey === 'Accuracy') {
-                                stimulus__loadtests__accuracy = innerValue;
+                                loadtests__stimulus__accuracy = innerValue;
                             }
                         }
                     }
@@ -174,18 +174,21 @@ export const createAnalysisResultsView = () => {
                     }
 
                     if (key === 'resultMetrics') {
-                        let metrics = key[0];
-                        for (const [metricKey, metricValue] of Object.entries(metrics)) {
-                            if (metricValue === "Response Times") {
-                                resultMetric__loadtests__responseTimes = metricValue;
-                            }
-
-                            if (metricValue === "90th Percentile") {
-                                resultMetric__loadtests__ninetyPercentile = metricValue;
-                            }
-
-                            if (metricKey === "95th Percentile") {
-                                resultMetric__loadtests__ninetyFivePercentile = metricValue;
+                        console.log("Metrics", loadtest.resultMetrics[0]);
+                        for (const [innerKey, innerValue] of Object.entries(loadtest.resultMetrics)) {
+                            for(const [metricKey, metricValue] of Object.entries(innerValue)) {
+                                console.log(`${metricKey}: ${metricValue}`);
+                                if (metricValue === "Response Times") {
+                                    resultMetric__loadtests__responseTimes = metricValue;
+                                }
+    
+                                if (metricValue === "90th Percentile") {
+                                    resultMetric__loadtests__ninetyPercentile = metricValue;
+                                }
+    
+                                if (metricKey === "95th Percentile") {
+                                    resultMetric__loadtests__ninetyFivePercentile = metricValue;
+                                }
                             }
                         }
                     }
@@ -254,7 +257,7 @@ export const createAnalysisResultsView = () => {
             <strong>${loadtests__stimulus__highestLoad}</strong>. The time until the peak is reached was set to 
             <strong>${loadtests__stimulus__timeToLoadPeak}</strong>. You stated that the request's response times should be 
             ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
-            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`;
             
@@ -263,7 +266,7 @@ export const createAnalysisResultsView = () => {
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the type of increase to be
             <strong>${loadtests__stimulus__typeOfIncrease}</strong>. You stated that the request's response times should be 
             ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
-            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`;
     } else {
@@ -271,7 +274,7 @@ export const createAnalysisResultsView = () => {
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the base load to be
             <strong>${loadtests__stimulus__baseLoad}</strong>.
             You stated that the request's response times should be ${loadtests__stimulus__responseMeasure} during the loadtest in order to be succesful.
-            The test results should have an Accuracy of <strong>${stimulus__loadtests__accuracy}</strong>.
+            The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`
     }
@@ -281,9 +284,11 @@ export const createAnalysisResultsView = () => {
         summary__loadtests__container.appendChild(summary__loadtests);
         summary__loadtests__container.appendChild(breakEle);
         summary__loadtests__container.appendChild(breakEle);
-        summary__loadtests__container.appendChild(breakEle);
 
         let summary__loadtests__results = document.createElement('span');
+        summary__loadtests__results.id = `summary__loadtests__results`;
+        
+        console.log(resultMetric__loadtests__responseTimes);
 
         if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyPercentile) {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
@@ -293,7 +298,8 @@ export const createAnalysisResultsView = () => {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Requests that fall within the 95th Percentile had a satisfiable response time!
             Therefore, your system's specifications are satisfied!</u>`;
-        } else if (resultMetric__loadtests__responseTimes) {     
+        } else if (resultMetric__loadtests__responseTimes) {   
+            console.log("This should be printed");  
             summary__loadtests__results.innerHTML = 
             `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Therefore, your system's specifications are satisfied!</u>`;
@@ -309,6 +315,7 @@ export const createAnalysisResultsView = () => {
         } 
 
         summary__loadtests__container.appendChild(summary__loadtests__results);
+        console.log(summary__loadtests__container);
         resultsView__container.appendChild(summary__header__container);
         resultsView__container.appendChild(summary__loadtests__container);
     }
@@ -331,13 +338,20 @@ export const createAnalysisResultsView = () => {
         resultsView__container.appendChild(summary__header__resilience__container);
         resultsView__container.appendChild(summary__resilience__container);
     }
-
-    results__modal__content.appendChild(resultsView__container);
-    results__modal__content.appendChild(results__close__btn);
-    getResultsModal.appendChild(results__modal__content);
-    getSummaryContainer.appendChild(results__btn__container);
+    
+    if (getSummaryContainer.children.length <= 2) {
+        results__modal__content.appendChild(resultsView__container);
+        results__modal__content.appendChild(results__close__btn);
+        getResultsModal.appendChild(results__modal__content);
+        getSummaryContainer.appendChild(results__btn__container);
+    } else {
+        results__modal__content.appendChild(resultsView__container);
+        results__modal__content.appendChild(results__close__btn);
+    }
 
     createToastNotification("Your test results arrived!", "success");
+    
+
 };
 
 /**

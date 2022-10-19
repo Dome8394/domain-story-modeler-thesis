@@ -159,42 +159,48 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         if (getResultResponseTime && getResultNinetyPercentile && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "Response Times" },
-                    { "Metric": "90th Percentile" },
-                    { "Metric": "95th Percentile" }
+                    "Response Times",
+                    "90th Percentile",
+                    "95th Percentile"
                 ]
             }
         } else if (getResultResponseTime && getResultNinetyPercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "Response Times" },
-                    { "Metric": "90th Percentile" }
+                    "Response Times",
+                    "90th Percentile"
                 ]
             }
         } else if (getResultResponseTime && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "Response Times" },
-                    { "Metric": "95th Percentile" }
+                    "Response Times",
+                    "95th Percentile"
                 ]
             }
         } else if (getResultNinetyPercentile && getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "90th Percentile" },
-                    { "Metric": "95th Percentile" }
+                    "90th Percentile",
+                    "95th Percentile"
                 ]
             }
         } else if (getResultNinetyPercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "90th Percentile" },
+                    "90th Percentile",
                 ]
             }
         } else if (getResultNinetyFivePercentile) {
             resultMetrics = {
                 "Result Metric includes": [
-                    { "Metric": "90th Percentile" },
+                    "95th Percentile",
+                ]
+            }
+        } else if (getResultResponseTime) {
+            resultMetrics = {
+                "Result Metric includes": [
+                   "Response Times"
                 ]
             }
         }
@@ -207,6 +213,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             return;
         }
 
+        console.log(resultMetrics);
         const newLoadTestTemplateObj = new LoadTestTemplate(
             artifact,
             stimulus,
