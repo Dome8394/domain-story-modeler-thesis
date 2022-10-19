@@ -1,10 +1,16 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
 import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
 import {
-    INFO_DESCRIPTION,
-    INFO_DURATION,
-    INFO_NUMBER_USERS,
-    LOADTEST_DURATION_INFO, LOADTEST_NUMBER_OF_SIMULATED_REQUESTS_INFO
+    INFO_ACCURACY,
+    LOADTEST_DURATION_INFO, 
+    INFO_RESPONSE_MEASURE,
+    INFO_STIMULUS,
+    INFO_LOAD_DESIGN,
+    INFO_HIGHEST_LOAD,
+    INFO_TIME_TO_HIGHEST_LOAD,
+    INFO_TYPE_OF_INCREASE,
+    INFO_BASE_LOAD,
+    INFO_RESULT_METRICS
 } from '../RuntimeAnalysisConstants';
 import { createDisabledGenerateBtn } from '../generateTemplateObject';
 
@@ -158,7 +164,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let stimulusSelection__info_text = document.createElement('span');
     stimulusSelection__info_text.classList.add('tooltipText');
     stimulusSelection__info_text.id = `stimulusSelection__info_text_${selectedID}`
-    stimulusSelection__info_text.innerText = '';
+    stimulusSelection__info_text.innerText = INFO_STIMULUS;
 
     let stimulusParentContainer = document.createElement('div');
     stimulusParentContainer.classList.add('checkbox-parent');
@@ -291,7 +297,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let stimulusResponseTime__info_text = document.createElement('span');
     stimulusResponseTime__info_text.classList.add('tooltipText');
     stimulusResponseTime__info_text.id = `stimulusResponseTime__info_text_${selectedID}`
-    stimulusResponseTime__info_text.innerText = 'Response Measure...';
+    stimulusResponseTime__info_text.innerText = INFO_RESPONSE_MEASURE;
     
     let responseTimes__btnGroup = document.createElement('div');
     responseTimes__btnGroup.setAttribute('data-toggle', 'buttons');
@@ -435,7 +441,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let timeToHighestLoad__info_text = document.createElement('span');
     timeToHighestLoad__info_text.classList.add('tooltipText');
     timeToHighestLoad__info_text.id = `timeToHighestLoad__info_text_${selectedID}`
-    timeToHighestLoad__info_text.innerText = 'Time to Highest Load...';
+    timeToHighestLoad__info_text.innerText = INFO_TIME_TO_HIGHEST_LOAD;
 
     let simulatedLoad__reference__value = document.createElement('p');
     simulatedLoad__reference__value.classList.add('reference-values');
@@ -560,7 +566,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let loadDesignParent__info_text = document.createElement('span');
     loadDesignParent__info_text.classList.add('tooltipText');
     loadDesignParent__info_text.id = `loadDesignParent__info_text_${selectedID}`
-    loadDesignParent__info_text.innerText = 'Load Design...';
+    loadDesignParent__info_text.innerText = INFO_LOAD_DESIGN;
     
     let highestLoad__parentContainer__label__container = document.createElement('div');
     highestLoad__parentContainer__label__container.classList.add('label-container');
@@ -586,7 +592,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let highestLoad__info_text = document.createElement('span');
     highestLoad__info_text.classList.add('tooltipText');
     highestLoad__info_text.id = `highestLoad__info_text_${selectedID}`
-    highestLoad__info_text.innerText = 'Highest Load...';
+    highestLoad__info_text.innerText = INFO_HIGHEST_LOAD;
 
     let stimulusResponseTimes__label = document.createElement('label');
     stimulusResponseTimes__label.setAttribute('for', `responseTimes__satisfiedBtn_${selectedID}`);
@@ -675,7 +681,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
 
     let accuracy__label_info_text = document.createElement('span');
     accuracy__label_info_text.classList.add('tooltipText');
-    accuracy__label_info_text.innerText = INFO_DURATION;
+    accuracy__label_info_text.innerText = INFO_ACCURACY;
     
     let containerConstantLoad__label__container = document.createElement('div');
     containerConstantLoad__label__container.classList.add('label-container');
@@ -728,7 +734,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let loadIncrease__info_text = document.createElement('span');
     loadIncrease__info_text.classList.add('tooltipText');
     loadIncrease__info_text.id = `loadIncrease__info_text_${selectedID}`
-    loadIncrease__info_text.innerText = 'Type of increase...';
+    loadIncrease__info_text.innerText = INFO_TYPE_OF_INCREASE;
     
     let baseLoad__label__container = document.createElement('div');
     baseLoad__label__container.classList.add('label-container');
@@ -816,7 +822,7 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     let baseLoad__info_text = document.createElement('span');
     baseLoad__info_text.classList.add('tooltipText');
     baseLoad__info_text.id = `baseLoad__info_text_${selectedID}`
-    baseLoad__info_text.innerText = 'Base load...';
+    baseLoad__info_text.innerText = INFO_BASE_LOAD;
 
 
     /**
@@ -872,8 +878,8 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     stimulusResponseTimeChildContainer__label__container.appendChild(stimulusResponseTime__info_text);
 
     stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__label);
-    stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info);
-    stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info_text);
+    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info);
+    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info_text);
     
     stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__child__label__container);
     stimulusResponseTimesChildContainer.appendChild(responseTimes__btnGroup);
@@ -953,7 +959,7 @@ const createAndAppendResultViewMetrics = (selectedID) => {
     let resultViewMetrics__info_text = document.createElement('span');
     resultViewMetrics__info_text.classList.add('tooltipText');
     resultViewMetrics__info_text.id = `resultViewMetrics__info_text_${selectedID}`
-    resultViewMetrics__info_text.innerText = 'Metrics...';
+    resultViewMetrics__info_text.innerText = INFO_RESULT_METRICS;
 
     let responseTimeChildContainer = document.createElement('div');
     responseTimeChildContainer.classList.add('checkbox-child');
