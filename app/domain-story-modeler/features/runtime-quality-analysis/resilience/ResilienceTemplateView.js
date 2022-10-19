@@ -235,8 +235,29 @@ export function createResilienceTemplateView(selectedID) {
     checkBoxContainer.id = 'checkBoxContainerstimulus';
     checkBoxContainer.classList.add('checkbox-parent');
     
+    let stimulusSelection__labelContainer = document.createElement('div');
+    stimulusSelection__labelContainer.classList.add('label-container');
+    
     let stimulusSelectionChildContainer = document.createElement('div');
     stimulusSelectionChildContainer.classList.add('checkbox-child');
+    
+    let stimulusSelection__info = document.createElement('i');
+    stimulusSelection__info.classList.add('bi');
+    stimulusSelection__info.classList.add('bi-info-circle');
+    stimulusSelection__info.classList.add('toolTip');
+
+    stimulusSelection__info.addEventListener('mouseover', () => {
+        stimulusSelection__info_text.style.display = 'block';
+    });
+
+    stimulusSelection__info.addEventListener('mouseleave', () => {
+        stimulusSelection__info_text.style.display = 'none';
+    })
+
+    let stimulusSelection__info_text = document.createElement('span');
+    stimulusSelection__info_text.classList.add('tooltipText');
+    stimulusSelection__info_text.id = `stimulusRepitition_${selectedID}_info_text`
+    stimulusSelection__info_text.innerText = INFO_TYPE_OF_FAILURE;
     
     let stimulusSelectionElement = document.createElement('select');
     stimulusSelectionElement.id = `stimulusSelectionElement_${selectedID}`;
@@ -261,23 +282,6 @@ export function createResilienceTemplateView(selectedID) {
     stimulusSelectionElement.appendChild(selection__noResponse);
     stimulusSelectionElement.appendChild(selection__otherThan);
     stimulusSelectionElement.appendChild(selection__laterThan);
-
-    let stimulusCheckBox__label_info = document.createElement('i');
-    stimulusCheckBox__label_info.classList.add('bi');
-    stimulusCheckBox__label_info.classList.add('bi-info-circle');
-    stimulusCheckBox__label_info.classList.add('toolTip');
-
-    stimulusCheckBox__label_info.addEventListener('mouseover', () => {
-        stimulusCheckBox__label_info_text.style.display = 'block';
-    });
-
-    stimulusCheckBox__label_info.addEventListener('mouseleave', () => {
-        stimulusCheckBox__label_info_text.style.display = 'none';
-    });
-
-    let stimulusCheckBox__label_info_text = document.createElement('span');
-    stimulusCheckBox__label_info_text.classList.add('tooltipText');
-    stimulusCheckBox__label_info_text.innerText = INFO_TYPE_OF_FAILURE;
 
     let resilienceScenarioEnvironmentSelect = document.createElement('select');
     resilienceScenarioEnvironmentSelect.id = `resilienceScenarioEnvironmentTypeSelect_${selectedID}`;
@@ -800,6 +804,10 @@ export function createResilienceTemplateView(selectedID) {
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__label);
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info);
     stimulusRepititionLabelContainer.appendChild(stimulusRepitition__info_text);
+    
+    stimulusSelection__labelContainer.appendChild(stimulusSelection__label);
+    stimulusSelection__labelContainer.appendChild(stimulusSelection__info);
+    stimulusSelection__labelContainer.appendChild(stimulusSelection__info_text);
 
     accuracyLabelContainer.appendChild(accuracy__label);
     accuracyLabelContainer.appendChild(accuracy__label_info);
@@ -822,7 +830,6 @@ export function createResilienceTemplateView(selectedID) {
 
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel);
     responseMeasureCheckBoxLabelContainer.appendChild(responseMeasureCheckboxLabel__info);
-    // TODO info text element
     
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseTime__label);
     responseMeasureResponseTimeCheckboxContainerChild.appendChild(responseMeasureBtn__group);
@@ -837,7 +844,7 @@ export function createResilienceTemplateView(selectedID) {
     artifactValueContainer.appendChild(artifactDescriptor);
     artifactValueContainer.appendChild(artifactValue);
 
-    stimulusSelectionChildContainer.appendChild(stimulusSelection__label);
+    stimulusSelectionChildContainer.appendChild(stimulusSelection__labelContainer);
     stimulusSelectionChildContainer.appendChild(stimulusSelectionElement);
     
     checkBoxContainer.appendChild(stimulusSelectionChildContainer);

@@ -143,7 +143,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       }
       addInputFields(actions, element);
       addLoadTest(actions);
-      addMonitoring(actions);
+      // addMonitoring(actions);
       
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
@@ -160,7 +160,7 @@ export default function DomainStoryContextPadProvider(injector, connect, transla
       }
       addInputFields(actions, element);
       addLoadTest(actions);
-      addMonitoring(actions);
+      // addMonitoring(actions);´`
       
       addConnectWithActivity(actions, startConnect);
       addTextAnnotation(actions);
