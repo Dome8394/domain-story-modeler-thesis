@@ -142,7 +142,7 @@ input {
 }
 
 .runtime-quality-analysis-info-container {
-  width: 50%;
+  width: 500px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

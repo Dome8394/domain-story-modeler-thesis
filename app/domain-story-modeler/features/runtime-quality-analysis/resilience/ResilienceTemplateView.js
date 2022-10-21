@@ -37,11 +37,9 @@ const clearRemovedRuntimeAnalysisViews = () => {
 const checkIfTemplateComplete = (selectedID) => {
     let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
     let accuracy = accuracyElement.value;
-
-    let stimulusCheckBoxElement = document.getElementById(`stimulusCheckBox_${selectedID}`);
-    let stimulusCheckBoxElementValue = stimulusCheckBoxElement.checked;
-    if (!accuracy || !stimulusCheckBoxElementValue) {
-        getNodeRectElementAndSetColor(selectedID, false, 'Resilience Template');
+    
+    if (!accuracy) {
+        getNodeRectElementAndSetColor(selectedID, false, 'failure');
     }
 }
 

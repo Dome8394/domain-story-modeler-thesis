@@ -276,7 +276,7 @@ export const saveResilienceTemplate = (selectedID) => {
         }
 
         getNodeRectElementAndSetColor(selectedID, true, 'Resilience Template');
-        createToastNotification("Your specification has been saved!", 'success');
+        createToastNotification("Your test has been saved! You may now execute your test!", 'success');
         resilienceTemplateModal.style.display = 'none';
     }
 
