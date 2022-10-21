@@ -7,7 +7,7 @@ export const createDisabledGenerateBtn = () => {
     generateButtonContainer.id = 'generateButtonContainer';
     
     let generateAndPush__btn = document.createElement('button');
-    generateAndPush__btn.innerText = 'Generate & Push';
+    generateAndPush__btn.innerText = 'Execute';
     generateAndPush__btn.classList.add('btn');
     generateAndPush__btn.classList.add('btn-primary');
     generateAndPush__btn.classList.add('custom-button');
@@ -16,7 +16,7 @@ export const createDisabledGenerateBtn = () => {
 
     generateAndPush__btn.addEventListener('click', () => {
         console.log("Create object from template and push to queue...");
-        createToastNotification("Congrats! Your test has been generated. Wait for your results to arrive!", "Template complete");
+        createToastNotification("Congrats! Your test is about to be executed. Wait for your results to arrive!", "success");
         setTimeout(() => {
             createAnalysisResultsView();
         }, 5000)

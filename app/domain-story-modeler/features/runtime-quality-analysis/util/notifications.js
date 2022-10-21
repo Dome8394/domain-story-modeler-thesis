@@ -90,7 +90,7 @@ export const createToastNotification = (message, type) => {
         $(`#toastBase__container_failure`).toast("show");
 
         $('#toastBase__container_failure').on('hidden.bs.toast', function () {
-            toastBase__container_failure.remove();
+            toastBase__container.remove();
         })
     }
 }

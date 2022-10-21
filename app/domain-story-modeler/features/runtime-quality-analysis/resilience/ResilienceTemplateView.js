@@ -280,7 +280,7 @@ export function createResilienceTemplateView(selectedID) {
 
     let selection__noResponse = document.createElement('option');
     selection__noResponse.key = 'no__response';
-    selection__noResponse.text = 'No response';
+    selection__noResponse.text = 'Unavailable';
 
     let selection__otherThan = document.createElement('option');
     selection__otherThan.key = 'other__than';
