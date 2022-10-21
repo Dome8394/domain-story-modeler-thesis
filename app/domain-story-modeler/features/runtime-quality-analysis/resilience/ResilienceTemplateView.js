@@ -38,7 +38,7 @@ const checkIfTemplateComplete = (selectedID) => {
     let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
     let accuracy = accuracyElement.value;
     
-    if (!accuracy) {
+    if (!accuracy <= 0) {
         getNodeRectElementAndSetColor(selectedID, false, 'failure');
     }
 }

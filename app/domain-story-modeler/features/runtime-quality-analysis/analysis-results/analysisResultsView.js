@@ -4,10 +4,10 @@ export const createAnalysisResultsView = () => {
     let getSummaryContainer = document.getElementById('runtimeAnalysisSummaryContainer');
     let getResultsModal = document.getElementById('results_modal');
 
-    
-    
+
+
     let breakEle = document.createElement('br');
-    
+
     let results__modal__content = document.createElement('div');
     results__modal__content.id = 'results__modal__content';
     results__modal__content.classList.add('modal__container__content');
@@ -18,16 +18,16 @@ export const createAnalysisResultsView = () => {
     let summary__header__container = document.createElement('div');
     summary__header__container.id = 'summary__header__container';
     summary__header__container.classList.add('label-container');
-    
+
     let results__btn__container = document.createElement('div');
     results__btn__container.id = 'results__btn__container';
-    
+
     let results__close__btn = document.createElement('button');
     results__close__btn.classList.add('btn');
     results__close__btn.classList.add('btn-secondary');
     results__close__btn.classList.add('custom-btn');
     results__close__btn.innerText = 'Close';
-    
+
     let results__btn = document.createElement('button');
     results__btn.id = 'results__btn';
     results__btn.classList.add('btn');
@@ -44,10 +44,10 @@ export const createAnalysisResultsView = () => {
     results__close__btn.addEventListener('click', () => {
         getResultsModal.style.display = 'none';
     });
-    
+
     results__btn__container.appendChild(results__btn);
-    
-    
+
+
     /**
      * Resilience related HTML elements
      */
@@ -72,7 +72,7 @@ export const createAnalysisResultsView = () => {
     let resilience__environment__duringHours;
     let resilience__environment__existingTest;
     let resilience__stimulus__accuracy;
-    
+
     let environment__resilience__environment;
     let environment__resilience__stimuliRepetition;
     let responseMeasure__resilience__recoveryTime;
@@ -94,9 +94,9 @@ export const createAnalysisResultsView = () => {
     summary__loadtests__container.id = 'summary__loadtests__container';
 
     let loadtests__stimulus__loadProfile;
-    
+
     let loadtests__stimulus__typeOfIncrease;
-    
+
     let loadtests__stimulus__baseLoad;
 
     let loadtests__stimulus__artifact;
@@ -151,12 +151,12 @@ export const createAnalysisResultsView = () => {
                             if (innerKey === 'Time to Highest Load') {
                                 loadtests__stimulus__timeToLoadPeak = innerValue;
                             }
-                            
-                            if(innerKey === 'Type of Increase') {
+
+                            if (innerKey === 'Type of Increase') {
                                 loadtests__stimulus__typeOfIncrease = innerValue;
                             }
-                            
-                            if(innerKey === 'Base Load') {
+
+                            if (innerKey === 'Base Load') {
                                 loadtests__stimulus__baseLoad = innerValue;
                             }
                         }
@@ -178,15 +178,15 @@ export const createAnalysisResultsView = () => {
 
                     if (key === 'resultMetrics') {
                         for (const [innerKey, innerValue] of Object.entries(loadtest.resultMetrics)) {
-                            for(const [metricKey, metricValue] of Object.entries(innerValue)) {
+                            for (const [metricKey, metricValue] of Object.entries(innerValue)) {
                                 if (metricValue === "Response Times") {
                                     resultMetric__loadtests__responseTimes = metricValue;
                                 }
-    
+
                                 if (metricValue === "90th Percentile") {
                                     resultMetric__loadtests__ninetyPercentile = metricValue;
                                 }
-    
+
                                 if (metricKey === "95th Percentile") {
                                     resultMetric__loadtests__ninetyFivePercentile = metricValue;
                                 }
@@ -225,24 +225,24 @@ export const createAnalysisResultsView = () => {
                                 environment__resilience__stimuliRepetition = innerValue;
                             }
                             if (innerKey === 'Context') {
-                                for(const [contextKey, contextValue] of Object.entries(innerValue)) {
-                                    if(contextKey === 'NO_CONTEXT_INFORMATION') {
+                                for (const [contextKey, contextValue] of Object.entries(innerValue)) {
+                                    if (contextKey === 'NO_CONTEXT_INFORMATION') {
                                         resilience__environment__noContext = contextValue;
                                     }
-                                    
-                                    if(contextKey === 'Execution after office hours') {
+
+                                    if (contextKey === 'Execution after office hours') {
                                         resilience__environment__afterHours = contextValue;
                                     }
-                                    
-                                    if(contextKey === 'Execution during office hours') {
+
+                                    if (contextKey === 'Execution during office hours') {
                                         resilience__environment__duringHours = contextValue;
                                     }
-                                    
-                                    if(contextKey === 'Load Test') {
+
+                                    if (contextKey === 'Load Test') {
                                         resilience__environment__existingTest = true;
                                     }
                                 }
-                               
+
                             }
                         }
                     }
@@ -256,7 +256,7 @@ export const createAnalysisResultsView = () => {
                                 responseMeasure__resilience__responseTime = innerValue;
                                 responseMeasure__responseTime__keyValue = innerKey;
                             }
-                            if(innerKey === 'Error rate') {
+                            if (innerKey === 'Error rate') {
                                 resilience__responseMeasure__errorRate = innerValue;
                             }
                         }
@@ -265,7 +265,7 @@ export const createAnalysisResultsView = () => {
             }
         }
     }
-    
+
     console.log(resilience__responseMeasure__errorRate);
 
     if (loadtests__stimulus__loadProfile === 'Load Peak') {
@@ -277,7 +277,7 @@ export const createAnalysisResultsView = () => {
             The test results should have an Accuracy of <strong>${loadtests__stimulus__accuracy}</strong>.
             </br>
             </br>`;
-            
+
     } else if (loadtests__stimulus__loadProfile === 'Load Increase') {
         summary__loadtests.innerHTML = `We executed the <u class="underline">${loadtests__stimulus__loadProfile}</u> test for the artifact
             <strong>${loadtests__stimulus__artifact}</strong> with the tool JMeter. \n You specified the type of increase to be
@@ -304,7 +304,7 @@ export const createAnalysisResultsView = () => {
 
         let summary__loadtests__results = document.createElement('span');
         summary__loadtests__results.id = `summary__loadtests__results`;
-        
+
         if (resultMetric__loadtests__responseTimes && resultMetric__loadtests__ninetyPercentile) {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Requests that fall within the 90th Percentile had a satisfiable response time!
@@ -313,40 +313,45 @@ export const createAnalysisResultsView = () => {
             summary__loadtests__results.innerHTML = `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Requests that fall within the 95th Percentile had a satisfiable response time!
             Therefore, your system's specifications are <strong>satisfied!</strong></u>`;
-        } else if (resultMetric__loadtests__responseTimes) {   
-            console.log("This should be printed");  
-            summary__loadtests__results.innerHTML = 
-            `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
+        } else if (resultMetric__loadtests__responseTimes) {
+            console.log("This should be printed");
+            summary__loadtests__results.innerHTML =
+                `<u class="underline"> The calculated average response time of the load test was 2x faster than the specified threshold!
             Therefore, your system's specifications are <strong>satisfied!</strong></u>`;
-        
+
         } else if (resultMetric__loadtests__ninetyPercentile) {
             summary__loadtests__results.innerHTML =
-            `<u class="underline"> Requests that fall within the 90th Percentile had a satisfiable response time!
+                `<u class="underline"> Requests that fall within the 90th Percentile had a satisfiable response time!
             Therefore, your system's specifications are still <strong>satisfied!</strong></u>`;
         } else if (resultMetric__loadtests__ninetyFivePercentile) {
             summary__loadtests__results.innerHTML =
-            `<u class="underline"> Requests that fall within the 95th Percentile had a satisfiable response time!
+                `<u class="underline"> Requests that fall within the 95th Percentile had a satisfiable response time!
             Therefore, your system's specifications are still <strong>satisfied!</strong></u>`;
-        } 
+        }
 
         summary__loadtests__container.appendChild(summary__loadtests__results);
         resultsView__container.appendChild(summary__header__container);
         resultsView__container.appendChild(summary__loadtests__container);
+
+        localStorage.removeItem('runtimeQualityAnalysis');
     }
 
     if (stimulus__resilience__type) {
         let summary__resilience__results = document.createElement('span');
 
+
         if (resilience__environment__noContext) {
+
             summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
-        using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
-        You did not specify any further contextual information.
-        The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>.
-        The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
-        As a hypothesis you stated the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")} 
-        to be ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}.
-        </br>
-        </br>`;
+            using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
+            You did not specify any further contextual information.
+            The stimulus was repeated <strong>${environment__resilience__stimuliRepetition}</strong>.
+            The test results should have an Accuracy of <strong>${resilience__stimulus__accuracy}</strong>.
+            As a hypothesis you stated the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")} 
+            to be ${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}.
+            </br>
+            </br>`;
+
         } else if (resilience__environment__afterHours && resilience__environment__duringHours) {
             summary__resilience.innerHTML = `We executed the resilience test with the stimulus <strong>${stimulus__resilience__type}</strong> 
             using Chaos Toolkit, in the environment <strong>${environment__resilience__environment}</strong>.
@@ -380,11 +385,21 @@ export const createAnalysisResultsView = () => {
             to be <strong>${(responseMeasure__resilience__recoveryTime || responseMeasure__resilience__responseTime || resilience__responseMeasure__errorRate)}</strong>.
             </br>
             </br>`;
-        } 
+        }
+        
+        if (resilience__responseMeasure__errorRate === 'Low' && resilience__environment__noContext) {
+            summary__resilience__results.innerHTML = `Oh no. It looks like your actual error rate is above the threshold you specified! :-(
+                    You specified the error rate to be ${resilience__responseMeasure__errorRate} which means that 5% of requests are allowed to fail
+                    at most. However, the actual error rate was slightly higher at 6.25%.`;
+        } else if (resilience__responseMeasure__errorRate != 'Low' && resilience__environment__noContext) {
+            summary__resilience__results.innerHTML = `Congrats! The artifact's (${resilience__artifact}) error rate is below
+                    the threshold you specified! The actual error rate was 4.2%! :-)`;
+        } else {
+            summary__resilience__results.innerHTML = `Sadly, your experiment was <u class="underline">not successfull</u>! 
+            The hypothesis did not hold because the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")}
+            was higher than the measure you specified. :-(`;
+        }
 
-        summary__resilience__results.innerHTML = `Sadly, your experiment was <u class="underline">not successfull</u>! 
-        The hypothesis did not hold because the ${(responseMeasure__recoveryTime__keyValue || responseMeasure__responseTime__keyValue || "Error rate")}
-        was higher than the measure you specified. :-(`;
 
         summary__header__resilience__container.appendChild(summary__header__resilience__text);
         summary__resilience__container.appendChild(summary__resilience);
@@ -392,8 +407,10 @@ export const createAnalysisResultsView = () => {
         summary__resilience__container.appendChild(summary__resilience__results);
         resultsView__container.appendChild(summary__header__resilience__container);
         resultsView__container.appendChild(summary__resilience__container);
+
+        localStorage.removeItem('runtimeQualityAnalysis');
     }
-    
+
     if (getSummaryContainer.children.length <= 2) {
         results__modal__content.appendChild(resultsView__container);
         results__modal__content.appendChild(results__close__btn);
@@ -405,7 +422,7 @@ export const createAnalysisResultsView = () => {
     }
 
     createToastNotification("Your test results arrived!", "success");
-    
+
 
 };
 
