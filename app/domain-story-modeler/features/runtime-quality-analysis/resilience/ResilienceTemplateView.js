@@ -731,7 +731,7 @@ export function createResilienceTemplateView(selectedID) {
     errorRates__btn__group.appendChild(errorRates__input__high);
 
     stimulusSelectionElement.addEventListener('change', () => {
-        if (stimulusSelectionElement.value === 'No response') {
+        if (stimulusSelectionElement.value === 'Unavailable') {
             satisfied__input__recovery.disabled = !satisfied__input__recovery.disabled;
             tolerated__input__recovery.disabled = !tolerated__input__recovery.disabled;
             frustrated__input__recovery.disabled = !frustrated__input__recovery.disabled;

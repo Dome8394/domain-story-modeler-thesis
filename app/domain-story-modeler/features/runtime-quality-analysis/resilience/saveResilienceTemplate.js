@@ -193,7 +193,7 @@ export const saveResilienceTemplate = (selectedID) => {
         }
 
         switch (getStimulus) {
-            case 'No response':
+            case 'Unavailable':
                 responseMeasureType = 'Recovery time';
 
                 if (getRecoveryTime__satisfiedBtn.classList.contains('active')) {
@@ -300,6 +300,7 @@ const verifyMandatory = (
     environmentSelected
 ) => {
 
+    console.log(getRecoveryTime__satisfied);
 
     if (getStimulus && environmentSelected && (getAccuracy > 0)
         && ((getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated)
