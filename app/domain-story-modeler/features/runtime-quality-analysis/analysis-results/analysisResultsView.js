@@ -266,7 +266,6 @@ export const createAnalysisResultsView = () => {
         }
     }
 
-    console.log(resilience__responseMeasure__errorRate);
 
     if (loadtests__stimulus__loadProfile === 'Load Peak') {
         summary__loadtests.innerHTML = `We executed the <strong>${loadtests__stimulus__loadProfile}</strong> test for the artifact
