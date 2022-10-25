@@ -300,7 +300,6 @@ const verifyMandatory = (
     environmentSelected
 ) => {
 
-    console.log(getRecoveryTime__satisfied);
 
     if (getStimulus && environmentSelected && (getAccuracy > 0)
         && ((getRecoveryTime__satisfied || getRecoveryTime__tolerated || getRecoveryTime__frustrated)
