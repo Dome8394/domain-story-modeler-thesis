@@ -58,13 +58,12 @@
     "karma-mocha": "^2.0.1",
     "karma-spec-reporter": "^0.0.32",
     "load-grunt-tasks": "^5.1.0",
-    "mocha": "^6.2.3",
+    "mocha": "^10.1.0",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
     "puppeteer": "^2.1.1",
     "stringify": "^5.2.0",
-    "time-grunt": "^2.0.0",
-    "watchify": "^4.0.0"
+    "time-grunt": "^2.0.0"
   },
   "dependencies": {
     "bootstrap-icons": "^1.9.1",
