@@ -37,8 +37,6 @@ export const createAnalysisResultsView = () => {
 
     results__btn.addEventListener('click', () => {
         getResultsModal.style.display = 'block';
-        console.log(getResultsModal);
-        console.log(document.getElementById('results__modal__content'));
     });
 
     results__close__btn.addEventListener('click', () => {
@@ -70,7 +68,6 @@ export const createAnalysisResultsView = () => {
     let resilience__environment__noContext;
     let resilience__environment__afterHours;
     let resilience__environment__duringHours;
-    let resilience__environment__existingTest;
     let resilience__stimulus__accuracy;
 
     let environment__resilience__environment;
@@ -131,7 +128,6 @@ export const createAnalysisResultsView = () => {
          */
         if (parsedResults.loadtest) {
             const loadtest = parsedResults.loadtest[0];
-            console.log(loadtest);
             if (loadtest) {
 
                 for (const [key, value] of Object.entries(loadtest)) {
@@ -201,13 +197,11 @@ export const createAnalysisResultsView = () => {
             const resilienceTest = parsedResults.resiliencetest[0];
             if (resilienceTest) {
                 for (const [key, value] of Object.entries(resilienceTest)) {
-                    console.log(`${key}: ${value}`);
                     if (key === 'artifact') {
                         resilience__artifact = value;
                     }
                     if (key === 'stimulus') {
                         for (const [innerKey, innerValue] of Object.entries(resilienceTest.stimulus)) {
-                            console.log(`${innerKey}: ${innerValue}`);
                             if (innerKey === 'Type') {
                                 stimulus__resilience__type = innerValue;
                             }
@@ -424,10 +418,3 @@ export const createAnalysisResultsView = () => {
 
 
 };
-
-/**
- * Pulls the analysis results from the message queue
- */
-const pullResultsFromQueue = () => {
-    // TODO
-}
