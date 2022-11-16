@@ -69,7 +69,6 @@ const checkIfTemplateComplete = (selectedID) => {
     if (!getDurationValue || (!getResponseTimeValue && !getNinetyPercentileValue && !getNinetyFivePercentileValue)) {
         getNodeRectElementAndSetColor(selectedID, false, 'Loadtest Template');
     }
-
 }
 
 const createButtonContainer = (selectedID) => {
@@ -1025,7 +1024,6 @@ const createAndAppendResultViewMetrics = (selectedID) => {
  * Creates the load test template view based on the selected node.
  */
 export const createLoadTestTemplate = (selectedID) => {
-
 
     let loadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
 
