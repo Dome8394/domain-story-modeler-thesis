@@ -67,7 +67,6 @@ const checkIfTemplateComplete = (selectedID) => {
     let getNinetyFivePercentileValue = getPercentileNinetyFive__input.checked;
 
     if (!getDurationValue || (!getResponseTimeValue && !getNinetyPercentileValue && !getNinetyFivePercentileValue)) {
-        console.log("Test...");
         getNodeRectElementAndSetColor(selectedID, false, 'Loadtest Template');
     }
 
@@ -75,7 +74,6 @@ const checkIfTemplateComplete = (selectedID) => {
 
 const createButtonContainer = (selectedID) => {
 
-    console.log("Appending button container...");
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
 
@@ -878,8 +876,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     stimulusResponseTimeChildContainer__label__container.appendChild(stimulusResponseTime__info_text);
 
     stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__label);
-    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info);
-    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info_text);
     
     stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__child__label__container);
     stimulusResponseTimesChildContainer.appendChild(responseTimes__btnGroup);
