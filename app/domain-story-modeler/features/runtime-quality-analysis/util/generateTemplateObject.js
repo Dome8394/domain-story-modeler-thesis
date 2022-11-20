@@ -1,5 +1,5 @@
-import { createAnalysisResultsView } from './analysis-results/analysisResultsView';
-import { createToastNotification } from './util/notifications';
+import { createAnalysisResultsView } from '../analysis-results/analysisResultsView';
+import { createToastNotification } from './notifications';
 
 export const createDisabledGenerateBtn = () => {
     let generateButtonContainer = document.createElement('div');

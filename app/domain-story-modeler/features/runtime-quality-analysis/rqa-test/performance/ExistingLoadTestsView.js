@@ -1,4 +1,4 @@
-import { getNodeName } from "../util/util";
+import { getNodeName } from "../../util/util";
 
 export const existingLoadTestsView = (selectedID) => {
     let getModalContainer = document.getElementById('existingLoadTests__modal__container');

@@ -11,10 +11,10 @@ import {
     RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO,
     SERVICE_FAILURE_AMOUNT_INFO,
     SERVICE_TIME_TO_FAILURE_INFO
-} from '../RuntimeAnalysisConstants';
+} from '../../util/RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
-import { createDisabledGenerateBtn } from '../generateTemplateObject';
-import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
+import { createDisabledGenerateBtn } from '../../util/generateTemplateObject';
+import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
 import { existingLoadTestsView } from '../performance/ExistingLoadTestsView';
 
 /**

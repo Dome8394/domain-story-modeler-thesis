@@ -1,8 +1,8 @@
-import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
-import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
-import { getNodeName } from '../util/util';
-import { setupTemplateObject } from '../classes/setupTemplateObject';
-import { getNodeRectElementAndSetColor } from '../util/util';
+import { LoadTestTemplate } from '../../classes/performance/LoadTestTemplate';
+import { createSummaryView, createNewSummaryForTemplate } from '../../rqa-summary/summaryView';
+import { getNodeName } from '../../util/util';
+import { setupTemplateObject } from '../../classes/setupTemplateObject';
+import { getNodeRectElementAndSetColor } from '../../util/util';
 
 
 export const saveLoadTestTemplateToLocalStorage = (selectedID) => {

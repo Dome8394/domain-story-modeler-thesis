@@ -1,9 +1,8 @@
-import { ResilienceTemplate } from '../classes/resilience/ResilienceTemplate';
-import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
-import { getNodeName } from '../util/util';
-import { setupTemplateObject } from '../classes/setupTemplateObject';
-import { getNodeRectElementAndSetColor } from '../util/util';
-import { createToastNotification } from '../util/notifications';
+import { ResilienceTemplate } from '../../classes/resilience/ResilienceTemplate';
+import { createSummaryView, createNewSummaryForTemplate } from '../../rqa-summary/summaryView';
+import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
+import { setupTemplateObject } from '../../classes/setupTemplateObject';
+import { createToastNotification } from '../../util/notifications';
 
 
 export const saveResilienceTemplate = (selectedID) => {

@@ -1,5 +1,5 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
-import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
+import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
 import {
     INFO_ACCURACY,
     LOADTEST_DURATION_INFO, 
@@ -11,8 +11,8 @@ import {
     INFO_TYPE_OF_INCREASE,
     INFO_BASE_LOAD,
     INFO_RESULT_METRICS
-} from '../RuntimeAnalysisConstants';
-import { createDisabledGenerateBtn } from '../generateTemplateObject';
+} from '../../util/RuntimeAnalysisConstants';
+import { createDisabledGenerateBtn } from '../../util/generateTemplateObject';
 
 /**
  * Get root container element
