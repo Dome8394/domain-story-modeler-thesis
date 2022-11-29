@@ -1,8 +1,8 @@
-import { LoadTestTemplate } from '../classes/performance/LoadTestTemplate';
-import { createSummaryView, createNewSummaryForTemplate } from '../summaryView';
-import { getNodeName } from '../util/util';
-import { setupTemplateObject } from '../classes/setupTemplateObject';
-import { getNodeRectElementAndSetColor } from '../util/util';
+import { LoadTestTemplate } from '../../classes/performance/LoadTestTemplate';
+import { createSummaryView, createNewSummaryForTemplate } from '../../rqa-summary/summaryView';
+import { getNodeName } from '../../util/util';
+import { setupTemplateObject } from '../../classes/setupTemplateObject';
+import { getNodeRectElementAndSetColor } from '../../util/util';
 
 
 export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
@@ -275,7 +275,6 @@ const verifyMandatory = (
 
             if ((getHighestLoad__high || getHighestLoad__veryHigh || getHighestLoad__extreme)
                 && (getTimeToHighest__slow || getTimeToHighest__fast || getTimeToHighest__veryFast)) {
-                console.log("Everything seems fine with your load test template!");
                 return true;
             } else {
                 return false;
@@ -285,7 +284,6 @@ const verifyMandatory = (
             let getTypeOfIncrease = getTypeOfIncreaseElement.value;
 
             if (getTypeOfIncrease) {
-                console.log("Everything seems fine with your load test template!");
                 return true;
             } else {
                 return false;
@@ -301,7 +299,6 @@ const verifyMandatory = (
             let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
 
             if (getBaseLoad__low || getBaseLoad__medium || getBaseLoad__High) {
-                console.log("Everything seems fine with your load test template!");
                 return true;
             } else {
                 return false;

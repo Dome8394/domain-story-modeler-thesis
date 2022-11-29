@@ -11,10 +11,10 @@ import {
     RESILIENCE_SCENARIO_EXECUTION_ENVIRONMENT_INFO,
     SERVICE_FAILURE_AMOUNT_INFO,
     SERVICE_TIME_TO_FAILURE_INFO
-} from '../RuntimeAnalysisConstants';
+} from '../../util/RuntimeAnalysisConstants';
 import { saveResilienceTemplate } from './saveResilienceTemplate';
-import { createDisabledGenerateBtn } from '../generateTemplateObject';
-import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
+import { createDisabledGenerateBtn } from '../../util/generateTemplateObject';
+import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
 import { existingLoadTestsView } from '../performance/ExistingLoadTestsView';
 
 /**
@@ -23,16 +23,6 @@ import { existingLoadTestsView } from '../performance/ExistingLoadTestsView';
 let elementContainer = document.getElementById('runtimeAnalysisSummaryContainer');
 let modal__container = document.getElementById('modal__container');
 
-/**
- * This should remove existing template views if the icon is removed from the canvas
- */
-const clearRemovedRuntimeAnalysisViews = () => {
-    let canvasItemsList = document.getElementsByClassName('djs-group');
-
-    for (let i = 0; i < canvasItemsList.length; i++) {
-        let SVGItemParent = canvasItemsList[i];
-    }
-}
 
 const checkIfTemplateComplete = (selectedID) => {
     let accuracyElement = document.getElementById(`accuracy_${selectedID}`);
@@ -83,7 +73,6 @@ const createButtonContainer = (selectedID) => {
     /**
      * Append children to container
      */
-
     resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateView__btn__save);
     resilienceTemplateBtnContainerParent.appendChild(resilienceTemplateView__btn__close);
 
@@ -925,15 +914,6 @@ export function createResilienceTemplateView(selectedID) {
     }
 }
 
-const removeResilienceTemplateForNode = (selectedID) => {
-    let getNode = $(`[data-element-id=${selectedID}`).get(0);
-    let getSummaryView = document.getElementById(selectedID);
-
-    console.log("Found the following node: ", getNode);
-    console.log("Found the following summary view: ", getSummaryView);
-
-    getSummaryView.remove();
-}
 
 /**
  * Creates a resilience template from a selected node;
@@ -944,10 +924,8 @@ export const createResilienceTemplate = (selectedID) => {
     let resilienceTemplateModal = document.getElementById(`modal_resilience_${selectedID}`);
 
     if (resilienceTemplateModal) {
-        console.log("Modal exists with id: ", resilienceTemplateModal.id);
         resilienceTemplateModal.style.display = 'block';
     } else {
-        console.log("Create new modal...");
         createResilienceTemplateView(selectedID);
     }
 }

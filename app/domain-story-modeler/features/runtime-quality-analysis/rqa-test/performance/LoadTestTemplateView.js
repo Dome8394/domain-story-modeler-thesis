@@ -1,5 +1,5 @@
 import { saveLoadTestTemplateToLocalStorage } from './saveLoadtestTemplate';
-import { getNodeName, getNodeRectElementAndSetColor } from '../util/util';
+import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
 import {
     INFO_ACCURACY,
     LOADTEST_DURATION_INFO, 
@@ -11,8 +11,8 @@ import {
     INFO_TYPE_OF_INCREASE,
     INFO_BASE_LOAD,
     INFO_RESULT_METRICS
-} from '../RuntimeAnalysisConstants';
-import { createDisabledGenerateBtn } from '../generateTemplateObject';
+} from '../../util/RuntimeAnalysisConstants';
+import { createDisabledGenerateBtn } from '../../util/generateTemplateObject';
 
 /**
  * Get root container element
@@ -67,15 +67,12 @@ const checkIfTemplateComplete = (selectedID) => {
     let getNinetyFivePercentileValue = getPercentileNinetyFive__input.checked;
 
     if (!getDurationValue || (!getResponseTimeValue && !getNinetyPercentileValue && !getNinetyFivePercentileValue)) {
-        console.log("Test...");
         getNodeRectElementAndSetColor(selectedID, false, 'Loadtest Template');
     }
-
 }
 
 const createButtonContainer = (selectedID) => {
 
-    console.log("Appending button container...");
     let getLoadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
     let getLoadTestTemplateModalContent = document.getElementById(`loadTestTemplateModalContent_${selectedID}`);
 
@@ -878,8 +875,6 @@ const createAndAppendLoadTestInputFields = (selectedID) => {
     stimulusResponseTimeChildContainer__label__container.appendChild(stimulusResponseTime__info_text);
 
     stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__label);
-    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info);
-    // stimulusResponseTimes__child__label__container.appendChild(stimulusResponseTimes__info_text);
     
     stimulusResponseTimesChildContainer.appendChild(stimulusResponseTimes__child__label__container);
     stimulusResponseTimesChildContainer.appendChild(responseTimes__btnGroup);
@@ -1029,7 +1024,6 @@ const createAndAppendResultViewMetrics = (selectedID) => {
  * Creates the load test template view based on the selected node.
  */
 export const createLoadTestTemplate = (selectedID) => {
-
 
     let loadTestTemplateModal = document.getElementById(`loadTestTemplateModal_${selectedID}`);
 

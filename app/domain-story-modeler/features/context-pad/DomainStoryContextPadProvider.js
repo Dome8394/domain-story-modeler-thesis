@@ -6,9 +6,8 @@ import ContextPadProvider from 'bpmn-js/lib/features/context-pad/ContextPadProvi
 import Picker from 'vanilla-picker';
 
 // THESIS-START
-import { EXPERIMENT_NAME, LOADTEST_NAME, MONITORING_NAME, SERVICE_DELAY_NAME } from '../runtime-quality-analysis/RuntimeAnalysisConstants';
-import { createResilienceTemplateView, createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis/resilience/ResilienceTemplateView';
-import { createLoadTestTemplate } from '../runtime-quality-analysis/performance/LoadTestTemplateView';
+import { createResilienceTemplate, removeResilienceTemplateForNode } from '../runtime-quality-analysis/rqa-test/resilience/ResilienceTemplateView';
+import { createLoadTestTemplate } from '../runtime-quality-analysis/rqa-test/performance/LoadTestTemplateView';
 // THESIS-END
 
 import {

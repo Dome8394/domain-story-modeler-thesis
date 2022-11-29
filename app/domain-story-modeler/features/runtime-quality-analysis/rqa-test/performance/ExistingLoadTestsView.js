@@ -1,4 +1,4 @@
-import { getNodeName } from "../util/util";
+import { getNodeName } from "../../util/util";
 
 export const existingLoadTestsView = (selectedID) => {
     let getModalContainer = document.getElementById('existingLoadTests__modal__container');
@@ -118,9 +118,5 @@ export const existingLoadTestsView = (selectedID) => {
     existingLoadTests__modal__content.appendChild(parentContainer);
     existingLoadTests__modal__content.appendChild(button__container);
     getModalContainer.appendChild(existingLoadTests__modal__content);
-    
-    // module.exports.preparedLoadTestPeakLoadOne;
-    // module.exports.preparedLoadTestPeakLoadTwo;
 
-    // getModalContainer.style.display = 'block';
 }
