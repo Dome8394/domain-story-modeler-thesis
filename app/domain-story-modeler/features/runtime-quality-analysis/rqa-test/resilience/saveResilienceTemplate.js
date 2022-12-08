@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { ResilienceTemplate } from '../../classes/resilience/ResilienceTemplate';
 import { createSummaryView, createNewSummaryForTemplate } from '../../rqa-summary/summaryView';
 import { getNodeName, getNodeRectElementAndSetColor } from '../../util/util';
@@ -8,42 +9,43 @@ import { createToastNotification } from '../../util/notifications';
 export const saveResilienceTemplate = (selectedID) => {
 
     const preparedLoadTestPeakLoadOne = {
-        "artifact": getNodeName(selectedID),
-        "stimulus":
-        {
-            "Type": "Peak Load",
-            "Load profile": "Medium (4x reference value)"
+        'artifact': getNodeName(selectedID),
+        'stimulus': [
+            {
+                'Type': 'Peak Load',
+                'Load profile': 'Medium (4x reference value)'
+            },
+        ],
+        'environment': {
+            'Context': 'During office hours between 08:00 am and 16:00 pm',
+            'Duration': '5 hours'
         },
-        "environment": {
-            "Context": "During office hours between 08:00 am and 16:00 pm",
-            "Duration": "5 hours"
-        },
-        "Response Measure": {
-            "Response times below": "5 milliseconds"
+        'Response Measure': {
+            'Response times below': '5 milliseconds'
         }
 
     };
 
     const preparedLoadTestPeakLoadTwo = {
-        "artifact": getNodeName(selectedID),
-        "stimulus":
+        'artifact': getNodeName(selectedID),
+        'stimulus':
         {
-            "Type": "Constant Load",
-            "Load profile": "High (6x reference value)"
+            'Type': 'Constant Load',
+            'Load profile': 'High (6x reference value)'
         },
-        "environment": {
-            "Context": "After office hours between 16:00 pm and 08:00 am",
-            "Duration": "14 hours"
+        'environment': {
+            'Context': 'After office hours between 16:00 pm and 08:00 am',
+            'Duration': '14 hours'
         },
-        "Response Measure": {
-            "Response times below": "2 milliseconds"
+        'Response Measure': {
+            'Response times below': '2 milliseconds'
         }
 
     };
 
     /**
-    * Get HTML elements and their values
-    */
+      * Get HTML elements and their values
+      */
     let getGenerateAndPush__btn = document.getElementById('generateAndPush__btn');
 
     let getSummaryView = document.getElementById('summaryViewModal');
@@ -125,8 +127,8 @@ export const saveResilienceTemplate = (selectedID) => {
         }
 
         /**
-         * This is probably not necessary for the future...
-         */
+             * This is probably not necessary for the future...
+             */
         if (artifact === '') {
             console.log('Please give the node a proper name that matches the architectural mapping!');
             return;
@@ -139,25 +141,25 @@ export const saveResilienceTemplate = (selectedID) => {
         let stimulusType;
         let responseMeasure;
         let responseMeasureObject;
-        let responseMeasureType;
+        // eslint-disable-next-line no-unused-vars
 
         if (executionEnvironment == 'Yes') {
             scenarioEnvironment = 'PROD';
-            environmentContext = { "NO_CONTEXT_INFORMATION": "NO_CONTEXT_INFORMATION" };
+            environmentContext = { 'NO_CONTEXT_INFORMATION': 'NO_CONTEXT_INFORMATION' };
         } else {
             scenarioEnvironment = 'TESTING';
             if (getExecutionContextWorkingHoursCheckBoxValue && getExecutionContextOffWorkingHoursCheckBoxValue) {
                 environmentContext = {
-                    "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
+                    'Execution during office hours': getExecutionContextWorkingHoursCheckBoxValue,
                 };
             } else if (getExecutionContextOffWorkingHoursCheckBoxValue) {
                 environmentContext = {
-                    "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
+                    'Execution after office hours': getExecutionContextOffWorkingHoursCheckBoxValue,
                 };
             } else if (getExecutionContextWorkingHoursCheckBoxValue) {
                 environmentContext = {
-                    "Execution during office hours": getExecutionContextWorkingHoursCheckBoxValue,
-                    "Execution after office hours": getExecutionContextOffWorkingHoursCheckBoxValue,
+                    'Execution during office hours': getExecutionContextWorkingHoursCheckBoxValue,
+                    'Execution after office hours': getExecutionContextOffWorkingHoursCheckBoxValue,
                 };
             }
 
@@ -170,27 +172,28 @@ export const saveResilienceTemplate = (selectedID) => {
             if (getLoadTestCheckboxOneChecked && getLoadTestCheckboxTwoChecked) {
                 environmentContext['Load Test'] = [
                     {
-                        "Load Test One": preparedLoadTestPeakLoadOne
+                        'Load Test One': preparedLoadTestPeakLoadOne
                     },
                     {
-                        "Load Test Two": preparedLoadTestPeakLoadTwo
+                        'Load Test Two': preparedLoadTestPeakLoadTwo
                     }
-                ]
+                ];
             } else if (getLoadTestCheckboxOneChecked) {
                 environmentContext['Load Test'] = [
                     {
-                        "Load Test One": preparedLoadTestPeakLoadOne
+                        'Load Test One': preparedLoadTestPeakLoadOne
                     }
-                ]
+                ];
             } else {
                 environmentContext['Load Test'] = [
                     {
-                        "Load Test Two": preparedLoadTestPeakLoadTwo
+                        'Load Test Two': preparedLoadTestPeakLoadTwo
                     }
-                ]
+                ];
             }
         }
 
+        let responseMeasureType;
         switch (getStimulus) {
             case 'Unavailable':
                 responseMeasureType = 'Recovery time';
@@ -204,7 +207,7 @@ export const saveResilienceTemplate = (selectedID) => {
                 }
                 responseMeasure = {
                     'Recovery time': responseMeasureObject
-                }
+                };
                 break;
 
             case 'Failed request':
@@ -221,8 +224,8 @@ export const saveResilienceTemplate = (selectedID) => {
                     responseMeasureObject = getErrorRates__highBtn.textContent;
                 }
                 responseMeasure = {
-                    'Error rate': responseMeasureObject
-                }
+                    'Error rates': responseMeasureObject
+                };
                 break;
 
             case 'Late response':
@@ -237,27 +240,27 @@ export const saveResilienceTemplate = (selectedID) => {
                 }
                 responseMeasure = {
                     'Response time': responseMeasureObject
-                }
+                };
                 break;
             default:
-                console.log("No matching stimuli");
+                console.log('No matching stimuli');
                 break;
         }
 
         stimulusType = getStimulus;
 
         stimulus = {
-            "Type": stimulusType
-        }
+            'Type': stimulusType
+        };
 
         let environment =
         {
-            "Environment": scenarioEnvironment,
-            "Stimulus repetition": getStimulusRepetition,
-            "Context": environmentContext
+            'Environment': scenarioEnvironment,
+            'Stimulus repetition': getStimulusRepetition,
+            'Context': environmentContext
         };
 
-        stimulus["Accuracy"] = getDuration + '%';
+        stimulus['Confidence'] = getDuration + '%';
 
         const newResilienceScenarioTemplate = new ResilienceTemplate(
             artifact,
@@ -275,11 +278,11 @@ export const saveResilienceTemplate = (selectedID) => {
         }
 
         getNodeRectElementAndSetColor(selectedID, true, 'Resilience Template');
-        createToastNotification("Your test has been saved! You may now execute your test!", 'success');
+        createToastNotification('Your test has been saved! You may now execute your test!', 'success');
         resilienceTemplateModal.style.display = 'none';
     }
 
-}
+};
 
 
 const verifyMandatory = (
@@ -330,6 +333,6 @@ const verifyMandatory = (
         return true;
     }
 
-    console.log("Mandatory fields are missing");
+    console.log('Mandatory fields are missing');
     return false;
-}
+};

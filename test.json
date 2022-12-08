@@ -1,0 +1,39 @@
+{
+    "mapping": {
+        "work objects": [
+            {
+                "E-ticket": {
+                    "implemented as": "Class"
+                }
+            },
+            {
+                "Cinema room": {
+                    "implemented as": "Class"
+                }
+            }
+        ],
+        "activities": [
+            {
+                "validates": {
+                    "implemented as": "Method"
+                },
+                "returns": {
+                    "implemented as": "Method"
+                },
+                "shows": {
+                    "implemented as": "Method"
+                },
+                "opens": {
+                    "implemented as": "Method"
+                }
+            }
+        ],
+        "actors": [
+            {
+                "Mitarbeiter App": {
+                    "implemented as": "Component"
+                }
+            }
+        ]
+    }
+}
