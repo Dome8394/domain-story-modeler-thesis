@@ -9,15 +9,19 @@ export class LoadTestTemplate {
      */
     constructor(
         artifact,
+        description,
         stimulus,
         environment,
         responseMeasure,
         resultMetrics
     ) {
         this.artifact = artifact;
+        this.description = description;
         this.stimulus = stimulus;
         this.environment = environment;
         this.responseMeasure = responseMeasure;
         this.resultMetrics = resultMetrics;
     }
 }
+
+

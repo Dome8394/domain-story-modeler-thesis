@@ -52,7 +52,17 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
             getGenerateAndPush__btn.disabled = false;
         }
 
-        let artifact = getNodeName(selectedID);
+        const regexId = /\((.*?)\)/;
+        const matchesId = regexId.exec(getNodeName(selectedID));
+        const regexDescription = /^\s*([^(]+)/;
+        const matchesDescription = regexDescription.exec(getNodeName(selectedID));
+
+        let artifact = {
+            object: "id1",
+            activity: matchesId[1].trim()
+        }
+
+        let description = matchesDescription[1];
         let environment = {
             "Accuracy": getAccuracy + '%'
         };
@@ -62,7 +72,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         let stimulus = {
             "Load Profile": stimulusType,
         };
-        
+
         let stimulusLoadPeakType = 'Highest Load';
         let stimulusTimeToPeakType = 'Time to Highest Load';
         let stimulusTimeToPeakMeasure;
@@ -72,7 +82,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         let stimulusBaseLoadType = 'Base Load';
         let stimulusBaseLoadMeasure;
         let resultMetrics;
-        
+
         switch (stimulusType) {
             case 'Load Peak':
                 let getHighestLoad__highBtn = document.getElementById(`highestLoad__high__btn_${selectedID}`);
@@ -117,7 +127,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                 let getTypeOfIncreaseElement = document.getElementById(`loadIncrease__select_${selectedID}`);
                 let getTypeOfIncrease = getTypeOfIncreaseElement.value;
                 stimulusTypeIncreaseMeasure = getTypeOfIncrease;
-                
+
                 stimulus[stimulusTypeIncrease] = stimulusTypeIncreaseMeasure;
                 break;
             case 'Constant Load':
@@ -129,7 +139,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
 
                 let getBaseLoad__HighBtn = document.getElementById(`baseLoad__high__btn${selectedID}`);
                 let getBaseLoad__High = getBaseLoad__HighBtn.classList.contains('active');
-                
+
                 if (getBaseLoad__low) {
                     stimulusBaseLoadMeasure = getBaseLoad__lowBtn.textContent;
                 } else if (getBaseLoad__medium) {
@@ -142,7 +152,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
                 };
                 break;
         }
-        
+
         if (getResponseTime__satisfied) {
             responseMeasureMeasure = getResponseTime__satisfiedBtn.textContent;
         } else if (getResponseTime__tolerated) {
@@ -150,8 +160,8 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         } else if (getResponseTime__frustrated) {
             responseMeasureMeasure = getResponseTime__FrustratedBtn.textContent;
         }
-        
-        
+
+
         responseMeasure = {
             "Response times": responseMeasureMeasure
         }
@@ -200,7 +210,7 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         } else if (getResultResponseTime) {
             resultMetrics = {
                 "Result Metric includes": [
-                   "Response Times"
+                    "Response Times"
                 ]
             }
         }
@@ -214,13 +224,18 @@ export const saveLoadTestTemplateToLocalStorage = (selectedID) => {
         }
 
         console.log(resultMetrics);
+
         const newLoadTestTemplateObj = new LoadTestTemplate(
             artifact,
+            description,
             stimulus,
             environment,
             responseMeasure,
             resultMetrics
         );
+
+        console.log(newLoadTestTemplateObj);
+
 
         setupTemplateObject(newLoadTestTemplateObj, 'LOADTEST');
 
@@ -278,7 +293,7 @@ const verifyMandatory = (
                 return true;
             } else {
                 return false;
-            } 
+            }
         } else if (stimulus === 'Load Increase') {
             let getTypeOfIncreaseElement = document.getElementById(`loadIncrease__select_${selectedID}`);
             let getTypeOfIncrease = getTypeOfIncreaseElement.value;
