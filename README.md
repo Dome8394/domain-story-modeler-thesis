@@ -1,3 +1,6 @@
+# Deprecated
+The contents of this project have been moved to the dqanalyzer component. This project is not maintained any longer.
+
 ## Domain Story Modeler
 
 A tool to visualize Domain Stories in your browser.
